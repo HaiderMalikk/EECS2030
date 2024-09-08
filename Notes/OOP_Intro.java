@@ -31,6 +31,12 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // a instance is a type of methods a constructer 
 // object is instance of class the only time you can use instance method is when you use a object
 
+/* 
+// NOTE: "this" keyword is used when the name of new initilized variable is the same 
+// a example is carMake = make the new globaly used var is make and it has a different name than carmake the initial variable 
+// the "this" keyword is used for something like this.carmake = carmake
+*/
+
 class Car {
 
     // create variables of the class
@@ -41,6 +47,7 @@ class Car {
     String carModel;
     String carColor;
     int carYear;
+    // these 2 vars are not empty and have a pre determined value so they will not be innitilized
     boolean fillUp = false; // all car objects will have a full tank of gas
     int kmTravelled = 0; // all car objects will have travelled 0 km to start
 
@@ -117,7 +124,7 @@ class Person {
     int age;
     String occupation;
 
-    //constructer
+    //constructer name must = class name
     Person(String name, int age, String occupation) {
         this.name = name;
         this.age = age;
@@ -159,7 +166,7 @@ class Dog {
     String breed;
     int age;
     String gender;
-    String bark = "Woof";
+    String bark = "Woof"; // this var has a default value ie the value is alredy given to it its not chnaged so its not initilized in constructor
     String size;
 
     // constructer 
