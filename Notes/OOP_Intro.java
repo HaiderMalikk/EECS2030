@@ -63,10 +63,10 @@ class Car {
     public Car(String make, String model, String color, int year){
         carMake = make;
         carModel = model;
-        carColor = color;
-        carYear = year;
+        carColor = color;   
+        carYear = year; 
     }
-
+    
     // a simple method that will indicate the gas tank needs filling
     public void fillGasTank() {
        if (fillUp == true) {
