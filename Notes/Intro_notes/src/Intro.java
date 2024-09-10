@@ -1,4 +1,4 @@
-package Notes; // subfolder name
+
 import java.util.Arrays;
 import java.util.Scanner;
 

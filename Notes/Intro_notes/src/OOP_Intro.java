@@ -1,4 +1,4 @@
-package Notes; // subfolder name
+
 
 public class OOP_Intro{} // to fix errors the rest of the file is not made of public classes so when you press run you can choose what class to run
 
