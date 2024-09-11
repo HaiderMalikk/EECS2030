@@ -1,4 +1,5 @@
 package console_apps;
+// console app: we can text our code here by printing to console to verify alt is junit test
 
 import java.util.Scanner;
 import model.Product;
@@ -14,18 +15,17 @@ public class ProductApp {
         System.out.println(p); // p = product and has 6 attributes ie price, finish etc, this only prints address
 
         Product p2 = new Product("iPad Pro 12.9", 1289.00); // obj made using constructor #3 
-        System.out.println(p2); // address diffrent than p
+        System.out.println(p2); // address diffrent than p, insted of printing the adress i do a to string i dont have to use toString manually its optional anything not def in obj creating is null
 
-        // get model and og price using scanner 
-        System.out.println("Enter model:");
-        String model = input.nextLine();
-        System.out.println("Enter original price:");
-        double op = input.nextDouble();
-        Product p3 = new Product(model, op);
-        System.out.println(p3);
+        // // get model and og price using scanner 
+        // System.out.println("Enter model:");
+        // String model = input.nextLine();
+        // System.out.println("Enter original price:");
+        // double op = input.nextDouble();
+        // Product p3 = new Product(model, op);
+        // System.out.println(p3); // 
 
-        input.close(); // close scanner
-                
+        input.close(); // close scanner                
     
     }
 

@@ -37,12 +37,31 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // the "this" keyword is used for something like this.carmake = carmake
 */
 
+/* 
+Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return valur
+Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it
+
+*/
+
+/* 
+Null pointer exeption NPE
+you are trying to call a method on a null object or a objects methods 
+ie if you do jim.getheight and gethight dne this will give NPE
+if you do obj1.x and obj one DNE or is not def then its a NPE
+if you have obj1.m3.m2.m1 if obj1 is null as it DNE you get NPE for trying to get obj1.m3
+if obj1 exits but m3 null you get NPE for trying to get m2.m1
+if obj1.m3 exits but m2 null NPE for m1 
+but if everything but m1 null then you will only get NPE if you try to accsess something from m1
+
+*/
+
 class Car {
 
     // create variables of the class
     // none are static, so each Car object we create will have their own copy of these variables
 
     // empty var
+    /* class vars can be used anywhere in var */
     String carMake;
     String carModel;
     String carColor;
@@ -60,7 +79,9 @@ class Car {
     is created.
     */
     // constructer gives empty var a value
+    /* the args are all method vars and can be used in this method only */
     public Car(String make, String model, String color, int year){
+        /* this is a local var can be used in method only */
         carMake = make;
         carModel = model;
         carColor = color;   
@@ -93,6 +114,7 @@ class Car {
 
     public static void main(String[] args) {
         // create an object // beetle points to memory //new creates new object //
+        // NOTE: beetle is ref type var is points to memory you can change ut to another ref type like beetle = beetle 2 if beetle 2 also a ref type made using a constructor
         Car beetle = new Car("Volkswagen", "Beetle","orange",2004);
         Car rondo = new Car("Kia","Rondo","grey",2011);
 
