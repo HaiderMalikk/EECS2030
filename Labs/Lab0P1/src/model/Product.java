@@ -57,7 +57,7 @@ public class Product {
         this.storage = storage;
     }
 
-    public boolean isHasCellularConnectivity() {
+    public boolean hasCellularConnectivity() {
         return hasCellularConnectivity;
     }
 
