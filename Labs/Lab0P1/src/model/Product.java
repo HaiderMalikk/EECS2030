@@ -23,6 +23,8 @@ public class Product {
     // NOTE: either varname = parametername or varname = this.parametername(same as varname)
     // here name of parameter same as var names so use self
     // constrcutor #3
+    // variable shawowing means that model has a shadow over the Pruduct method and so the parameter model can be used only in this shadow ie inside the medthod to use assign this method var to a class var i use this keyword
+    // the this keyword refers to a class var allowing us to break the variabls shadow (the variable being model parameter at method lvl)
     public Product(String model, double originalPrice) {
         this.model = model; // this referses to model attrebutes not input 
         this.originalPrice = originalPrice; // must use this as name using is same as parameter name = var name
@@ -30,13 +32,19 @@ public class Product {
     }
 
 
+
+    /* SETTER can set a attribute after obj is created too even if not in new obj when making it */
+
     /* accessor will get and return a value here i can use getmodel of a obj like p1 to get its model the model is a parameter in constructor but when obj is made its passed as a arg*/
+    // the accessor can also create a var then return it so it can set vars to values too but it must return it
     public String getModel() {
         return this.model; // this. is optional 
     }
 
-    /* mutators will set a value NOTE: here model will be passed when we make our object but this is used to update the value of model is needed */
+    /* mutators will set a value NOTE: here model will be passed when we make our object but this is used to update the value of model is needed or to add a model after OBJ created */
+
     /* note that because model is privite this is needed to change it */
+    // mutator or setter will set a var it can calculate something then set it to a var BUT must not return anything
     public void setModel(String model) {
         this.model = model; // now since i used model in the method parameter i cant use same varname i must use this if i want to use same var name so this. is needed
     }

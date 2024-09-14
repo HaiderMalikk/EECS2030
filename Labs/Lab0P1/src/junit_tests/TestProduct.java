@@ -62,7 +62,7 @@ public class TestProduct {
         assertFalse(p.getFinish() != null);
 
         assertTrue(p.getStorage() == 0);
-        // assert equal(Expected, Actual)
+        // assert equal(Expected, Actual) optional is 3rd arg delta is error margin +- x
         assertEquals(0, p.getStorage()); // Person default has nothing passed through it so storage hs default val so this is correct 
 
         // same

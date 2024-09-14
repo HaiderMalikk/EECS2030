@@ -17,6 +17,11 @@ public class ProductApp {
         Product p2 = new Product("iPad Pro 12.9", 1289.00); // obj made using constructor #3 
         System.out.println(p2); // address diffrent than p, insted of printing the adress i do a to string i dont have to use toString manually its optional anything not def in obj creating is null
 
+        // //to show how to use getters and setters
+        // // set the finish 
+        // p2.setFinish("Black");
+        // System.out.println(p2.getFinish()); // getting the model and printing it
+
         // // get model and og price using scanner 
         // System.out.println("Enter model:");
         // String model = input.nextLine();

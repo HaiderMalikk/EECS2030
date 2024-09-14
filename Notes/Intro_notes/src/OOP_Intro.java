@@ -55,6 +55,43 @@ but if everything but m1 null then you will only get NPE if you try to accsess s
 
 */
 
+/* 
+HELPER METHODS
+
+In Java, helper methods are small utility methods that help perform common tasks or calculations within a class. 
+These methods are typically private, though they can be public if meant to be accessed from outside the class\
+basicaly helper methods help other methods preform a task, calculation, validation etc
+
+in the following example add and multiply methods are helper methods
+they help the addandMultiply method preform its task
+the main methods can use a helper method to preform a task or just return its value 
+*/
+
+class Calculator {
+
+    // Public method that uses helper methods
+    public int addAndMultiply(int a, int b, int multiplier) {
+        int sum = add(a, b); // calling helper method
+        return multiply(sum, multiplier); // calling helper method
+    }
+
+    // Private helper method for addition
+    private int add(int x, int y) {
+        return x + y;
+    }
+
+    // Private helper method for multiplication
+    private int multiply(int x, int y) {
+        return x * y;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        System.out.println(calc.addAndMultiply(2, 3, 4)); // Output: 20
+    }
+}
+
+
 class Car {
 
     // create variables of the class
