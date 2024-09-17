@@ -38,8 +38,8 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 */
 
 /* 
-Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return valur
-Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it
+Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return value, these methods cannot be used as values, has anything but void return
+Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it, these methods cannot not be used as values, has only void return
 
 */
 
@@ -55,6 +55,19 @@ but if everything but m1 null then you will only get NPE if you try to accsess s
 
 */
 
+/*         
+refrence alising = copying refrence values
+i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 now both p2, p3 point to same address but now any change made to p2 will be reflected in p3 and vise versa as they share the same object in memeory 
+
+// you can also store objects into array indexs to index 0 of a array can point to a object in memory so you can accsess that object as obj1.etc or arraywithobj[0].etc
+
+*/
+
+/* // variable shawowing means that model has a shadow over
+ the Pruduct method and so the parameter model can be used 
+ only in this shadow ie inside the medthod to use assign this 
+ method var to a class var i use this keyword */
+
 /* 
 HELPER METHODS
 
@@ -66,6 +79,7 @@ in the following example add and multiply methods are helper methods
 they help the addandMultiply method preform its task
 the main methods can use a helper method to preform a task or just return its value 
 */
+
 
 class Calculator {
 
@@ -109,7 +123,8 @@ class Car {
 
 
     // Car constructors
-    /* 
+    /*
+    a comstructor initilizes attributes so we can make onjects using it 
     This special method is used when we create (also known as instantiate) a car object
     Take the variables we just defined, and get their
     values based on the parameters given to the constructor when the object

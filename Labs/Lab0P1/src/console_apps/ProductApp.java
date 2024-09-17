@@ -30,6 +30,11 @@ public class ProductApp {
         // Product p3 = new Product(model, op);
         // System.out.println(p3); // 
 
+      // refrence alising 
+        // i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 now both p2, p3 point to same address but now any change made to p2 will be reflected in p3 and vise versa as they share the same object in memeory
+        
+
+
         input.close(); // close scanner                
     
     }

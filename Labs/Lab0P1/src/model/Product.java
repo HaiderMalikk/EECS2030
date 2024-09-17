@@ -37,6 +37,8 @@ public class Product {
 
     /* accessor will get and return a value here i can use getmodel of a obj like p1 to get its model the model is a parameter in constructor but when obj is made its passed as a arg*/
     // the accessor can also create a var then return it so it can set vars to values too but it must return it
+    // you could do getmodel() no errors but its useless 
+    // ACCESEORS ARE NOT VOID
     public String getModel() {
         return this.model; // this. is optional 
     }
@@ -45,6 +47,8 @@ public class Product {
 
     /* note that because model is privite this is needed to change it */
     // mutator or setter will set a var it can calculate something then set it to a var BUT must not return anything
+    // you cannt do sout(setModel()) it wont preint anythin
+    // MUTATORS ARE VOID TYPE
     public void setModel(String model) {
         this.model = model; // now since i used model in the method parameter i cant use same varname i must use this if i want to use same var name so this. is needed
     }

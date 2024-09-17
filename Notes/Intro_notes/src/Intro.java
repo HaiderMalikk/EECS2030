@@ -196,7 +196,7 @@ public class Intro {
       }
     
 
-    // arrays IN JAVA YOU NEED TO KNOW THE ELEMENTS OF THE ARRAY OR THE SIZE OF TEH ARRAY 
+    // arrays IN JAVA YOU NEED TO KNOW THE ELEMENTS OF THE ARRAY OR THE SIZE OF TEH ARRAY if you know elements its type[] name = {val1, vax, valn} if you know the len of array then type[] name = new type[len of array]
     // to make a empty array with size 5 and 1
     int array[] = new int[5]; // simple array format: arraytype[] name = new arraytype[arraylength]
     //OR
@@ -207,7 +207,7 @@ public class Intro {
     System.out.println(numbers[0]);
     // you can also do many things with a aray like add or delete elements and even replace elements 
     // to add an element to the array you need to know the size of the array 
-    int[] numbers2 = new int[5];
+    int[] numbers2 = new int[5]; // note that you can pass any int in parameter ie someotherarray.length as len of numbers 2 array
     numbers2[0] = 1;
     numbers2[1] = 2;
     numbers2[2] = 3;
@@ -251,11 +251,12 @@ public class Intro {
     System.out.println(Arrays.toString(firstArray));
     System.out.println(Arrays.toString(copyArray));
     // both arrasy are same
+    // note you can copy array addresses and effectivly make a copy of the array but anychanges to the array will be reflected in both arrays
 
 
     // JAVA loops these loops can all contain conditionals
     // for loop format: for(starting point initial var, condition to run the loop, what to do after each time loop is ran)
-    // will only print till 9 as as 10 is not included
+    // will only print till 9 as as 10 is not included as i < 10 so upto 9 not including 10 if this was a array with 10 elements it would print whole array as array start at index 0
     for (int i = 0; i < 10; i++) {
       System.out.println(i);
       }
