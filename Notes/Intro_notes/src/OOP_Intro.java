@@ -78,6 +78,8 @@ basicaly helper methods help other methods preform a task, calculation, validati
 in the following example add and multiply methods are helper methods
 they help the addandMultiply method preform its task
 the main methods can use a helper method to preform a task or just return its value 
+
+// NOTE helper methods can be accessors or mutators
 */
 
 
@@ -90,6 +92,7 @@ class Calculator {
     }
 
     // Private helper method for addition
+    // this helper method is a accesor
     private int add(int x, int y) {
         return x + y;
     }

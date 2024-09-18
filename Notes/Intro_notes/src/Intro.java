@@ -51,6 +51,9 @@ public class Intro {
     int numb2 = (int) numb1; // here we are casting num1 to int must use int
     System.out.println(numb2); // output 5
 
+    // final keyword can be used before objects to make them final ie they cannot be chaged
+    final int num3 = 5; 
+
     // operators NOTE: "=" is assignment "== is comparision", bedmass applys to arithmatic
     // 1. arithmetic operators
     // + - * / % (modulus) ++ -- (increment/decrement) -> add, sub, mult, div, remander of two number division, +=1 or -=1)

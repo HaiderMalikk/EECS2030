@@ -105,6 +105,7 @@ public class Product {
     }
 
     // to string by default wont work unless i modify it but with this i dont need to do p.toString it will be automatic
+    // by default to string is called on ref type and obj but its just prints the address this way i can tell it what to print whrn it calls that tostring on my obj or any obj
     public String toString() {
         String s = ""; 
         // i could do s+= all the vars but this is better
