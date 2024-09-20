@@ -12,12 +12,5 @@
             "mainClass": "${file}",
             "stepFilters": { "skipClasses": [ "org.springframework.*" ] } 
         },
-        {
-            "type": "java",
-            "name": "ProductApp",
-            "request": "launch",
-            "mainClass": "console_apps.ProductApp",
-            "projectName": "Lab0P1_281cb861"
-        }
     ]
 }

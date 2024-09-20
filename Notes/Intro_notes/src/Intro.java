@@ -247,7 +247,7 @@ public class Intro {
     // so if you change the array you will see the change in the copy
     // i will make a array called firstarray then make a copyarray and assign it to first array 
     int[] firstArray = {1, 2, 3, 4, 5};
-    int[] copyArray = firstArray; // copyarray is just a refrence to firstarray
+    int[] copyArray = firstArray; // copyarray is just a refrence to firstarray but note deleteing one of the arrays will not affect the other as it points to refrence not the obj
 
     // if i tamper with copy array and print both arrays using to string both arrays will have same stuff done to it
     copyArray[0] = 10;

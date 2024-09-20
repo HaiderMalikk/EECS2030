@@ -32,19 +32,28 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // object is instance of class the only time you can use instance method is when you use a object
 
 /* 
-// NOTE: "this" keyword is used when the name of new initilized variable is the same 
+*  NOTE: "this" keyword is used when the name of new initilized variable is the same this see var shawdow fo what 'this' dose
 // a example is carMake = make the new globaly used var is make and it has a different name than carmake the initial variable 
 // the "this" keyword is used for something like this.carmake = carmake
+// the constructor just intilizes the values on class vars so we can pass them by calling the method and they update the class vars so everyone has the same values
+* constructors always public 
 */
 
 /* 
-Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return value, these methods cannot be used as values, has anything but void return
-Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it, these methods cannot not be used as values, has only void return
+ * == vs .equals
+ for ref type == checks the address in memory is same .equals checks the actual value ie the string or int inside
+ for primitive
+ == checks the value .equals is not used for primitive
+*/
+
+/* 
+* Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return value, these methods cannot be used as values, has anything but void return
+* Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it, these methods cannot not be used as values, has only void return
 
 */
 
 /* 
-Null pointer exeption NPE
+* Null pointer exeption NPE
 you are trying to call a method on a null object or a objects methods 
 ie if you do jim.getheight and gethight dne this will give NPE
 if you do obj1.x and obj one DNE or is not def then its a NPE
@@ -56,20 +65,18 @@ but if everything but m1 null then you will only get NPE if you try to accsess s
 */
 
 /*         
-refrence alising = copying refrence values
+* refrence alising = copying refrence values
 i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 now both p2, p3 point to same address but now any change made to p2 will be reflected in p3 and vise versa as they share the same object in memeory 
 
 // you can also store objects into array indexs to index 0 of a array can point to a object in memory so you can accsess that object as obj1.etc or arraywithobj[0].etc
 
-*/
-
-/* // variable shawowing means that model has a shadow over
- the Pruduct method and so the parameter model can be used 
- only in this shadow ie inside the medthod to use assign this 
- method var to a class var i use this keyword */
-
+/*
+ * variable shawowing means that method or class etc has a shadow over the variable ie it can inly be used in that class method etc
+ to use it outside its shawdow we use the this keyword for methods allwing method variables to be accsessed in class
+ */
+ 
 /* 
-HELPER METHODS
+* HELPER METHODS
 
 In Java, helper methods are small utility methods that help perform common tasks or calculations within a class. 
 These methods are typically private, though they can be public if meant to be accessed from outside the class\
@@ -79,7 +86,7 @@ in the following example add and multiply methods are helper methods
 they help the addandMultiply method preform its task
 the main methods can use a helper method to preform a task or just return its value 
 
-// NOTE helper methods can be accessors or mutators
+* NOTE helper methods can be accessors or mutators
 */
 
 
@@ -359,4 +366,97 @@ class Bank{
 
     }
 
+}
+
+// * in class example making objs in methods
+class Point{
+    int y;
+    int x;
+    public Point(int x, int y){
+        this.x = x;
+        this.y = y;
     }
+
+    public void moveUp(int y){
+        this.y = y; // ! mutator only sets value
+    }
+
+    public Point moveUpBy(int i){
+        Point newPoint = new Point(this.x, this.y); // creates a new obj of point with x and y from class vars hence this keyword was used Note that x and y were set in the main method and were passed throug the Point constructor witch then set the variables in the class using the this keyword
+        newPoint.moveUp(i); // the newPoint had same values for its parameters as the lastest point objs values but there not the same obj new keyword makes a new obj so they dont have the same address
+        return newPoint; // ! accesor must return 
+
+    }
+
+    public int getycor() {
+        return this.y;
+    }
+
+    public static void main(String[] args) {
+        Point p1 = new Point(1, 2);
+        p1.moveUp(2);
+        Point p2 = p1.moveUpBy(2);
+        System.out.println(p1 == p2); // false
+        System.out.println(p1.getycor() == p2.getycor()); // true
+
+    }
+}
+
+// * anonomous objects
+/* In Java, anonymous objects are objects that are created and used without being explicitly assigned to a variable. 
+They're typically used when you only need the object for a short period of time, such as passing
+ it to a method or performing an action without needing to reference the object later. */
+class MyPersonAnonymous {
+    public String name;
+
+    public MyPersonAnonymous(String name) {
+        this.name = name;
+    }
+
+    public void greet() {
+        System.out.println("Hello, my name is " + name);
+    }
+
+    public static void main(String[] args) {
+        // Anonymous object: no reference to the object is created (can only call once here)
+        new MyPersonAnonymous("John").greet(); // This creates the object, calls greet(), and discards the object - here we used the constructor as a method without specifiying class and var name ie no ref to obj
+
+        // Non-anonymous object: the object is assigned to a variable ie i use the class 
+        MyPersonAnonymous jane = new MyPersonAnonymous("Jane");
+        jane.greet(); // Can call greet multiple times because we have a reference to the object
+    }
+}
+
+
+// * refrence to this keyword
+class MyPerson{
+    public String name;
+    private MyPerson spouse; // making a peson obj called spouse
+    public MyPerson(String name){
+        this.name = name;
+    }
+
+    public void marry(MyPerson other){
+        // to check if marrage legal check if ethier maried logic. not p or not p = not(p and q)
+        if (this.spouse != null || other.spouse != null ) {
+            System.out.println("You are already married cannot marry: "+ other);
+        }
+        else{
+            this.spouse = other;
+            other.spouse = this;
+        }
+
+    }
+
+    public String toString() {
+        return name.toString();
+    }
+    public static void main(String[] args) {
+        MyPerson jim = new MyPerson("jim");
+        MyPerson elsa = new MyPerson("elsa");
+        MyPerson amy = new MyPerson("amy");
+        jim.marry(elsa); // elsa is other
+        jim.marry(amy);
+        System.out.println(jim.spouse.name); // elsa is output, note that elsa the obj was assigned to the obj spouce using the marry method, now if we use the .spouce it will accsess jim objs wife obj, by using .name i accsess the obj spouces name that was set when we made the elsa obj, jim.spuce points to jims wife attribute that attribute goes to wife obj
+    }
+}

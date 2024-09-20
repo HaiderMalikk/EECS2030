@@ -34,6 +34,7 @@ public class Entry {
         this.product = product;
     }
 
+    // ! overloading not same as overriding diffrerent setProduct method is used based on what arguments are passed
     // overloaded set product that dose not expect use to make a prodect obj insted has it made as in last method i have to pass a adress of product obj 
     // with this we pass model and price but i make the product accordingly by making  aproduct obj inside method
     public void setProduct(String model, double originalPrice) {
@@ -53,3 +54,4 @@ public class Entry {
     }
 
 }
+

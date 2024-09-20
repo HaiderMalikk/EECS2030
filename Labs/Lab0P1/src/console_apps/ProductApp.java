@@ -35,7 +35,8 @@ public class ProductApp {
         
 
 
-        input.close(); // close scanner                
+        input.close(); // close scanner      
+        System.out.println();          
     
     }
 
