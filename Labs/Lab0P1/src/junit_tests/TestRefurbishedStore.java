@@ -199,9 +199,9 @@ public class TestRefurbishedStore {
         /// true & ture = true
         assertTrue(rs.getSpaceGreyOrPro()[0].equals("F9FDN4NKQ1GC") && rs.getSpaceGreyOrPro()[1].equals("7YN4PFZ779UB"));
 
-        assertTrue(rs.getSpaceGreyPro().length == 1);
+        assertTrue(rs.getSpaceGreyPro().length == 11);
         assertTrue(rs.getSpaceGreyPro()[0].equals("F9FDN4NKQ1GC"));
         
 
     }
-}
+} //

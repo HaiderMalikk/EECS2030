@@ -37,6 +37,7 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // the "this" keyword is used for something like this.carmake = carmake
 // the constructor just intilizes the values on class vars so we can pass them by calling the method and they update the class vars so everyone has the same values
 * constructors always public 
+ // ! note that constructors dont alwasys just initilize variables they can do other things like increment a counter create a array etc
 */
 
 /* 
@@ -442,7 +443,7 @@ class MyPerson{
             System.out.println("You are already married cannot marry: "+ other);
         }
         else{
-            this.spouse = other;
+            this.spouse = other; // ! this refers to current obj so at first this is jim.spouse, java knows the context obj here the context of other is jim
             other.spouse = this;
         }
 
@@ -460,3 +461,32 @@ class MyPerson{
         System.out.println(jim.spouse.name); // elsa is output, note that elsa the obj was assigned to the obj spouce using the marry method, now if we use the .spouce it will accsess jim objs wife obj, by using .name i accsess the obj spouces name that was set when we made the elsa obj, jim.spuce points to jims wife attribute that attribute goes to wife obj
     }
 }
+
+
+// Static Variables
+/* 
+ every obj has diffrent variables thast passed in its paramater , but static variables are shared by all obj of the class as the same variable 
+ but you can modify so that objs have diffrent versions of the static variable
+ EX:in the constructor: x = staticvar, static counter ++, now each time a new obj is made 
+ the static counter will be incremented and each obj will have its own version of the static counter, but if ++ was not done they would all have x = static var
+ make sure x is not a static var too as that will make it shared by all obj and we want x to be different for all objs ie they all have obj.x = a different value
+ Why not use a regular variable 1) you cant accsess and modify it as part of the obj, 2) you dont need to set it its set by defualt
+ the static counter would be shared by all obj so it would be the same for all objs
+ note that the static var is global meaning it must be initilized right away, and it is shared by all obj of the class
+ for local varable you can declare and initilize in any order and anywhere in constructor 
+ you can change the static variable anytime just like local varable but the change will be reflected in all obj of the class
+ in local variable the change of the var will only be reflected in the obj that the var belongs to 
+ with mutating method you can modify static var like a local varable
+ but! you would not use 'this' you simply use the var name
+ to call it outisde your class you would do classname.staticvarname = ....
+ //! you cannot use non-static var in a static method but you can use any type in a non static method
+ the this keyword calls the class if you use this.var in a static method it will throw an error
+ to fix this use a non static method
+ */
+
+ /* 
+   caller vs caller
+   caller is the obj that is calling the method
+   calle is the obj that the method is being called on
+   EX:  myobj.mymethod() the caller is myobj and the calle is myobj
+  */
