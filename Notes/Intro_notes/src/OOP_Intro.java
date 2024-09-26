@@ -10,7 +10,7 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // OOP or object oriented programing is based on the concenpt of objects
 // many programs are written to do things taht concern the real world
 // software objects are like real life objects
-// to code a bank acounts records( a object ) someone had to use OPP
+// to code a bank acounts records() a object ) someone had to use OPP
 // OPP makes programing easier it prevents long codes and allows to split up code in diffrent files
 // objects identite(name) state(vars) and behaviour(methods) is stored in memory  
 // you need a main method !!!
@@ -490,3 +490,76 @@ class MyPerson{
    calle is the obj that the method is being called on
    EX:  myobj.mymethod() the caller is myobj and the calle is myobj
   */
+
+/* 
+call chain using stack 
+EX: myobj.mymethod1().mymethod2().mymethod3()
+1) myobj.mymethod1() is called
+2) myobj.mymethod1() calls myobj.mymethod2()
+3) myobj.mymethod2() calls myobj.mymethod3()
+after the last method is called the code will return to the previous method and 
+then the previous method and so on until it returns to the caller
+putting a method on the stack is called push and removing something is called pop
+so first in last out so frist method called = last method to return to
+*/
+
+/* 
+ java exeptions example 
+ in java exeptions are used to handle errors at runtime 
+ when they occur the flow of executuion is disrupted 
+ the sytax for throwing an exeption is throw new Exceptionname();
+ the sytax for catching an exeption is try{ code that might throw an exeption } 
+ catch (Exceptionname e){ code to handle the exeption }
+ you can have multiple catch blocks to handle different types of exeptions
+ when we call the throw new exeption line first  the code in the try block is 
+ executed and then the exeption is thrown 
+ and the code in the catch block is executed if the exeption is not caught 
+ it will be passed up the call chain until it is caught or the  program terminates
+ 
+exeptions in call stack
+lets say we call m1 and we go from m1 to m2 to m3 and m3 threw an exeption
+1) m3 throws an exeption
+2) m3 is popped off the stack and m2 is called
+3) m2 can either handel the exeption or send it further down the stack if it cant handel the error (ie go to m1)
+4) if m2 does not handle the exeption it is passed to m1
+5) in m1 the exeptioan is caught using for ex : catch (Exception e)
+6) if m1 handel the exeption the program continues to run and go to the next line of code in m1
+- if m1 last method does not handle the exeption the it will go to the main method ie the caller of m1
+- if the caller of m1 does handle the exeption the program will continue to run
+- if the caller of m1 does not handle the exeption the program will terminate
+*/
+
+class A{
+    // any caller of this method should know that it may throw a exeption
+    // here we did not do public but we could have
+    void ma(int i) throws NegValueException {
+        if (i<0){
+            // if condition met code runs and exeption is thrown
+            throw new NegValueException("Neg value"); 
+        }
+        else {
+        }
+    }
+}
+
+// this method is called when an exeption is thrown in ma so this will handle the exeption
+class B {
+    void mb(int i){
+        A oa = new A();
+        try {
+            oa.ma(i);
+            System.out.println("NVE did not happen i not neg");
+        }
+        catch (NegValueException e){
+            System.out.println("NegValueException caught i was neg");
+        }
+    }
+}
+// NEGVALUEEXEPTION DNE here we make the exeption
+// extends is used to create a new class that is a sub class of the class that is being extended
+// class NegValueException extends Exception which is a real java class
+class NegValueException extends Exception {
+    public NegValueException(String message) {
+        super(message); // super is used to call the constructor of the parent class
+        }
+}
