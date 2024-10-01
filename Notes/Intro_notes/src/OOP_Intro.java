@@ -527,32 +527,53 @@ lets say we call m1 and we go from m1 to m2 to m3 and m3 threw an exeption
 - if m1 last method does not handle the exeption the it will go to the main method ie the caller of m1
 - if the caller of m1 does handle the exeption the program will continue to run
 - if the caller of m1 does not handle the exeption the program will terminate
+
+NOTE: the call stack can be as long as you want meaning if the expection thrown by class can keep going lower ie passed onto the next method then next method "where it would run the try catch" until its handeled and then it stops. 
+if its never caught and delt with its given to the console ie the user gets it 
+NOTE: the class can also handel the exeption itself by using a try catch block
+NOTE: there is a deafult expection is java simple in catch put "Exeption" and all exeptions will be caught but this is not good
+NOTE: you can have multiple catches for different types of exeptions so if we try x and x can throw multiple different errors we can have multiple catches for each exeption
 */
 
 class A{
-    // any caller of this method should know that it may throw a exeption
+    // any caller of this method should know that it may throw a exeption so we say throws NEG....
     // here we did not do public but we could have
+    // This method 'specifies'  exeption
     void ma(int i) throws NegValueException {
         if (i<0){
-            // if condition met code runs and exeption is thrown
+            // if condition met code runs and exeption is thrown it goes to negvalueexeption class 
             throw new NegValueException("Neg value"); 
         }
         else {
+            // if not neg do whatever here nothing so just return to caller
+            // here a diffrent conditional can throw a different exeption
         }
     }
 }
 
-// this method is called when an exeption is thrown in ma so this will handle the exeption
+// this method is called with A obj so it runs class a
+// this method 'catchs' exeption 
 class B {
     void mb(int i){
         A oa = new A();
+
+        /*
+        !!!! 
+         insted of trying to handle the exeption here we are passing it up the call stack ie to A where it will be handled
+         at A we do handle the exeption by calling throw new NegValueException("Neg value"); 
+         if the negvalue exection happens after we try passing i through A then i was neg and the error given by A back to B after A's execution will be caught using catch(expectionName)
+         and we can print wjat we want in B if the catch did not run that means the try worked no exeption was thrown and the program will continue to run. Note at B call stack is cut ie if B passed error to another class it would not go there the error stops at B
+         */
+
         try {
             oa.ma(i);
             System.out.println("NVE did not happen i not neg");
+            // can do whatever here if not neg
         }
         catch (NegValueException e){
-            System.out.println("NegValueException caught i was neg");
+            System.out.println("NegValueException caught i was neg"); // i is neg
         }
+        // if the class A can throw multiple exeptions we can have a catch for each exeption
     }
 }
 // NEGVALUEEXEPTION DNE here we make the exeption
@@ -563,3 +584,27 @@ class NegValueException extends Exception {
         super(message); // super is used to call the constructor of the parent class
         }
 }
+
+class Exep{
+    public static void main(String[] args) throws NegValueException {
+        // one pass one fail see B for details
+        B ob =  new B();
+        ob.mb(23);
+        ob.mb(-1);
+        // ! if we called the value directly with A then we get a error as A only throws it dose not catch it so we will see NVE neg value i but it will be as a error and execution terminates "A specifies " "B catches" dont call A!
+
+    }
+}
+
+// call stakc of exeptons
+/* 
+// posiblities Cos "catch or specify"
+1) origin
+2) method subject to CoS req
+3) method free from  CoS req
+4) case 1 here exeption handeld earliest
+5) case 2 here exeption never handeled earliest
+
+note that when a input is given either the output is normal or an exeption is thrown
+ */
+
