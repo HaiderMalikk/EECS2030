@@ -1,5 +1,5 @@
-
-
+import java.util.Scanner;
+// !old notes -------------------------------------------------------------------------------------
 public class OOP_Intro{} // to fix errors the rest of the file is not made of public classes so when you press run you can choose what class to run
 
 // a object in a tangeble thing that like a pen, ball
@@ -26,104 +26,18 @@ public class OOP_Intro{} // to fix errors the rest of the file is not made of pu
 // classes are used to make objects mostly 
 // static is a type of method
 // if a class has methods not shared by the object it creates its a static method
-// static method belongs to class not the object the class creates 
 // use static for basic things like 
 // a instance is a type of methods a constructer 
 // object is instance of class the only time you can use instance method is when you use a object
 
-/* 
-*  NOTE: "this" keyword is used when the name of new initilized variable is the same this see var shawdow fo what 'this' dose
-// a example is carMake = make the new globaly used var is make and it has a different name than carmake the initial variable 
-// the "this" keyword is used for something like this.carmake = carmake
-// the constructor just intilizes the values on class vars so we can pass them by calling the method and they update the class vars so everyone has the same values
-* constructors always public 
- // ! note that constructors dont alwasys just initilize variables they can do other things like increment a counter create a array etc
-*/
-
-/* 
- * == vs .equals
- for ref type == checks the address in memory is same .equals checks the actual value ie the string or int inside
- for primitive
- == checks the value .equals is not used for primitive
-*/
-
-/* 
-* Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return value, these methods cannot be used as values, has anything but void return
-* Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it, these methods cannot not be used as values, has only void return
-
-*/
-
-/* 
-* Null pointer exeption NPE
-you are trying to call a method on a null object or a objects methods 
-ie if you do jim.getheight and gethight dne this will give NPE
-if you do obj1.x and obj one DNE or is not def then its a NPE
-if you have obj1.m3.m2.m1 if obj1 is null as it DNE you get NPE for trying to get obj1.m3
-if obj1 exits but m3 null you get NPE for trying to get m2.m1
-if obj1.m3 exits but m2 null NPE for m1 
-but if everything but m1 null then you will only get NPE if you try to accsess something from m1
-
-*/
-
-/*         
-* refrence alising = copying refrence values
-i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 now both p2, p3 point to same address but now any change made to p2 will be reflected in p3 and vise versa as they share the same object in memeory 
-
-// you can also store objects into array indexs to index 0 of a array can point to a object in memory so you can accsess that object as obj1.etc or arraywithobj[0].etc
-
-/*
- * variable shawowing means that method or class etc has a shadow over the variable ie it can inly be used in that class method etc
- to use it outside its shawdow we use the this keyword for methods allwing method variables to be accsessed in class
- */
  
-/* 
-* HELPER METHODS
-
-In Java, helper methods are small utility methods that help perform common tasks or calculations within a class. 
-These methods are typically private, though they can be public if meant to be accessed from outside the class\
-basicaly helper methods help other methods preform a task, calculation, validation etc
-
-in the following example add and multiply methods are helper methods
-they help the addandMultiply method preform its task
-the main methods can use a helper method to preform a task or just return its value 
-
-* NOTE helper methods can be accessors or mutators
-*/
-
-
-class Calculator {
-
-    // Public method that uses helper methods
-    public int addAndMultiply(int a, int b, int multiplier) {
-        int sum = add(a, b); // calling helper method
-        return multiply(sum, multiplier); // calling helper method
-    }
-
-    // Private helper method for addition
-    // this helper method is a accesor
-    private int add(int x, int y) {
-        return x + y;
-    }
-
-    // Private helper method for multiplication
-    private int multiply(int x, int y) {
-        return x * y;
-    }
-
-    public static void main(String[] args) {
-        Calculator calc = new Calculator();
-        System.out.println(calc.addAndMultiply(2, 3, 4)); // Output: 20
-    }
-}
-
-
-class Car {
 
     // create variables of the class
     // none are static, so each Car object we create will have their own copy of these variables
 
     // empty var
     /* class vars can be used anywhere in var */
+class Car{
     String carMake;
     String carModel;
     String carColor;
@@ -369,6 +283,58 @@ class Bank{
 
 }
 
+
+
+/* //!---------------------------------------------------------------------------------------------------------------- */
+// !NEW NOTES
+
+
+/* 
+*  NOTE: "this" keyword is used when the name of new initilized variable is the same this see var shawdow fo what 'this' dose
+// a example is carMake = make the new globaly used var is make and it has a different name than carmake the initial variable 
+// the "this" keyword is used for something like this.carmake = carmake
+// the constructor just intilizes the values on class vars so we can pass them by calling the method and they update the class vars so everyone has the same values
+* constructors always public 
+ // note that constructors dont alwasys just initilize variables they can do other things like increment a counter create a array etc
+*/
+
+/* 
+ * == vs .equals
+ for ref type == checks the address in memory is same .equals checks the actual value ie the string or int inside
+ for primitive
+ == checks the value .equals is not used for primitive
+*/
+
+/* 
+* Accsessor (getters) is a method that returns a value but dosent change any attributes ex int w = j.getbmi // here getbmi will return value, these methods cannot be used as values, has anything but void return
+* Mutator (setters) is a method that changes a value but returns nothing ex jim.setweight(80) // here setweight will change weight not return it, these methods cannot not be used as values, has only void return
+
+*/
+
+/* 
+* Null pointer exeption NPE
+you are trying to call a method on a null object or a objects methods 
+ie if you do jim.getheight and gethight dne this will give NPE
+if you do obj1.x and obj one DNE or is not def then its a NPE
+if you have obj1.m3.m2.m1 if obj1 is null as it DNE you get NPE for trying to get obj1.m3
+if obj1 exits but m3 null you get NPE for trying to get m2.m1
+if obj1.m3 exits but m2 null NPE for m1 
+but if everything but m1 null then you will only get NPE if you try to accsess something from m1
+
+*/
+
+/*         
+* refrence alising = copying refrence values
+i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 now both p2, p3 point to same address but now any change made to p2 will be reflected in p3 and vise versa as they share the same object in memeory 
+
+// you can also store objects into array indexs to index 0 of a array can point to a object in memory so you can accsess that object as obj1.etc or arraywithobj[0].etc
+
+/*
+ * variable shawowing means that method or class etc has a shadow over the variable ie it can inly be used in that class method etc
+ to use it outside its shawdow we use the this keyword for methods allwing method variables to be accsessed in class
+ */
+
+
 // * in class example making objs in methods
 class Point{
     int y;
@@ -403,7 +369,46 @@ class Point{
     }
 }
 
-// * anonomous objects
+/* 
+* HELPER METHODS
+
+In Java, helper methods are small utility methods that help perform common tasks or calculations within a class. 
+These methods are typically private, though they can be public if meant to be accessed from outside the class\
+basicaly helper methods help other methods preform a task, calculation, validation etc
+
+in the following example add and multiply methods are helper methods
+they help the addandMultiply method preform its task
+the main methods can use a helper method to preform a task or just return its value 
+*/
+
+class Calculator {
+
+// Public method that uses helper methods
+public int addAndMultiply(int a, int b, int multiplier) {
+    int sum = add(a, b); // calling helper method
+    return multiply(sum, multiplier); // calling helper method
+}
+
+// Private helper method for addition
+// this helper method is a accesor
+private int add(int x, int y) {
+    return x + y;
+}
+
+// Private helper method for multiplication
+private int multiply(int x, int y) {
+    return x * y;
+}
+
+public static void main(String[] args) {
+    Calculator calc = new Calculator();
+    System.out.println(calc.addAndMultiply(2, 3, 4)); // Output: 20
+}
+}
+
+
+/*  
+* anonomous objects */
 /* In Java, anonymous objects are objects that are created and used without being explicitly assigned to a variable. 
 They're typically used when you only need the object for a short period of time, such as passing
  it to a method or performing an action without needing to reference the object later. */
@@ -463,8 +468,9 @@ class MyPerson{
 }
 
 
-// Static Variables
+// * Static Variables and methods
 /* 
+/ static method belongs to class not the object the class creates 
  every obj has diffrent variables thast passed in its paramater , but static variables are shared by all obj of the class as the same variable 
  but you can modify so that objs have diffrent versions of the static variable
  EX:in the constructor: x = staticvar, static counter ++, now each time a new obj is made 
@@ -479,13 +485,13 @@ class MyPerson{
  with mutating method you can modify static var like a local varable
  but! you would not use 'this' you simply use the var name
  to call it outisde your class you would do classname.staticvarname = ....
- //! you cannot use non-static var in a static method but you can use any type in a non static method
+ NOTE:  you cannot use non-static var in a static method but you can use any type in a non static method
  the this keyword calls the class if you use this.var in a static method it will throw an error
  to fix this use a non static method
  */
 
  /* 
-   caller vs caller
+   * caller vs calle
    caller is the obj that is calling the method
    calle is the obj that the method is being called on
    EX:  myobj.mymethod() the caller is myobj and the calle is myobj
@@ -504,7 +510,7 @@ so first in last out so frist method called = last method to return to
 */
 
 /* 
- java exeptions example 
+ * java exeptions example 
  in java exeptions are used to handle errors at runtime 
  when they occur the flow of executuion is disrupted 
  the sytax for throwing an exeption is throw new Exceptionname();
@@ -528,11 +534,13 @@ lets say we call m1 and we go from m1 to m2 to m3 and m3 threw an exeption
 - if the caller of m1 does handle the exeption the program will continue to run
 - if the caller of m1 does not handle the exeption the program will terminate
 
-NOTE: the call stack can be as long as you want meaning if the expection thrown by class can keep going lower ie passed onto the next method then next method "where it would run the try catch" until its handeled and then it stops. 
+NOTE: the call stack can be as long as you want meaning if the expection thrown by class can keep going lower
+ie passed onto the next method then next method "where it would run the try catch" until its handeled and then it stops. 
 if its never caught and delt with its given to the console ie the user gets it 
 NOTE: the class can also handel the exeption itself by using a try catch block
 NOTE: there is a deafult expection is java simple in catch put "Exeption" and all exeptions will be caught but this is not good
 NOTE: you can have multiple catches for different types of exeptions so if we try x and x can throw multiple different errors we can have multiple catches for each exeption
+NOTE: method opting for specify means it propigates the exeption to another method meanign it specifies where the exeption should be handled ie caught.
 */
 
 class A{
@@ -542,6 +550,7 @@ class A{
     void ma(int i) throws NegValueException {
         if (i<0){
             // if condition met code runs and exeption is thrown it goes to negvalueexeption class 
+            // !NOTE: here we could have just used a console output but that is not good this as if it dose not terminate the code it will continoue to run and produce the wrong output
             throw new NegValueException("Neg value"); 
         }
         else {
@@ -568,10 +577,11 @@ class B {
         try {
             oa.ma(i);
             System.out.println("NVE did not happen i not neg");
-            // can do whatever here if not neg
+            // can do whatever here if not neg one thing is setting a bool to true to escape a while loop 
         }
         catch (NegValueException e){
             System.out.println("NegValueException caught i was neg"); // i is neg
+            // if negvalue exeption is caught here we can do whatever we want if try runs no exeption was thrown catch dose not run
         }
         // if the class A can throw multiple exeptions we can have a catch for each exeption
     }
@@ -606,5 +616,68 @@ class Exep{
 5) case 2 here exeption never handeled earliest
 
 note that when a input is given either the output is normal or an exeption is thrown
+ */
+
+// EXEPTIONS CONT
+// here lets make a while loop tthat takes in input and handels errors using truy catch use the Integer class and parse int
+// here the integer class throws an exeption if not a number so we need to catch it only.
+
+class UserInputExceptions {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int num = 0;
+        boolean valid = false;
+
+        while (!valid) {
+            System.out.print("Enter a number: ");
+            try {
+                num = Integer.parseInt(scanner.next());
+                valid = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Please try again.");
+            }
+        }
+        System.out.println("You entered: " + num);
+        scanner.close();
+    }
+}
+
+// * Test Driven Dev or Regertion Testing
+// inceremntal dev = rerun test after each change this can be after each new logical unit in incremented
+// regestion testing = keep adding test cases after each change and builing on top of existing ones
+// normal vs disruptive testing (meanign sometime a failed test is what we expect so in that case it should pass)
+
+// Lets say we have a exeption thrown by a method and we want to test it using Junit text 
+// lets say we have a method that throws an exeption called getValue() that returns value
+// lets say value is bounded 0->3 and the setters are decrement and increment and they cant go past 0 or 3
+// each method trows value to small and to big expetions respectively 
+// and we want to test it using Junit text we. Note that we want some tests to pass and some to fail depending of if exeption is thrown or not
+/// we can use assert equals to test that the exeption is thrown 
+// ! we can have try cathe exeptions in junit
+/* 
+
+// code conter class nd from notes
+ 
+// in this test no exeption should be thrown
+@ Test 
+public void testGetValue() {
+    counter c = new counter(); new counter obj ASSUME INITIAL VALUE 0
+    assertEquals (minValue, c.getValue()); // min val = 0 innitally 
+    try{
+        c.increment();
+        assertEquals (1, c.getValue());
+    }
+    catch (ValueTooLargeEXeption e){
+        fail ("ValueTooLargeExeption should not have been thrown");
+    }
+}
+
+// now lets do a example where it is throwm
+
+
+
+
+
  */
 
