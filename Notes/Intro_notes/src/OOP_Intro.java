@@ -290,7 +290,7 @@ class Bank{
 
 
 /* 
-*  NOTE: "this" keyword is used when the name of new initilized variable is the same this see var shawdow fo what 'this' dose
+*  NOTE: "this" keyword is used when the name of new initilized variable is the same this see var shawdow for what 'this' dose
 // a example is carMake = make the new globaly used var is make and it has a different name than carmake the initial variable 
 // the "this" keyword is used for something like this.carmake = carmake
 // the constructor just intilizes the values on class vars so we can pass them by calling the method and they update the class vars so everyone has the same values
@@ -330,7 +330,7 @@ i could also do Product p3 = p2 all this dose is copy the address of p2 to p3 no
 // you can also store objects into array indexs to index 0 of a array can point to a object in memory so you can accsess that object as obj1.etc or arraywithobj[0].etc
 
 /*
- * variable shawowing means that method or class etc has a shadow over the variable ie it can inly be used in that class method etc
+ * variable shawowing means that method or class etc has a shadow over the variable ie it can only be used in that class method etc
  to use it outside its shawdow we use the this keyword for methods allwing method variables to be accsessed in class
  */
 
@@ -434,7 +434,10 @@ class MyPersonAnonymous {
 }
 
 
-// * refrence to this keyword
+// * refrence to this keyword 
+// ! Note when using areguemnts passed through objs here its 'other', you can use the 'this' keywork to refer to the current obj
+// ! meanign when you make the object the 'this' will refer to the object the methid in called on while the argument here 'other' will refer to the other obj which was passed as arg in this case 
+// ! meaning java knows the context object here the context of other is jim so for elsa and amy they both refer to jim meanig 'this' for them is jim here
 class MyPerson{
     public String name;
     private MyPerson spouse; // making a peson obj called spouse
@@ -467,6 +470,12 @@ class MyPerson{
     }
 }
 
+// * global vars
+/* 
+global variables are variables that are shared by all obj of the class. meaning when you create them they will be part of all the objects created with that class
+this means all objs can do: obj.globalvar and it will return the same value for all objs of the class
+we can change the global var but it will then be updated for all new objects made after the change
+ */
 
 // * Static Variables and methods
 /* 
@@ -485,7 +494,9 @@ class MyPerson{
  with mutating method you can modify static var like a local varable
  but! you would not use 'this' you simply use the var name
  to call it outisde your class you would do classname.staticvarname = ....
- NOTE:  you cannot use non-static var in a static method but you can use any type in a non static method
+ ! NOTE: you cannot use non-static var in a static method but you can use any type in a non static method, also static methods can be any type.
+ ! Static means it belongs to the class and not the obj, static vars can be cahnged and updated in the class
+ ! Ex of making a static var, 'public static int myStaticVar = 10;' with method, 'public static int getMyStaticVar()'
  the this keyword calls the class if you use this.var in a static method it will throw an error
  to fix this use a non static method
  */
@@ -498,7 +509,7 @@ class MyPerson{
   */
 
 /* 
-call chain using stack 
+* call chain using stack 
 EX: myobj.mymethod1().mymethod2().mymethod3()
 1) myobj.mymethod1() is called
 2) myobj.mymethod1() calls myobj.mymethod2()
@@ -541,6 +552,7 @@ NOTE: the class can also handel the exeption itself by using a try catch block
 NOTE: there is a deafult expection is java simple in catch put "Exeption" and all exeptions will be caught but this is not good
 NOTE: you can have multiple catches for different types of exeptions so if we try x and x can throw multiple different errors we can have multiple catches for each exeption
 NOTE: method opting for specify means it propigates the exeption to another method meanign it specifies where the exeption should be handled ie caught.
+! NOTE: say we specify n times and say we are in a different class we still have accsess to all the variables of the original caller  
 */
 
 class A{
@@ -595,6 +607,7 @@ class NegValueException extends Exception {
         }
 }
 
+// test our exeptions
 class Exep{
     public static void main(String[] args) throws NegValueException {
         // one pass one fail see B for details
@@ -655,11 +668,10 @@ class UserInputExceptions {
 // and we want to test it using Junit text we. Note that we want some tests to pass and some to fail depending of if exeption is thrown or not
 /// we can use assert equals to test that the exeption is thrown 
 // ! we can have try cathe exeptions in junit
-/* 
 
 // code conter class nd from notes
- 
-// in this test no exeption should be thrown
+/* 
+in this test no exeption should be thrown as min value = 0 and that means try blovk runs and increments
 @ Test 
 public void testGetValue() {
     counter c = new counter(); new counter obj ASSUME INITIAL VALUE 0
@@ -669,15 +681,31 @@ public void testGetValue() {
         assertEquals (1, c.getValue());
     }
     catch (ValueTooLargeEXeption e){
-        fail ("ValueTooLargeExeption should not have been thrown");
+        // fail alwasy fails a test. 
+        // here we want to throw fail as this should not run we can incerment and get value its ok here so the ctach should not run
+        fail ("ValueTooLargeExeption should not have been thrown"); 
     }
 }
 
-// now lets do a example where it is throwm
+here we expect an exeption as min value = 0 and new counter will be 0 so its get value is zero and so decrement will throw exeption
+@Test
+    public void testDecFromMinValue() {
+        Counter c = new Counter();
+        assertEquals(Counter.MIN_VALUE, c.getValue()); // passes as min value = 0 and new counter will be 0 so its get value is zero
+        try {
+            c.decrement();
+            // we put a fail here and this should not run, we cannot deceremt from min value
+            // NOTE: after the line in  a try block fails we go to the catch block so in this case the fail should not run and decerement should not run
+            fail ("ValueTooSmallException is expected.");
+        }
+        catch(ValueTooSmallException e) {
+         // Exception is expected to be thrown.
+         // can do like e.print(" ..... ")
+        }
+    }
 
+! note in the 2 examples after we fail a test we go to the catch block but what was wrong? did we increment after max value 
+! did we decrement after min value? how will the catch block know the error type. 
+! onr way to solve is using a loop that keeps on running as long as we dont get the exeption when we do we know what the exetion is and what the numbers were
 
-
-
-
- */
-
+*/

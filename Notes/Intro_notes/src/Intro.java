@@ -63,6 +63,7 @@ public class Intro {
     // && (and) || (or) ! (not) // NOTE: not flips true and flase values so if x = true !x is false
     // 4. assignment operators
     // = += -= *= /= %= -> (assign, add, sub, mult, div, div remander) all these do a operation and assign at once
+    // ! NOTE a int / int = int but a int / double = double atleaste one must be double for result to be double
 
     // if you use two diffrent data types result will be the of the lerger data type
     // ex: int + double = double

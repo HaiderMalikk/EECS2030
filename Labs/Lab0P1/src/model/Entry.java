@@ -17,6 +17,7 @@ public class Entry {
 
         
     }
+    
 
     public String getSerialNumber() {
         return serialNumber; // can put this.serialnumber as no parameter in this method called serialnumber
