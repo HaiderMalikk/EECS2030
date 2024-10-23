@@ -709,3 +709,137 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
 ! onr way to solve is using a loop that keeps on running as long as we dont get the exeption when we do we know what the exetion is and what the numbers were
 
 */
+
+// * Obejct equality 
+// object equality (overide or no overide)
+/* 
+ d = 7 e = 7
+ then d == e true
+ is obj p1 and obj p2 exist 
+ p1 == p2 false as they are comparing the address not the values
+ p1.equals(p2) true -> as we compare the values of the objects 
+ ! the equals method is only avalible for reference types
+ the equals method is built into the object class in java
+ by deafult when we use .equals it overrides equals in the object class but we can change it using override
+ p1.equals(p2) is turned into p1 == p2 wher we override (meaning change the equals method
+ this is called inheriting the equals method from the object class. 
+ in the class is would look like this: 
+ class object{
+    public boolean equals(Object obj){
+        return this == obj; // note that 'this' refers to teh context object here that would be the object p1 so we would do p1 == obj where the object here is p2
+    }
+ }
+ */
+// ex:
+class Personeq {
+    String name;
+    int age;
+    public Personeq(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    // use source actions to generatre equals and hashcode on varables 
+    @Override
+    public boolean equals(Object obj) {
+        // this is to avoid NPE as the next line would throw an exception if obj is null thats why this must come first 
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that obj is of type Personeq we can fix this by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq
+        return this.name.equals(p.name) && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal.
+    }
+    // ! since our class has a equals method when we do .equal we have a method to use if we did not it would use the default equals method in the object class
+    public static void main(String[] args) {
+        // two objects with the same name and age
+        Personeq p1 = new Personeq("John", 30);
+        Personeq p2 = new Personeq("John", 30);
+        // ! if the equals method is not overriden then both will return false as both will be comparing the address
+        System.out.println(p1.equals(p2)); // true`
+        System.out.println(p1 == p2); // false as this compares the address
+    }
+}
+
+// * satic type, dynamic type, and type cast 
+// static type: a ref variables decrated type
+// dynamic type: type of address curruntly stored in a ref variable
+// type casting: is a way to convert one type to another type in the personeqclass in the equals oeriden method we cast obj as Personeq so we convert the object type to Personeq type
+// Ex
+/* 
+ class C1(){
+    public m1{}
+ }
+ class C2(){
+    public m2{}
+ }
+
+ main:
+ C1 o1 = new c1();
+ C2 o2 = new c2();
+ o1.m1(); static type as o1 has m1
+ o3 = o1
+ o3.m1 // dynamic type as o3 must goto o1 and get m1
+ */
+
+// !Assert equals for dynamic vs static and Overriding equals
+/* 
+Lets say obj p1 is a object with a overriden equals method
+ then let p2 be an object with a default equals method
+ if we say p2 = p1
+ then we do p2.equals(p2) 
+ p2 points to p1 meaning p2's equals method is called on p1 so we are using p2's equal method
+ also in the equals method we return true as p1 ==  p2, also p1 == p1 returns true as well as p2 == p2 returns true
+ 
+ // SAY WE HAVE THIS CODE
+public class PointV2 {
+    private int x; private int y;
+    public boolean equals (Object obj) {
+        if(this == obj) { return true; }
+        if(obj == null) { return false; }
+        if(this.getClass() != obj.getClass()) { return false; } PointV2 other = (PointV2) obj;
+        return this.x == other.x && this.y == other.y;
+    } 
+}
+
+// then
+1 String s = "(2, 3)";
+2 PointV2 p1 = new PointV2(2, 3);
+3 PointV2 p2 = new PointV2(2, 3);
+4 PointV2 p3 = new PointV2(4, 6);
+5 System.out.println(p1 == p2);  false as its comparing the address
+6 System.out.println(p2 == p3); false
+7 System.out.println(p1.equals(p1));  true 
+8 System.out.println(p1.equals(null));  false 
+9 System.out.println(p1.equals(s)); /false 
+10 System.out.println(p1.equals(p2)); true 
+11 System.out.println(p2.equals(p3)); false 
+
+if we say p2 = p3
+then we do p2.equals(p3) 
+p2 points to p3 meaning p2's equals method is called on p3 but since p2 points to p3 p3's equals method is called on p3 which returns true
+
+ */
+
+// !IMPLICATION
+/* 
+ if obj1 == obj2 then obj1.equals(obj2) == true as if the two objs have the same address they must have the same values 
+ the opposite is NOT true as if two objects have the same values that dose not mean that they must have the same values 
+ in notation this is "obj1 == obj2 => obj1.equals(obj2)"
+ 
+  
+ */
+
+// !assertsame vs assertequals
+/* 
+ in junit we have assertsame and assertequals
+ assert equal is for objects equality for its values
+ assert same is for objects equality for its refernce and only passes if the two objects are the same object: assertsame(obj1, obj2)
+ assert same is the same as Asserttrue(obj1 == obj2) or Asserttrue(obj1.equals(obj2)) or assert false with the '!' t oflip value // NOTE this is for the case assertsame is true 
+ NOTE: becasuse of last line the order of the assert is important for assertsame as the order determines which equals methid is called obj1s or obj2s the first argument determines which equals method is called
+ */
+
+
+// short circuit effect 
+// equality for array, references typed attributes
