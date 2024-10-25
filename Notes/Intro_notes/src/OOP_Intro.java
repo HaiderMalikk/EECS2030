@@ -781,6 +781,8 @@ class Personeq {
  o1.m1(); static type as o1 has m1
  o3 = o1
  o3.m1 // dynamic type as o3 must goto o1 and get m1
+ // type casting 
+ o3 = (C1) o1; // here we cast o1 whcih is of type C2 to C1 type now we can use C1's methods and do o3.m1
  */
 
 // !Assert equals for dynamic vs static and Overriding equals
@@ -792,12 +794,15 @@ Lets say obj p1 is a object with a overriden equals method
  p2 points to p1 meaning p2's equals method is called on p1 so we are using p2's equal method
  also in the equals method we return true as p1 ==  p2, also p1 == p1 returns true as well as p2 == p2 returns true
  
+ ! NOTE: if two objects are from different classes then there not not equal in terms of address and value so class1obj.equals(class2obj) is false always
+
  // SAY WE HAVE THIS CODE
 public class PointV2 {
     private int x; private int y;
     public boolean equals (Object obj) {
         if(this == obj) { return true; }
         if(obj == null) { return false; }
+        // must compare classes are objs from 2 different classes cannot be equals interms of ref or value
         if(this.getClass() != obj.getClass()) { return false; } PointV2 other = (PointV2) obj;
         return this.x == other.x && this.y == other.y;
     } 
@@ -834,12 +839,43 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
 // !assertsame vs assertequals
 /* 
  in junit we have assertsame and assertequals
- assert equal is for objects equality for its values
- assert same is for objects equality for its refernce and only passes if the two objects are the same object: assertsame(obj1, obj2)
+ assert equal is for objects equality for its values is both exp1 and ep2 (assertEquals(exp1, exp2)) are primitive its just '==' if its references type then its exp1.equals(exp2) the order of the assert method arguments (exp1/2) matters
+ assert same is for objects equality for its refernce and only passes if the two objects are the same object: assertsame(obj1, obj2) is true if both obj1 and obj2 are the same object meaning they have the same address
  assert same is the same as Asserttrue(obj1 == obj2) or Asserttrue(obj1.equals(obj2)) or assert false with the '!' t oflip value // NOTE this is for the case assertsame is true 
- NOTE: becasuse of last line the order of the assert is important for assertsame as the order determines which equals methid is called obj1s or obj2s the first argument determines which equals method is called
+ ! NOTE: For assert equals there are 3 options for the equals method: 1,Obj class default (if no overriden) 2, the exp1's equals method (if overriden) 3, the exp1's equals method and exp2's equals method (if overriden) 
+ */
+
+// ! OBJ CLASS DIFFERENCES NOTE:
+ /* 
+    if we have p1, p2 and they are from different classes then p1 == p2 will not run its a error as we cannot compare objects from different classes if they were the same class this would compare the address
+    if we now do p1.equals(p2) this will return false as in teh overriden equals method we have a conditional to check the classes of the two objects and if they are the same object then it will return true
+    if we have not overridded the equals method "here for p1 ans we call p1's equal method on p2" than the default equals method in the object class will be called and we will return false as it dose p1 == p2 which just compares there address
+    also the default equals method dose not check the dynamic type i.e it dose not see if the two obj's p1 and p2 are the same class or not all the defult equals method dose is p1 == p2
+ */
+// ! Comparing types in the equals method
+/* 
+ lets say we have a person class with name and age
+ we have two objects p1 and p2 in our equals method we do this.name == other.name where other is p2 it will use the string equals method to evaluate 
+ BUT lets say we were iteraing through a list of objects type person and we checked if this.person[i] == other.person[i] we now use the person class equals method specificly this.persons equals method
+ this will go into the person equals method where we can define what attributes of person to compare ie name age etc. if no eq meth exits the address is compared and false is returned
+ */
+
+// ! short circuit effect
+/* 
+ MATH Logic vs LOGIC in java ie short circuit
+ NOTE p and q and p or q are not the same as p&&q and p||q. 
+ because p and q == q and p and same for or They are commutitive but && and || are not commutitive meaning p&&q and q&&p are not the same
+ at runtime the evaluation of these logics are left to right the right sides evaluation depends of the left side passing or failing 
+ EX: if p = false and q = true and we do p&&qthen after checking p if false it wont run q and returns false as q is not evaluated as we know the result is false
+ how ever its not the same as q&&p as q is true it will run q then as its true we proceed to evaluate p then see that p is false so we return false
+ EX: the same is true for p||q if p is true we skip over q and return true as its true no matter value of q 
+ if p was false we would need to check q and return true as its true. from this we can say p||q is not q||p as in the first one p determines if we can short circuit and in the second one q determines if we can skip over p (short circuit)
+ THIS is known as short circuiting
+
+ Actual use case for short circuiting:
+ if we want to divide a number by 0 then we can check the value of the devisor and if its 0 then we should not evaluate the division and return 0 right away note how the order we check matters and is not commutitive 
  */
 
 
-// short circuit effect 
-// equality for array, references typed attributes
+
+// ! equality for array, references typed attributes
