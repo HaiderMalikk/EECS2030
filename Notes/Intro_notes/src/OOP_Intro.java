@@ -608,6 +608,7 @@ class NegValueException extends Exception {
 }
 
 // test our exeptions
+// exeptions should be in another class!
 class Exep{
     public static void main(String[] args) throws NegValueException {
         // one pass one fail see B for details
