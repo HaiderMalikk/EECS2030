@@ -719,7 +719,7 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
  is obj p1 and obj p2 exist 
  p1 == p2 false as they are comparing the address not the values
  p1.equals(p2) true -> as we compare the values of the objects 
- ! the equals method is only avalible for reference types
+ ! the equals method is only avalible for reference types. the .equals used on primitive types is the same as using the '==' operator
  the equals method is built into the object class in java
  by deafult when we use .equals it overrides equals in the object class but we can change it using override
  p1.equals(p2) is turned into p1 == p2 wher we override (meaning change the equals method
@@ -754,16 +754,19 @@ class Personeq {
         }
         // ! WHY TYPE CAST: when we recive the obj as a argument in the equals method it is passed as a type Object meaning it might not have accsess to the methods of a obj of type personeq hence we must cast this 'obj' into type personeq so we can call the methods from person eq on it 
         Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that 'obj' is of type Personeq as we are comparing with obj of type personeq. We can fix the type of obj to Personeq by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq so here we can choose what type to cast our obj to
-        return this.name.equals(p.name) && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
+        return this.name == p.name && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
+        //! NOTE in the line above we can use '==' as we are no longer dealing with reference types name and age are primitive (string and int). Also for name we could have used .equals() but here it dose not matter
     }
     // ! since our class has a equals method when we do .equal we have a method to use if we did not it would use the default equals method in the object class
     public static void main(String[] args) {
         // two objects with the same name and age
         Personeq p1 = new Personeq("John", 30);
         Personeq p2 = new Personeq("John", 30);
+        Personeq p3 = new Personeq("John", 31);
         // ! if the equals method is not overriden then both will return false as both will be comparing the address
-        System.out.println(p1.equals(p2)); // true`
+        System.out.println(p1.equals(p2)); // true
         System.out.println(p1 == p2); // false as this compares the address
+        System.out.println(p1.equals(p3)); // false
     }
 }
 
