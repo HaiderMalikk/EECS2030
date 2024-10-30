@@ -743,14 +743,18 @@ class Personeq {
     @Override
     public boolean equals(Object obj) {
         // this is to avoid NPE as the next line would throw an exception if obj is null thats why this must come first 
-        if (obj == null) {
+        // NOTE 'this' refers to the object that is calling the equals method
+        // if obj empty then return false or if the two objects are from different class then they are not the same object
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
+        // if the two objects we are comparing are equlas then they are the same object as the == compares address and if two objects have the same address they are the same object
         if (obj == this) {
             return true;
         }
-        Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that obj is of type Personeq we can fix this by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq
-        return this.name.equals(p.name) && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal.
+        // ! WHY TYPE CAST: when we recive the obj as a argument in the equals method it is passed as a type Object meaning it might not have accsess to the methods of a obj of type personeq hence we must cast this 'obj' into type personeq so we can call the methods from person eq on it 
+        Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that 'obj' is of type Personeq as we are comparing with obj of type personeq. We can fix the type of obj to Personeq by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq so here we can choose what type to cast our obj to
+        return this.name.equals(p.name) && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
     }
     // ! since our class has a equals method when we do .equal we have a method to use if we did not it would use the default equals method in the object class
     public static void main(String[] args) {
@@ -853,7 +857,7 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
     if we have not overridded the equals method "here for p1 ans we call p1's equal method on p2" than the default equals method in the object class will be called and we will return false as it dose p1 == p2 which just compares there address
     also the default equals method dose not check the dynamic type i.e it dose not see if the two obj's p1 and p2 are the same class or not all the defult equals method dose is p1 == p2
  */
-// ! Comparing types in the equals method
+// ! Comparing types in the equals method +  equality for array
 /* 
  lets say we have a person class with name and age
  we have two objects p1 and p2 in our equals method we do this.name == other.name where other is p2 it will use the string equals method to evaluate 
@@ -877,6 +881,18 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
  if we want to divide a number by 0 then we can check the value of the devisor and if its 0 then we should not evaluate the division and return 0 right away note how the order we check matters and is not commutitive 
  */
 
+ // !Call by value (primative vs reference)
+/* 
+ call by value is when we pass a value to a method as a parameter and the method makes a copy of the value and works on the copy then returns the copy
+    lets say we have: int radius and void setradius(int r){this.radius = r} and we have a circle object C, when we do C.setraduis(4) we are passing 4 to the method setradius, the method makes a copy of 4 by doing r = 4 and works on the copy here its 'r' then returns the copy to int radius var
+    EX2: Lets say we have a method void number (i) {i = i+1 return i} and we say number(2) it will return 3 but the value of 2 is not changed only i is changed and i is a copy of 2
+ 
+ call by reference is when we pass a reference to a method and the method works on the reference here no copy is made and we return the reference
+    lets say we have int radius method setradius(Circle c){this.radius = c.radius} and in a class we have a circle object C and another circle object C2 both with a radius defined, then we do C.setradius(c2) we are passing C2 to the method setradius, the method works on the reference of C2 in the method its 'c' then returns the reference to int radius var now the value of c's radius is changed 
+    NOTE: we could make a copy of the object and pass that to our method to preserve the original object.
+    EX2: NOTE we want to not use copies and most likely we want out object to chnage after we call some methods on it hence why we dont make a copy for references when we call by reference
+    if we did make a copy then we would make a new local objec tfor setradius method and that would not be the same object as C2 so the change would be lost (meaning they would be reflected in the copy of obj).
 
-
-// ! equality for array, references typed attributes
+ call by value and equals methods: in a equals method we pass a object as a parameter and later we cast it and say p1 = (Personeq) obj. p1 is now a copy of obj but still have the same address as obj 
+ 
+ */
