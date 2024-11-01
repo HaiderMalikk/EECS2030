@@ -899,3 +899,35 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
  call by value and equals methods: in a equals method we pass a object as a parameter and later we cast it and say p1 = (Personeq) obj. p1 is now a copy of obj but still have the same address as obj 
  
  */
+
+// ! container:
+/* 
+ a container is an object that holds other objects ie a list of objects (a container can have one or more objects)
+ a containee in the objects that are in the container (these objects can have their own attributes and methods)
+ NOTE: let BigOBJ = [obj1, obj2] obj1 and obj2 = {name, age}. Here container  is BigOBJ and containee is obj1 and obj2 we can accsess name and age from obj1 and obj2 or BIGOBJ by first using BIGOBJ to get to obj1/2 then using obj1/2 to get to name/age.
+ NOTE: if there is a BIGOBJ2 with obj1 then there is sharing(alasing) between BIGOBJ and BIGOBJ2 over obj1 this means chanign obj1 will change obj1 in BIGOBJ and BIGOBJ2. 
+ // ! Aggrigation = sharing, composition = not sharing
+ in diagram: CLASS then a arrow (line); start of arrow if (aggrigation = dimond ) end of arrow has number of contanees (1 = single, * =  multiple) 
+ Dot NOATTION: BIGOBJ.obj1.name will get name. NOTE if we cannot acsess name in another class if name was a private attribute. but we can have a getter method in that class that is also in BIGOBJ and we can call that method to get name. 
+ NOTE: this is because if both BIGOBJS share the same method and they will both get the same result. so if we get private var name from BIGOBJ one using getname, then add getname to BIGOBJ (the method with private var) then BIGOBJ2 (the place we want to accsess var) they botg will get the same name.
+ NOTE: to actually get the name we need to call the method getname on BIGOBJ2 (as we want this bigobj to get 'name') using BIGOBJ2.getname(). this will go to the getname method and get name from BIGOBJ
+ //! note that the getname method since its in both classes has accsess to the variables in both BIGOBJ classes so when it dose get name it will get it from BIGOBJ.
+ NOTE: if we made a method to use the getname method in a method: BIGOBJ2{ methodgetter{this.getname()} } the 'this' context obj specifies that when we call this method 'methodgetters' using say class BIGOBJ2.methodgetter() the 'this' will be the object of BIGOBJ2.
+ */
+
+ // ! AGGREGATION
+ /* aggrigation is when we share objects within other objects (contaners) */
+
+ // ! COMPOSITION
+/* composition is when we do not share objects within other objects(containers) opposite of aggrigation 
+ EX: say we have 2 contaers BIGOBJ and BIGOBJ2. BIGOBJ has a obj1 and BIGOBJ2 has a obj2. no methods are shared meaning we do not share the attribuites of obj2 not in BIGOBJ, it cannot accsess obj2 and vise versa for BIGOBJ2.
+
+ // ! COPY  CONSTRUCTOR
+ /* 
+  copy constructor is when we make a copy of an object using object address as a parameter we do not make any new objects
+  Class  A{ A(A other){numberA = this.numberA }} // here we pass in a object into this contructor that has numberA  and we make a copy of that numberA and assign it to this numberA in the A class
+  */
+
+
+
+*/
