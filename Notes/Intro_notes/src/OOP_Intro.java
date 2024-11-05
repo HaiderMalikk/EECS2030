@@ -928,6 +928,99 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
   Class  A{ A(A other){numberA = this.numberA }} // here we pass in a object into this contructor that has numberA  and we make a copy of that numberA and assign it to this numberA in the A class
   */
 
+// ! INHERITANCE
+/* 
+ inheritance is when we have a class that is a child of another class (parent) and has access to its attributes and methods, NOTE: we can still override the methods in the child class this will change the default method from the parent.
+ we would use this is we want a set of methods to be in the child class but we dont want to add every method we can define it once in parent and all childern can inherit it and accsess those methods (or override them)
+ also insted of initilizing all the variables (self.this = this .... many times) we can pass all initilizing variables into parent class we can use the parent class to do it for us so this saves us from repating the commonly initlized variables
+ we give a class its parent using the keyword extends (class name extends parent class name), we call the parent classes constructor using super(var to initilize)
+ NOTE: unlike in some languages like python in JAVA we can only inherit from 1 parent class but we can have multiple child classes
+ */
 
+// Parent Class (Superclass)
+class Animal {
+    protected String name;  // Protected so subclasses can access it, by using the protected keyword this string name is accessible to all subclasses
 
-*/
+    // Constructor of the parent class
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    // Method (this is the defualt method all subclasses can access)
+    public void speak() {
+        System.out.println("Animal speaks");
+    }
+
+    public void washanimal() {
+        System.out.println("Animal clean");
+    }
+}
+
+// Child Class (Subclass)
+class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy
+    private String breed;   // Private so only the class itself can access it
+
+    // Constructor of the child class
+    public Doggy(String name, String breed) { 
+        // Call the parent class constructor and passing in the name this will pass the var name into the parent class's constructor which takes name as a parameter 
+        // in the super class the constructor initilizes the var name passed here (which is passed when making the doogy object) we could do this.name= name here but if we have more than one var to intilize this is faster
+        super(name);  
+        this.breed = breed; // breed is a local var so we cannot access it in the parent class hence some vars are initilized in the constructor on child class (not evert animal has a breed but dose have name)
+    }
+
+    // Overriding the speak method if we did not do this it would print "Animal speaks" as doogy.speak() would call the parent class speak method
+    @Override // this  is a annotation that tells the compiler that we are overriding a method its not required
+    public void speak() {
+        System.out.println("Woof! Woof!"); // making our own  speak method for doggy
+    }
+
+    // Getter for breed (Java often uses getters to access private fields)
+    public String getBreed() {
+        return breed;
+    }
+}
+
+// another child class
+class GuardDog extends Animal {
+    private String state;  // State specific to GuardDog
+
+    // Constructor to initialize the name and state
+    public GuardDog(String name, String state) {
+        super(name);  // Call the Animal constructor to initialize the name (must have the same num of params as the parent class)
+        this.state = state;  // Set the GuardDog's state
+    }
+
+    // Method for guarding behavior
+    public void guard() {
+        System.out.println("Guarding the house");
+    }
+    
+    // no overriding speak method now the speak method from the parent class (animal) will be called
+
+    // we can use super to not only call the constructor but any  method in the parent class
+    public void clean() {
+        super.washanimal(); // calling the parent class method (washanimal)
+    }
+
+    // Method to display the state
+    public String getState() {
+        return state;  // Return the GuardDog's state
+    }
+}
+// Usage
+class inheritanceEX {
+    public static void main(String[] args) {
+        Doggy doggy = new Doggy("Buddy", "Golden Retriever");  // Updated instance creation
+        System.out.println(doggy.name);        // Output: Buddy
+        System.out.println(doggy.getBreed());   // Output: Golden Retriever
+        doggy.speak();                          // Output: Woof! Woof!
+
+        // Create a GuardDog instance with a name and state
+        GuardDog guardDog = new GuardDog("Rex", "alert");
+        System.out.println(guardDog.name);    // Output: Rex (Print the guard dog's name)
+        System.out.println(guardDog.getState());   // Output: alert (Print the guard dog's state)
+        guardDog.speak();        // Output: Animal speaks (Invoke the default speak method from the Animal(parent) class)
+        guardDog.guard();       // Output: Guarding the house (Invoke the guard method specific to GuardDog)
+        guardDog.clean();  // Call the clean method from the GuardDog class (calls a method from the parent class)
+    }
+}

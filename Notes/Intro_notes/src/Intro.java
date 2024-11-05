@@ -35,7 +35,7 @@ public class Intro {
     double aDouble = 100.0; // larger than float
 
     // 1.5 String type is a non primitive data type its a class the string class and has many methods of its own NOTE: you can compare strings 
-    String aString = "Hello, World!"; // string is a class in java
+    String aString = "Hello, World!"; // string is a class in java, String is reference data type
 
     // 2. reference data types (stores a memory address like array)
     boolean aBoolean = true;
