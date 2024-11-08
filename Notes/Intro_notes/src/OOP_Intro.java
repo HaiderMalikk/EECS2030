@@ -922,6 +922,70 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
 /* composition is when we do not share objects within other objects(containers) opposite of aggrigation 
  EX: say we have 2 contaers BIGOBJ and BIGOBJ2. BIGOBJ has a obj1 and BIGOBJ2 has a obj2. no methods are shared meaning we do not share the attribuites of obj2 not in BIGOBJ, it cannot accsess obj2 and vise versa for BIGOBJ2.
 
+ NOTE: composition can be used to create a new object that is a combination of other objects. EX: making a car using engine ex where the car object takes in a engine objec to be built as a car
+ */
+// Component class engine for MyCar
+class Engine {
+    private int mileage;
+
+    // Constructor to set initial mileage
+    public Engine() {
+        this.mileage = 0;
+    }
+
+    public String start() {
+        return "Engine started. Mileage: " + mileage;
+    }
+
+    public String stop() {
+        return "Engine stopped. Mileage: " + mileage;
+    }
+
+    public void addMileage(int miles) {
+        this.mileage += miles;
+    }
+}
+
+// Composite class MyCar is the main class that uses Engine component
+class MyCar {
+    private Engine engine; // here we make an object of type Engine
+
+    // Constructor to initialize MyCar with an Engine
+    // by creating a car objec twe make a new Engine object by calling the Engine constructor inside the MyCar constructor
+    public MyCar() {
+        this.engine = new Engine();
+    }
+
+    public String start() {
+        return "MyCar started. " + engine.start();
+    }
+
+    public String stop() {
+        return "MyCar stopped. " + engine.stop();
+    }
+
+    // Method to drive the car and increase mileage
+    public void drive(int miles) {
+        engine.addMileage(miles);
+        System.out.println("Driving " + miles + " miles. Total mileage: " + (engine.start()));
+    }
+}
+
+// Main class to test the functionality
+class CompositionEX {
+    public static void main(String[] args) {
+        MyCar myCar = new MyCar();
+
+        // Using methods of the composite class
+        System.out.println(myCar.start()); // Output: MyCar started. Engine started. Mileage: 0
+        myCar.drive(50);                   // Driving 50 miles, adding to mileage
+        System.out.println(myCar.stop());  // Output: MyCar stopped. Engine stopped. Mileage: 50
+    }
+}
+
+
+
+
  // ! COPY  CONSTRUCTOR
  /* 
   copy constructor is when we make a copy of an object using object address as a parameter we do not make any new objects
@@ -1024,3 +1088,39 @@ class inheritanceEX {
         guardDog.clean();  // Call the clean method from the GuardDog class (calls a method from the parent class)
     }
 }
+
+/*
+ ! IMPORTANT NOTES for inheritance:
+
+ - you cannot redeclare inherented attribute in a child class meaning you cannot have a variable with the same name in the child class, you can still make a copy of the attribute in the child class
+ - we can override (make our own version of) methods in the child class from methods in the parent class, if we dont override we can only use the methods in the parent class's defualt method, when overriding use @Override before the method
+ - a staric variable is shared by all instances of a class, meaning all the child classes can access it, but static variables cant be overridden so note 1 about redeleration dose not apply to static variables
+
+ -
+
+# add the concept of multiple packages
+ - this public, private, and protected keywords is known as the modifier of the attribute method or class and it determines there accessibility
+ * NOTE for us subclasses are child classes, class inside a class is called a inner class or nested class
+ Clases:
+    - public class is avalible anywhere in the package
+    - private class is only avalible in the parent class (the class its defined in)
+    - if no modifier is used the class is default and is avalible in the package and any class
+    - NOTE: for classes we can only have one public class in a file, but we can have multiple classes in a file. inner classes are classes that are defined inside another class and they can be public or private.
+
+ Methods:
+    - public method is avalible anywhere in the package, class or its subclasses
+    - private method is only avalible in the parent class or its subclasses
+    - is no modifier is used the method is default and is avalible in the package and any class
+    - NOTE: for methods we can have multiple public and private methods in a class.
+
+ Attributes:
+    - public attribute is avalible anywhere in the package, class or its subclasses
+    - private attribute is only avalible in the parent class
+    - protected attribute is avalible in the parent class and its subclasses
+    - if no modifier is used the attribute is default and is avalible in the package and any class
+
+ - if you want to use something in a different package you must import it using the import keyword
+*/
+
+// * NOTE: we cannot assign a object made from the subclass to the object made using the parent class (this is called downcasting). this can be done the otehr way aroud(upcasting)
+
