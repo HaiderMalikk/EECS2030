@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 // !old notes -------------------------------------------------------------------------------------
 public class OOP_Intro{} // to fix errors the rest of the file is not made of public classes so when you press run you can choose what class to run
 
@@ -475,6 +478,7 @@ class MyPerson{
 global variables are variables that are shared by all obj of the class. meaning when you create them they will be part of all the objects created with that class
 this means all objs can do: obj.globalvar and it will return the same value for all objs of the class
 we can change the global var but it will then be updated for all new objects made after the change
+to create a global var use static variable
  */
 
 // * Static Variables and methods
@@ -574,6 +578,7 @@ class A{
 
 // this method is called with A obj so it runs class a
 // this method 'catchs' exeption 
+// catch vs specify; Catch means the exeption is caught by this method, specify means the exeption is passed to another method, the method that throws the exeption dose not count as specifier or catcher
 class B {
     void mb(int i){
         A oa = new A();
@@ -732,6 +737,14 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
  }
  */
 // ex:
+class personbad {
+    String name;
+    int age;
+    public personbad(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
 class Personeq {
     String name;
     int age;
@@ -767,6 +780,9 @@ class Personeq {
         System.out.println(p1.equals(p2)); // true
         System.out.println(p1 == p2); // false as this compares the address
         System.out.println(p1.equals(p3)); // false
+
+        personbad p4 = new personbad("John", 30);
+        System.out.println(p2.equals(p4)); // false as p4 is of type personbad and p2 is of type Personeq
     }
 }
 
@@ -916,7 +932,67 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
  */
 
  // ! AGGREGATION
- /* aggrigation is when we share objects within other objects (contaners) */
+ /* aggrigation is when we share objects within other objects (contaners) so we can have a big obj with many little objs within it but note that the little objs can exist independently of the big obj if they want  */
+ // EX:
+ class Book {
+    private String title;
+    private String author;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    // Getters for title and author
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+}
+
+class Library {
+    // List of books in the library (aggregation relationship)
+    private List<Book> books;
+
+    public Library() {
+        this.books = new ArrayList<>();
+    }
+
+    // Method to add a book to the library
+    public void addBook(Book book) {
+        books.add(book); // from this book object the library class can access all its attributes
+    }
+
+    // Method to display all books in the library
+    public void displayBooks() {
+        for (Book book : books) {
+            System.out.println("Book: " + book.getTitle() + " by " + book.getAuthor());
+        }
+    }
+}
+
+class aggregationEx {
+    public static void main(String[] args) {
+        // Create book objects independently
+        Book book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald");
+        Book book2 = new Book("1984", "George Orwell");
+        Book book3 = new Book("To Kill a Mockingbird", "Harper Lee");
+
+        // Create a library and add books to it
+        Library library = new Library();
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+
+        // Display books in the library
+        library.displayBooks();
+    }
+}
+
+
 
  // ! COMPOSITION
 /* composition is when we do not share objects within other objects(containers) opposite of aggrigation 
@@ -925,6 +1001,7 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
  NOTE: composition can be used to create a new object that is a combination of other objects. EX: making a car using engine ex where the car object takes in a engine objec to be built as a car
  */
 // Component class engine for MyCar
+// ! NOTE how two calsses do not share any attributes or methods they have there own version of the attributes and methods and some different ones
 class Engine {
     private int mileage;
 
@@ -964,7 +1041,7 @@ class MyCar {
         return "MyCar stopped. " + engine.stop();
     }
 
-    // Method to drive the car and increase mileage
+    // Method to drive the car and increase mileage no sharing we are using the engine class to increase the mileage
     public void drive(int miles) {
         engine.addMileage(miles);
         System.out.println("Driving " + miles + " miles. Total mileage: " + (engine.start()));
@@ -984,12 +1061,10 @@ class CompositionEX {
 }
 
 
-
-
  // ! COPY  CONSTRUCTOR
  /* 
   copy constructor is when we make a copy of an object using object address as a parameter we do not make any new objects
-  Class  A{ A(A other){numberA = this.numberA }} // here we pass in a object into this contructor that has numberA  and we make a copy of that numberA and assign it to this numberA in the A class
+  Class  A{ A(A other){numberA = other.numberA }} // here we pass in a object into this contructor that has numberA  and we make a copy of that numberA and assign it to this numberA in the A class
   */
 
 // ! INHERITANCE
@@ -999,6 +1074,9 @@ class CompositionEX {
  also insted of initilizing all the variables (self.this = this .... many times) we can pass all initilizing variables into parent class we can use the parent class to do it for us so this saves us from repating the commonly initlized variables
  we give a class its parent using the keyword extends (class name extends parent class name), we call the parent classes constructor using super(var to initilize)
  NOTE: unlike in some languages like python in JAVA we can only inherit from 1 parent class but we can have multiple child classes
+ 
+ * basically a child class inherits all the attributes and methods from the parent class and each subclass can add its own attributes and methods ontop. but there wont be in the parent class. also any private methods or attributes will not be inherited
+ * in the child class we use the default method from the parent class but we can override it to make our own version of the method we however cannot redeclare variables in the child class. for constructor method we use super() to call the parent class constructor
  */
 
 // Parent Class (Superclass)
@@ -1021,7 +1099,7 @@ class Animal {
 }
 
 // Child Class (Subclass)
-class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy
+class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy, the extends keyword makes this a child class or whatever it extends
     private String breed;   // Private so only the class itself can access it
 
     // Constructor of the child class
@@ -1124,3 +1202,53 @@ class inheritanceEX {
 
 // * NOTE: we cannot assign a object made from the subclass to the object made using the parent class (this is called downcasting). this can be done the otehr way aroud(upcasting)
 
+// ! Polymorphism
+/* 
+Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. 
+This means that the same method can be called on objects of different classes, and the behavior of the method will vary depending on the actual class of the object being called on.
+the method that can be called by different objects is called a polymorphic method
+*/  
+// EX:
+
+// Abstract class Animal_EX defines the blueprint for all animals with an abstract method speak(), any class that inherits from Animal_EX must implement the abstract methods
+// the abstract keyword denotes that the class in incomplete and must be overridden by subclasses
+abstract class Animal_EX {
+    // Abstract method speak(), which must be implemented by subclasses (the abstrct keyword makes sure all subclasses must implement this method)
+    abstract String speak();  // blueprint for speak method 
+    // * if any child class is missing this method it will throw an error
+}
+
+// Dog_EX class inherits from Animal_EX and provides an implementation for speak(), it must implement the abstract method speak()
+class Dog_EX extends Animal_EX {
+    @Override // Annotation indicating this method overrides the superclass method
+    String speak() {
+        return "Dog barks";
+    }
+}
+
+// Cat_EX class also inherits from Animal_EX and provides its own implementation for speak()
+class Cat_EX extends Animal_EX {
+    @Override // Annotation indicating this method overrides the superclass method
+    String speak() {
+        return "Cat meows";
+    }
+}
+
+// Main class demonstrating polymorphism
+class PolymorphisimEX {
+    // makeSpeak() is a polymorphic method that accepts an Animal_EX object and calls its speak() method
+    public static String makeSpeak(Animal_EX animal) {
+        return animal.speak(); // Calls the specific speak() method of the passed-in animal
+    }
+
+    // main() method is the entry point of the program
+    public static void main(String[] args) {
+        // Create instances of Dog_EX and Cat_EX
+        Dog_EX dog = new Dog_EX();
+        Cat_EX cat = new Cat_EX();
+
+        // Polymorphic function call: makeSpeak() calls speak() on the correct subclass instance
+        System.out.println(makeSpeak(dog));  // Output: Dog barks
+        System.out.println(makeSpeak(cat));  // Output: Cat meows
+    }
+}
