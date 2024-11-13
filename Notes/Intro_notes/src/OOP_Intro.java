@@ -501,6 +501,9 @@ to create a global var use static variable
  ! NOTE: you cannot use non-static var in a static method but you can use any type in a non static method, also static methods can be any type.
  ! Static means it belongs to the class and not the obj, static vars can be cahnged and updated in the class
  ! Ex of making a static var, 'public static int myStaticVar = 10;' with method, 'public static int getMyStaticVar()'
+
+ !!!! YOU CANNOT USE NON STATIC METHODS IN A STATIC METHOD AND NOT VICE VERSA, YOU CANNOT USE NON STATIC VAR IN A STATIC METHOD BUT YOU CAN USE ANY TYPE IN A NON STATIC METHOD
+ 
  the this keyword calls the class if you use this.var in a static method it will throw an error
  to fix this use a non static method
  */
@@ -512,7 +515,7 @@ to create a global var use static variable
    EX:  myobj.mymethod() the caller is myobj and the calle is myobj
   */
 
-/* 
+/*  
 * call chain using stack 
 EX: myobj.mymethod1().mymethod2().mymethod3()
 1) myobj.mymethod1() is called
