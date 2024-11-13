@@ -665,6 +665,51 @@ class UserInputExceptions {
     }
 }
 
+// nested try catch
+// here we have a try catch block inside another try catch block
+// the inner try catch block will be executed first and if it throws an exeption then the outer try catch block will be executed
+// if the inner try catch block does not throw an exeption then the outer try catch block will be executed
+// if the inner try throws a error the inner catch will run but if the outer try throws an exeption then the outer catch will catch it
+// the outer dose not throw a error if the inner try throws a error 
+// * the finaly block is executed no matter what
+// EX
+class NestedTryCatchExample {
+    public static void nestedtrycatchEX(String[] args) {
+        try {
+            // Outer try block
+            System.out.println("Outer try block started.");
+
+            try {
+                // Inner try block
+                System.out.println("Inner try block started.");
+                
+                // This will throw an ArithmeticException
+                int result = 10 / 0;
+                System.out.println("Result: " + result);
+                
+            } catch (ArithmeticException e) {
+                // Handle the exception in the inner try block
+                System.out.println("Caught ArithmeticException in inner catch: " + e.getMessage());
+            }
+
+            // Additional code in the outer try block
+            int[] arr = new int[3];
+            
+            // This will throw an ArrayIndexOutOfBoundsException
+            arr[5] = 10;
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // Handle the exception in the outer try block
+            System.out.println("Caught ArrayIndexOutOfBoundsException in outer catch: " + e.getMessage());
+        } finally {
+            System.out.println("Outer finally block executed.");
+        }
+
+        System.out.println("Program continues after nested try-catch.");
+    }
+}
+
+
 // * Test Driven Dev or Regertion Testing
 // inceremntal dev = rerun test after each change this can be after each new logical unit in incremented
 // regestion testing = keep adding test cases after each change and builing on top of existing ones
