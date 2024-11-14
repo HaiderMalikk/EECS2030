@@ -836,7 +836,7 @@ class Personeq {
 
 // * satic type, dynamic type, and type cast 
 // static type: a ref variables decrated type
-// dynamic type: type of address curruntly stored in a ref variable
+// dynamic type: type of address curruntly stored in a ref variable (changes at runtime)
 // type casting: is a way to convert one type to another type in the personeqclass in the equals oeriden method we cast obj as Personeq so we convert the object type to Personeq type
 // Ex
 /* 
@@ -1250,6 +1250,57 @@ class inheritanceEX {
 
 // * NOTE: we cannot assign a object made from the subclass to the object made using the parent class (this is called downcasting). this can be done the otehr way aroud(upcasting)
 
+// dynamic binding
+// static binding
+// in static binding the method is called by the class that is calling it
+// in dynamic binding the method is called by the object that is calling it
+
+// !  Rules of substitution for objects :
+// lets make 3 objects with classes: SmartPhone, IOS extends SmartPhone, and iphone extends IOS
+// the obejcts = {SmartPhone_1, IOS_1, iphone_1}
+// EX1: we can say IOS_1 = smartPhone_1 as IOS_1 is a subclass of SmartPhone_1 but we cannot say IOS_1 = SmartPhone_1 or iphone_1 = smartPhone_1
+// Because: 1) IOS_1 is the child class and SmartPhone_1 is the parent class so while assigning the parent to the class is ok we cannot assign the child to the parent
+// 2) because IOS_1 ectends SmartPhone 1 it cannot replace SmartPhone_1,
+// EX2: we can say iphone_1 = IOS_1 as iphone_1 is a subclass of IOS_1 but we cannot say IOS_1 = iphone_1 as IOS is not a decendant of iphone_1 rather iphone is a decendant of IOS, (decenndent means the class is the child class of the parent class)
+// * RS = parent class LS = child class (for it to work) here the LS must directly inherit from the RS by being a decendant of the RS meaning its parent class is the RS or its parents parent ... is the RS
+// let: some other type of phone like andriod that extends SmartPhone and a class Samsung extends Andriod we could say Andriod_1 = SmartPhone_1 and Samsung_1 = Andriod_1
+// but i cannot say iphone_1 = Andriod_1 or Andriod_1 = iphone_1 as because iphones parent is not Andriod and Andriod parent is not iphone they are both unrelated
+// so we can say Smartphoe IOS_phone = new IOS_1() but we cannot do this the other way around (LS has parent and RS has child)
+// so we can also then say smartphone_1 new_smartphone_1 = new iphone_1() but we cannot do this the other way around as iphone is a decendant of smartphone but not the other way around
+// * siblings classes will also not work with substitution rule or with the ex before 
+// LAST dynamic type just means the type of the object at runtime so if we make a smartphone object and assign it to an iphone object then the reassign the smartphone object to the andriod object 
+// Then the last dynamic type is type andriod and first dynamic type is type iphone. 
+
+// substitution with type casting
+/* 
+ 
+EX: 
+smartphone_1 my_phone = new IOS_1();
+IOS_1 my_ios_phone = my_phone;
+* this is invalid as we are assigning a type ios to a type smartphone but myphone is type smartphone and smartphone is not a decendant of IOS (we can do this the other way around)
+
+* to type cast the my_ios_phone to type IOS before we can assign it to my_phone which is now a type IOS
+IOS_1 my_ios_phone = (IOS_1) my_phone;
+
+EX: 
+smartphone_1 aphone = new iphone_1();
+IOS for_iphone = (iphone_1) aphone; 
+here i first cast the object aphone to type iphone_1 and then assign it to type IOS this is ok now as LS is a decendant of RS 
+before aphone was not a decendant of IOS it was parent (smartphone) but after we cast it to type IOS it is now a decendant of IOS = iphone
+
+ex of anonymous assigning
+((iphone_1) aphone).faceTime(); // if facetime is a method in class iphone_1 we must put the cast in parentesis as we must cast before we can call the method
+
+* upward vs downward casting
+upward casting is when we cast from a child class to a parent class (reduces the expected methods and attributes avalible)
+downward casting is when we cast from a parent class to a child class (increses the expected methods and attributes avalible)
+if you try to cast to the same class it is not a cast and will not throw an exception
+
+* problem if we cast we nned to makde sure the object we are casting too can fulfill the methods and attributes of the class we are assigning to
+for IOS for_iphone = (iphone_1) aphone; iphone one has all the methods so its fine
+so if we have a new class that extends ios called iphone_mini as we cast a type iphone to type iphone mini we cannot use the iphones methods with IOS type anymore
+ */
+
 // ! Polymorphism
 /* 
 Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. 
@@ -1300,3 +1351,6 @@ class PolymorphisimEX {
         System.out.println(makeSpeak(cat));  // Output: Cat meows
     }
 }
+
+// rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
+
