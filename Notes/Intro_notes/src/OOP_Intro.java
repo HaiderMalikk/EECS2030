@@ -1221,8 +1221,7 @@ class inheritanceEX {
  - you cannot redeclare inherented attribute in a child class meaning you cannot have a variable with the same name in the child class, you can still make a copy of the attribute in the child class
  - we can override (make our own version of) methods in the child class from methods in the parent class, if we dont override we can only use the methods in the parent class's defualt method, when overriding use @Override before the method
  - a staric variable is shared by all instances of a class, meaning all the child classes can access it, but static variables cant be overridden so note 1 about redeleration dose not apply to static variables
-
- -
+ - while you can accsess parent class methods and variables from the child class, you cant access child class methods and variables from the parent class
 
 # add the concept of multiple packages
  - this public, private, and protected keywords is known as the modifier of the attribute method or class and it determines there accessibility
