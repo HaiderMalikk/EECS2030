@@ -54,6 +54,13 @@ public class Intro {
     // final keyword can be used before objects to make them final ie they cannot be chaged
     final int num3 = 5; 
 
+    // NOTE to get a unrounded number from 2 integer divvition cast one of the numbers to a double 
+    // EX 
+    int num4 = 5;
+    int num5 = 2;
+    System.out.println(num4 / num5); // output 2
+    System.out.println((double) num4 / num5); // output 2.5
+
     // operators NOTE: "=" is assignment "== is comparision", bedmass applys to arithmatic
     // 1. arithmetic operators
     // + - * / % (modulus) ++ -- (increment/decrement) -> add, sub, mult, div, remander of two number division, +=1 or -=1)

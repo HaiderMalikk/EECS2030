@@ -1199,6 +1199,8 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
     // here we call what dog said from the parent class and set a value here
     public void setwhatdoggysaid(String input) {
         super.whatdoggysaid(input); // calling the parent class method (whatdoggysaid)
+        // we can also directly change the static variable in the parent class but we are calling the method to make it clear what we are doing
+        // Animal.doggysaid = input; // we are setting the doggysaid in the parent class
     }
 }
 
@@ -1233,6 +1235,8 @@ class GuardDog extends Animal {
     public String getwhatdoggysaid() { // name cannot be the same as the parent class method
         System.out.println("doggy said: "); // adding our own stuff
         return super.getwhatdoggysaid(); // calling the parent class method (whatdoggysaid) and returning its value
+        // we can also use the static variable in the parent class
+        // return Animal.doggysaid; // we are returning the doggysaid in the parent class
     }
 }
 // Usage
@@ -1261,14 +1265,35 @@ class inheritanceEX {
         // Now get what doggy said in the GuardDog class
         System.out.println(guardDog.getwhatdoggysaid()); // Should print: "doggy said: doggy says hi"
 
+        // * type casting
+
+        // * upcasting (alwasy safe all subclasses gaurd dog, doggy etc are a type of animal)
+        // upcasting the animal to a doggy
         // assigning the child class to a object of type parent class
-        Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal
+        Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal, goal to reduce expectation so we can only use methods from the parent class, while still being a gaurd dog type
+        // we can pass stuff in the gaurd dog constructor and effec the animal obj but this would only happen if animal is = to gaurd dog
         // * even though the animal object is a guard dog we can only use methods in the parent class because the object is of type animal
         animal.speak(); // this will call the speak method from the parent class deafult method still prints REX beacuse the gaurd dog obj calls the parent constructor which initializes the name var in animal class to use
         // if we did not use super in gaurd dog class the name would be null as name would be local to the gaurd dog class and type animal cannot access it
         // this is usefull if we want a obj of type gaurd dog but want methods only from the parent class
         // animal.name; // this causes a error as name is a protected var in the parent class so we can only access it in the child class or parent class not in the inheretanceEX class
+        // * now the animal if passed into a new class can access the speak method from the parent class and change variables in the parent class that are accessable from the child class gaird dog 
+    
+        // * downcasting (not alwasy safe as we are adding more expectation for the object)
+        // downcasting the doggy to a animal 
+        Animal animal2 = new GuardDog("Max", "on duty"); // Upcasting (GuardDog to Animal)
+        GuardDog downcastedGuardDog = (GuardDog) animal2; // Downcasting (Animal to GuardDog)
+        downcastedGuardDog.guard(); // Access the GuardDog-specific method
+        System.out.println(downcastedGuardDog.getState()); // Access GuardDog's state
+
+        // * for sibling classes you cant cast between the tw directly as thats nither upcasting nor downcasting.
+        // but you can first update to the siblings parent class and then downcast to the sibling class.
+        // you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
+
+        // see dynamic binding notes
+    
     }
+
 
 }
 
@@ -1310,8 +1335,8 @@ class inheritanceEX {
 // static binding
 // in static binding the method is called by the class that is calling it
 // in dynamic binding the method is called by the object that is calling it
-
-// !  Rules of substitution for objects :
+ 
+// !  Rules of substitution for objects and classes for inheritance (dynamic binding):
 // lets make 3 objects with classes: SmartPhone, IOS extends SmartPhone, and iphone extends IOS
 // the obejcts = {SmartPhone_1, IOS_1, iphone_1}
 // EX1: we can say IOS_1 = smartPhone_1 as IOS_1 is a subclass of SmartPhone_1 but we cannot say IOS_1 = SmartPhone_1 or iphone_1 = smartPhone_1
@@ -1355,6 +1380,22 @@ if you try to cast to the same class it is not a cast and will not throw an exce
 * problem if we cast we nned to makde sure the object we are casting too can fulfill the methods and attributes of the class we are assigning to
 for IOS for_iphone = (iphone_1) aphone; iphone one has all the methods so its fine
 so if we have a new class that extends ios called iphone_mini as we cast a type iphone to type iphone mini we cannot use the iphones methods with IOS type anymore
+
+* for siblings classes we cannot cast from one to the other directly 
+but you can first update to the siblings parent class and then downcast to the sibling class.
+you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
+here in a ex :
+given treeo of hierarchy
+     A
+    / \
+   B   D
+  /
+ C
+ we can do: B b = new C(); // ok as C is a decendant of B
+ we cannot do D d = new b; // not ok as b is of type B which is not a decendant of D
+ we can do: D d = (D)((A)b); // here we first cast b to type A and then assign it to type D which is ok as D is a decendant of A
+
+
  */
 
 // ! Polymorphism
@@ -1410,3 +1451,72 @@ class PolymorphisimEX {
 
 // rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
 
+// ! instanceof keyword
+// instanceof keyword is used to check if an object is an instance of a specific class
+// it returns a boolean value that indicates whether the object is of the specified class or a subclass of it
+// syntax : object instanceof ClassName returns true if object is an instance of ClassName or a subclass of it and false otherwise
+// EX:
+// Parent class
+class Vehicle {
+    public void start() {
+        System.out.println("Vehicle is starting...");
+    }
+}
+
+// Child class: CarEX
+class CarEX extends Vehicle {
+    public void drive() {
+        System.out.println("CarEX is driving...");
+    }
+}
+
+// Child class: Bike
+class Bike extends Vehicle {
+    public void pedal() {
+        System.out.println("Bike is pedaling...");
+    }
+}
+
+// Test class
+class InstanceOfExample {
+    public static void main(String[] args) {
+        // Create objects of different types
+        Vehicle myVehicle = new CarEX(); // Upcasting CarEX to Vehicle
+        Vehicle anotherVehicle = new Bike(); // Upcasting Bike to Vehicle
+
+        // Using instanceof to check and cast
+        if (myVehicle instanceof CarEX) {
+            CarEX myCarEX = (CarEX) myVehicle; // Downcasting Vehicle to CarEX
+            myCarEX.drive(); // Specific to CarEX
+        } else {
+            System.out.println("myVehicle is not a CarEX.");
+        }
+
+        if (anotherVehicle instanceof Bike) {
+            Bike myBike = (Bike) anotherVehicle; // Downcasting Vehicle to Bike
+            myBike.pedal(); // Specific to Bike
+        } else {
+            System.out.println("anotherVehicle is not a Bike.");
+        }
+
+        // Example of instanceof with unrelated class
+        String str = "Hello, world!";
+        if (str instanceof String) {
+            System.out.println("str is an instance of String.");
+        }
+    }
+}
+
+/* 
+ EX:
+ given treeo of hierarchy
+     A
+    / \
+   B   D
+  /
+ C
+ 
+ A a = new C()
+ a instanceof B -> true // true B is a instance of B
+ a instanceof D -> false // false B is not a instance of D 
+ */
