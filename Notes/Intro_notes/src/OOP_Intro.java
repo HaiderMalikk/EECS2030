@@ -1132,6 +1132,7 @@ class CompositionEX {
 class Animal {
     protected String name;  // Protected so subclasses can access it, by using the protected keyword this string name is accessible to all subclasses
     protected Boolean isAnimal = true; // all child classes can access this variable
+    protected static String doggysaid; // static so all objects of this class can access it including child classes
     // * NOTE inheritence is one way while all children of animal class can asses is animal the parent class cannot accsess teh childs attributes like breed for ex
     // Constructor of the parent class
     public Animal(String name) {
@@ -1146,6 +1147,24 @@ class Animal {
     public void washanimal() {
         System.out.println("Animal clean");
     }
+
+    // to accsess atttributes/ methods in siblinging classes we goto the parent class 
+    // here we will set what doggy said in the doggy class then accsess it in the child class gaurd dog
+    public void whatdoggysaid(String input) {
+        // static variable must be accessed using the class name
+        Animal.doggysaid = input; // we are setting the doggysaid in the parent class
+    }
+    public String getwhatdoggysaid() {
+        return Animal.doggysaid; // we are getting the doggysaid from the parent class
+    }
+
+    // * NOTE!
+    /* NOTE: we used static vaible because if we said doggy setwhatdoggysaid this sets it only for the animal class instance that doggysaid is being set for and not for any other instance
+      when we create gaurd dog we create another instance of the animal class and hence if we want to have what doggy said in the gaurd dog class we must set what doggy saif to a static variable
+      before static if we make a doggy obj we need to set doggysaid for that obj and call getwhatdoggysaid from that obj as any other child class would have created a diffrent instance of the animal class
+      one which would require a set and get doggy said of its own. with static onve any child of the animal class sets what doggy said it and all other children (instances of animal class) 
+      now have access to what doggy said.
+    */
 }
 
 // Child Class (Subclass)
@@ -1175,6 +1194,12 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
     public Boolean getIsAnimal() {
         return isAnimal;
     }
+
+    // to call any method from the parent class we use super.method()
+    // here we call what dog said from the parent class and set a value here
+    public void setwhatdoggysaid(String input) {
+        super.whatdoggysaid(input); // calling the parent class method (whatdoggysaid)
+    }
 }
 
 // another child class
@@ -1203,6 +1228,12 @@ class GuardDog extends Animal {
     public String getState() {
         return state;  // Return the GuardDog's state
     }
+
+    // here we will get waht doggy said but we will include the parent method and add our own stuff
+    public String getwhatdoggysaid() { // name cannot be the same as the parent class method
+        System.out.println("doggy said: "); // adding our own stuff
+        return super.getwhatdoggysaid(); // calling the parent class method (whatdoggysaid) and returning its value
+    }
 }
 // Usage
 class inheritanceEX {
@@ -1220,6 +1251,15 @@ class inheritanceEX {
         guardDog.speak();        // Output: Animal speaks (Invoke the default speak method from the Animal(parent) class)
         guardDog.guard();       // Output: Guarding the house (Invoke the guard method specific to GuardDog)
         guardDog.clean();  // Call the clean method from the GuardDog class (calls a method from the parent class)
+
+        // calling what doggy said from the parent class here we will set what doggy said in doggy class
+        // the doggy calss sets this in the whatdoggysaid method in the parent class
+        // then the gaurd dog class calls the whatdoggysaid method from the parent class and accesses the value that doggy set
+        // Set what doggy said in the Doggy class
+        doggy.setwhatdoggysaid("doggy says hi");
+        
+        // Now get what doggy said in the GuardDog class
+        System.out.println(guardDog.getwhatdoggysaid()); // Should print: "doggy said: doggy says hi"
 
         // assigning the child class to a object of type parent class
         Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal
