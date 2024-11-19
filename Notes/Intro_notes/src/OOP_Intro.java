@@ -1125,12 +1125,14 @@ class CompositionEX {
  
  * basically a child class inherits all the attributes and methods from the parent class and each subclass can add its own attributes and methods ontop. but there wont be in the parent class. also any private methods or attributes will not be inherited
  * in the child class we use the default method from the parent class but we can override it to make our own version of the method we however cannot redeclare variables in the child class. for constructor method we use super() to call the parent class constructor
+ * the parent class dose not have access to the child class but the child class has access to the parent class
  */
 
 // Parent Class (Superclass)
 class Animal {
     protected String name;  // Protected so subclasses can access it, by using the protected keyword this string name is accessible to all subclasses
-
+    protected Boolean isAnimal = true; // all child classes can access this variable
+    // * NOTE inheritence is one way while all children of animal class can asses is animal the parent class cannot accsess teh childs attributes like breed for ex
     // Constructor of the parent class
     public Animal(String name) {
         this.name = name;
@@ -1138,7 +1140,7 @@ class Animal {
 
     // Method (this is the defualt method all subclasses can access)
     public void speak() {
-        System.out.println("Animal speaks");
+        System.out.println("Animal speaks his name is "+ name);
     }
 
     public void washanimal() {
@@ -1149,12 +1151,14 @@ class Animal {
 // Child Class (Subclass)
 class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy, the extends keyword makes this a child class or whatever it extends
     private String breed;   // Private so only the class itself can access it
-
+    // the name attribute is not here when we need it for this class we can use the name attribute from the parent class
+    // since we passed it in the constructor we can use it in the child class and it will have the corrent name for this doggy class
+    // because we will use doggy.name to access the name attribute in the child class where doggy is the object of the Doggy class
     // Constructor of the child class
     public Doggy(String name, String breed) { 
         // Call the parent class constructor and passing in the name this will pass the var name into the parent class's constructor which takes name as a parameter 
-        // in the super class the constructor initilizes the var name passed here (which is passed when making the doogy object) we could do this.name= name here but if we have more than one var to intilize this is faster
-        super(name);  
+        // * we must call the parent constructor because the type doggy extends animal in creating a new doggy object we are creating a new animal object at the same time and the animal obj takes a name as a parameter so we must give it that
+        super(name); // PARENT CONSTRUCTOR call must be the first line in the child class constructor
         this.breed = breed; // breed is a local var so we cannot access it in the parent class hence some vars are initilized in the constructor on child class (not evert animal has a breed but dose have name)
     }
 
@@ -1168,6 +1172,9 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
     public String getBreed() {
         return breed;
     }
+    public Boolean getIsAnimal() {
+        return isAnimal;
+    }
 }
 
 // another child class
@@ -1176,7 +1183,7 @@ class GuardDog extends Animal {
 
     // Constructor to initialize the name and state
     public GuardDog(String name, String state) {
-        super(name);  // Call the Animal constructor to initialize the name (must have the same num of params as the parent class)
+        super(name);  // Call the Animal constructor to initialize the name 
         this.state = state;  // Set the GuardDog's state
     }
 
@@ -1204,6 +1211,7 @@ class inheritanceEX {
         System.out.println(doggy.name);        // Output: Buddy
         System.out.println(doggy.getBreed());   // Output: Golden Retriever
         doggy.speak();                          // Output: Woof! Woof!
+        System.out.println(doggy.getIsAnimal()); // Output: true
 
         // Create a GuardDog instance with a name and state
         GuardDog guardDog = new GuardDog("Rex", "alert");
@@ -1212,7 +1220,16 @@ class inheritanceEX {
         guardDog.speak();        // Output: Animal speaks (Invoke the default speak method from the Animal(parent) class)
         guardDog.guard();       // Output: Guarding the house (Invoke the guard method specific to GuardDog)
         guardDog.clean();  // Call the clean method from the GuardDog class (calls a method from the parent class)
+
+        // assigning the child class to a object of type parent class
+        Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal
+        // * even though the animal object is a guard dog we can only use methods in the parent class because the object is of type animal
+        animal.speak(); // this will call the speak method from the parent class deafult method still prints REX beacuse the gaurd dog obj calls the parent constructor which initializes the name var in animal class to use
+        // if we did not use super in gaurd dog class the name would be null as name would be local to the gaurd dog class and type animal cannot access it
+        // this is usefull if we want a obj of type gaurd dog but want methods only from the parent class
+        // animal.name; // this causes a error as name is a protected var in the parent class so we can only access it in the child class or parent class not in the inheretanceEX class
     }
+
 }
 
 /*
