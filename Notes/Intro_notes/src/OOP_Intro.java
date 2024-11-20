@@ -1452,7 +1452,7 @@ class PolymorphisimEX {
 // rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
 
 // ! instanceof keyword
-// instanceof keyword is used to check if an object is an instance of a specific class
+// instanceof keyword is used to check if an object is an instance of a specific class, instance means an object of a class
 // it returns a boolean value that indicates whether the object is of the specified class or a subclass of it
 // syntax : object instanceof ClassName returns true if object is an instance of ClassName or a subclass of it and false otherwise
 // EX:
