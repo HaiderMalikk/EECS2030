@@ -508,6 +508,21 @@ to create a global var use static variable
  to fix this use a non static method
  */
 
+// ! Static vars and method
+/* 
+ A static variable in Java (or in other object-oriented programming languages) is shared by all instances of the class, 
+ meaning that it is common to all objects created from that class. a static varible belongs to the class not the obj
+ meaning if i have class A and i create 2 objects using that class and change the varible using one of the objects it will be changed for the other object too
+ also you can call the static var without creating a object from that class first, i.e A.myStaticVar will give you the value of myStaticVar in class A no object was created of class A
+ * you can use static vars in static and non-static methods
+ * you cannot use non-static vars in static methods
+ 
+ A Static method is a method that also belongs to the class not the obj, meaning that it can be called without creating an instance of the class ie a object of the class
+ meaning if i have a class A with static method. A.myStaticMethod() will retun the static method even if no object of class A was created
+ * you can only use static vars in static methods
+
+ */
+
  /* 
    * caller vs calle
    caller is the obj that is calling the method
@@ -1269,7 +1284,7 @@ class inheritanceEX {
 
         // * upcasting (alwasy safe all subclasses gaurd dog, doggy etc are a type of animal)
         // upcasting the animal to a doggy
-        // assigning the child class to a object of type parent class
+        // assigning the child class to a object of type parent class, implicit casting upcasting
         Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal, goal to reduce expectation so we can only use methods from the parent class, while still being a gaurd dog type
         // we can pass stuff in the gaurd dog constructor and effec the animal obj but this would only happen if animal is = to gaurd dog
         // * even though the animal object is a guard dog we can only use methods in the parent class because the object is of type animal
@@ -1280,7 +1295,7 @@ class inheritanceEX {
         // * now the animal if passed into a new class can access the speak method from the parent class and change variables in the parent class that are accessable from the child class gaird dog 
     
         // * downcasting (not alwasy safe as we are adding more expectation for the object)
-        // downcasting the doggy to a animal 
+        // downcasting the doggy to a animal , explicit casting downcasting
         Animal animal2 = new GuardDog("Max", "on duty"); // Upcasting (GuardDog to Animal)
         GuardDog downcastedGuardDog = (GuardDog) animal2; // Downcasting (Animal to GuardDog)
         downcastedGuardDog.guard(); // Access the GuardDog-specific method
@@ -1290,7 +1305,7 @@ class inheritanceEX {
         // but you can first update to the siblings parent class and then downcast to the sibling class.
         // you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
 
-        // see dynamic binding notes 
+        // see dynamic binding notes and instance of notes for more
     
     }
 
@@ -1331,6 +1346,7 @@ class inheritanceEX {
 
 // * NOTE: we cannot assign a object made from the subclass to the object made using the parent class (this is called downcasting). this can be done the otehr way aroud(upcasting)
 
+// * dynamic binding and static binding
 // dynamic binding
 // static binding
 // in static binding the method is called by the class that is calling it
@@ -1398,7 +1414,7 @@ given treeo of hierarchy
 
  */
 
-// ! Polymorphism
+// ! Polymorphism and abstract classes
 /* 
 Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. 
 This means that the same method can be called on objects of different classes, and the behavior of the method will vary depending on the actual class of the object being called on.
@@ -1412,6 +1428,11 @@ abstract class Animal_EX {
     // Abstract method speak(), which must be implemented by subclasses (the abstrct keyword makes sure all subclasses must implement this method)
     abstract String speak();  // blueprint for speak method 
     // * if any child class is missing this method it will throw an error
+
+     // Concrete method (with body) dose not need to be overridden
+     void sleep() {
+        System.out.println("Sleeping...");
+    }
 }
 
 // Dog_EX class inherits from Animal_EX and provides an implementation for speak(), it must implement the abstract method speak()
@@ -1480,31 +1501,90 @@ class Bike extends Vehicle {
 // Test class
 class InstanceOfExample {
     public static void main(String[] args) {
-        // Create objects of different types
-        Vehicle myVehicle = new CarEX(); // Upcasting CarEX to
-        Vehicle anotherVehicle = new Bike(); // Upcasting Bike to Vehicle
-
-        // Using instanceof to check and cast
-        if (myVehicle instanceof CarEX) {
-            CarEX myCarEX = (CarEX) myVehicle; // Downcasting Vehicle to CarEX
-            myCarEX.drive(); // Specific to CarEX
+        // Example 1: Upcasting (Implicit)
+        // A CarEX object is created and implicitly upcasted to a Vehicle reference
+        Vehicle myCarVehicle = new CarEX(); // Implicit upcasting
+        myCarVehicle.start(); // Only Vehicle methods are accessible now
+    
+        // Example 2: Downcasting (Explicit)
+        // Downcasting the Vehicle reference back to CarEX
+        if (myCarVehicle instanceof CarEX) { // Check to ensure it's safe to cast
+            CarEX myCarEX = (CarEX) myCarVehicle; // Explicit downcasting
+            myCarEX.drive(); // Now CarEX-specific method is accessible
         } else {
-            System.out.println("myVehicle is not a CarEX.");
+            System.out.println("myCarVehicle is not an instance of CarEX."); // This won't run
         }
-
-        if (anotherVehicle instanceof Bike) {
-            Bike myBike = (Bike) anotherVehicle; // Downcasting Vehicle to Bike 
-            myBike.pedal(); // Specific to Bike
+    
+        // Example 3: Upcasting (Implicit) for a Bike
+        // A Bike object is created and implicitly upcasted to a Vehicle reference
+        Vehicle myBikeVehicle = new Bike(); // Implicit upcasting
+        myBikeVehicle.start(); // Only Vehicle methods are accessible
+    
+        // Example 4: Downcasting (Explicit) with an error handled using if-else
+        // Attempting to cast a Bike reference to CarEX, which will fail
+        if (myBikeVehicle instanceof CarEX) {
+            CarEX myInvalidCar = (CarEX) myBikeVehicle; // This won't execute as the cast is invalid
+            myInvalidCar.drive();
         } else {
-            System.out.println("anotherVehicle is not a Bike.");
+            // This will execute since myBikeVehicle is not an instance of CarEX
+            System.out.println("Error: myBikeVehicle cannot be cast to CarEX."); 
+            System.out.println("Attempting to cast a Bike object to CarEX will cause a ClassCastException.");
         }
-
-        // Example of instanceof with unrelated class
+    
+        // Example 5: Valid Downcasting for Bike
+        // Checking and safely downcasting the Vehicle reference back to Bike
+        if (myBikeVehicle instanceof Bike) { 
+            Bike myBike = (Bike) myBikeVehicle; // Explicit downcasting
+            myBike.pedal(); // Accessing Bike-specific method
+        } else {
+            System.out.println("myBikeVehicle is not an instance of Bike."); // This won't run
+        }
+    
+        // Example 6: Direct Error Demonstration (Uncomment to see runtime error)
+        /*
+        CarEX invalidCar = (CarEX) myBikeVehicle; // This will throw a ClassCastException
+        invalidCar.drive(); // This line will not execute
+        */
+    
+        // Example 7: Using unrelated class with instanceof
         String str = "Hello, world!";
         if (str instanceof String) {
-            System.out.println("str is an instance of String.");
+            System.out.println("str is an instance of String."); // Always true
         }
     }
+    // output:
+    /* 
+     Vehicle is starting...
+    CarEX is driving...
+    Vehicle is starting...
+    Error: myBikeVehicle cannot be cast to CarEX.
+    Attempting to cast a Bike object to CarEX will cause a ClassCastException.
+    Bike is pedaling...
+    str is an instance of String.
+     */
+
+     // why not downcasting implicitly
+     /* 
+      Downcasting cannot be implicit because it introduces a risk of type mismatch and potential runtime errors. 
+      When you downcast, you're taking a reference of a parent type (Vehicle) and claiming it is of a specific child type (CarEX). 
+      However, the actual object might not match the claimed type. This mismatch can lead to a ClassCastException at runtime.
+
+        Example
+
+        Vehicle myVehicle = new Bike(); // A Bike object upcasted to Vehicle
+        CarEX myCar = (CarEX) myVehicle; // Attempting to downcast to CarEX (explicit)
+
+        myCar.drive(); // This would throw a ClassCastException at runtime
+        If implicit downcasting were allowed, the compiler would have no way of knowing whether this cast is valid, 
+        and the program would crash unexpectedly.Let’s break down why implicit downcasting isn’t allowed in Java:
+
+        In contrast, upcasting is always safe because every child class is guaranteed to be an instance of its parent class. 
+        The parent class (Vehicle) provides a common interface or behavior that all child classes (CarEX, Bike) share.
+        so for upcasting no need to do explicit casting
+
+        Implicit casting is only allowed for safe operations like upcasting or primitive widening (e.g., int to double).
+      */
+    
 }
 
 /* 
@@ -1520,3 +1600,86 @@ class InstanceOfExample {
  a instanceof B -> true // true B is a instance of B
  a instanceof D -> false // false B is not a instance of D 
  */
+
+// ! Interfaces
+/* 
+ - Declared with the interface Keyword
+- Interfaces are defined using the interface keyword.
+    interface Animal {
+    void makeSound(); // Abstract method
+    }
+- Cannot Contain Constructors
+    Interfaces cannot have constructors because they cannot be instantiated.
+- Methods Are Public and Abstract by Default
+    No need to specify public or abstract explicitly for methods.
+    Starting with Java 8, interfaces can have default and static methods with implementations.
+- Fields Are Public, Static, and Final by Default
+    Any variable declared in an interface is automatically a constant.
+- Supports Multiple Inheritance
+    A class can implement multiple interfaces.
+- Implements Keyword
+    A class implements an interface using the implements keyword.
+ */
+// ex
+interface Animal2 {
+    // Abstract method (must be implemented by a class)
+    void makeSound();
+
+    // Default method (has a body)
+    default void sleep() {
+        System.out.println("Sleeping...");
+    }
+
+    // Static method (has a body)
+    static void info() {
+        System.out.println("This is an interface for animals.");
+    }
+}
+
+class Dog2 implements Animal2 {
+    @Override
+    public void makeSound() {
+        System.out.println("Bark!");
+    }
+}
+
+class Cat2 implements Animal2 {
+    @Override
+    public void makeSound() {
+        System.out.println("Meow!");
+    }
+}
+
+class Bird2 implements Animal2 {
+    @Override
+    public void makeSound() {
+        System.out.println("Chirp!");
+    }
+
+    @Override
+    public void sleep() {
+        System.out.println("Bird is sleeping differently...");
+    }
+}
+
+class InterfaceExample2 {
+    public static void main(String[] args) {
+        // Access static method from the interface
+        Animal2.info();
+
+        // Create objects of classes that implement the interface
+        Animal2 dog = new Dog2();
+        Animal2 cat = new Cat2();
+        Animal2 bird = new Bird2();
+
+        // Call methods
+        dog.makeSound(); // Bark!
+        dog.sleep();     // Sleeping...
+
+        cat.makeSound(); // Meow!
+        cat.sleep();     // Sleeping...
+
+        bird.makeSound(); // Chirp!
+        bird.sleep();     // Bird is sleeping differently...
+    }
+}

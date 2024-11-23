@@ -66,6 +66,12 @@ public class Intro {
     // Boolean is a class in java and can be true or false or null
     Boolean bigBoolean = null;
 
+    // big int vs Integer 
+    // int is a primitive data type it can only be positive or negative numbers
+    // Integer is a class in java and can be positive or negative numbers or null
+    Integer bigInt = null;
+    // this class also has many methods
+
     // operators NOTE: "=" is assignment "== is comparision", bedmass applys to arithmatic
     // 1. arithmetic operators
     // + - * / % (modulus) ++ -- (increment/decrement) -> add, sub, mult, div, remander of two number division, +=1 or -=1)
