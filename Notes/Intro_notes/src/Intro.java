@@ -61,6 +61,11 @@ public class Intro {
     System.out.println(num4 / num5); // output 2
     System.out.println((double) num4 / num5); // output 2.5
 
+    // Big Boolean vs Small Boolean
+    // boolean is a primitive data type it can only be true or false
+    // Boolean is a class in java and can be true or false or null
+    Boolean bigBoolean = null;
+
     // operators NOTE: "=" is assignment "== is comparision", bedmass applys to arithmatic
     // 1. arithmetic operators
     // + - * / % (modulus) ++ -- (increment/decrement) -> add, sub, mult, div, remander of two number division, +=1 or -=1)

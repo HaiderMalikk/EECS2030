@@ -1290,7 +1290,7 @@ class inheritanceEX {
         // but you can first update to the siblings parent class and then downcast to the sibling class.
         // you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
 
-        // see dynamic binding notes
+        // see dynamic binding notes 
     
     }
 
@@ -1463,7 +1463,7 @@ class Vehicle {
     }
 }
 
-// Child class: CarEX
+// Child class: CarEX 
 class CarEX extends Vehicle {
     public void drive() {
         System.out.println("CarEX is driving...");
@@ -1481,7 +1481,7 @@ class Bike extends Vehicle {
 class InstanceOfExample {
     public static void main(String[] args) {
         // Create objects of different types
-        Vehicle myVehicle = new CarEX(); // Upcasting CarEX to Vehicle
+        Vehicle myVehicle = new CarEX(); // Upcasting CarEX to
         Vehicle anotherVehicle = new Bike(); // Upcasting Bike to Vehicle
 
         // Using instanceof to check and cast
@@ -1493,7 +1493,7 @@ class InstanceOfExample {
         }
 
         if (anotherVehicle instanceof Bike) {
-            Bike myBike = (Bike) anotherVehicle; // Downcasting Vehicle to Bike
+            Bike myBike = (Bike) anotherVehicle; // Downcasting Vehicle to Bike 
             myBike.pedal(); // Specific to Bike
         } else {
             System.out.println("anotherVehicle is not a Bike.");
