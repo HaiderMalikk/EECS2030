@@ -1188,6 +1188,7 @@ class Animal {
 // Child Class (Subclass)
 class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy, the extends keyword makes this a child class or whatever it extends
     private String breed;   // Private so only the class itself can access it
+    // isAnimal = false; cannot redeclare a variable in the child class this will give an error
     // the name attribute is not here when we need it for this class we can use the name attribute from the parent class
     // since we passed it in the constructor we can use it in the child class and it will have the corrent name for this doggy class
     // because we will use doggy.name to access the name attribute in the child class where doggy is the object of the Doggy class
