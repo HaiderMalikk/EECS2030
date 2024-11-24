@@ -516,10 +516,13 @@ to create a global var use static variable
  also you can call the static var without creating a object from that class first, i.e A.myStaticVar will give you the value of myStaticVar in class A no object was created of class A
  * you can use static vars in static and non-static methods
  * you cannot use non-static vars in static methods
+ * you can only accsess a static var by using the class it belongs to and not a object of that class or a extension of that class
  
  A Static method is a method that also belongs to the class not the obj, meaning that it can be called without creating an instance of the class ie a object of the class
  meaning if i have a class A with static method. A.myStaticMethod() will retun the static method even if no object of class A was created
  * you can only use static vars in static methods
+ * *** NOTE!!!: you cannot override static methods
+ * Static methods can only be called from the class containing them not from an object of that class or a extension of that class
 
  */
 
@@ -1598,6 +1601,7 @@ class InstanceOfExample {
     A class can implement multiple interfaces.
 - Implements Keyword
     A class implements an interface using the implements keyword.
+// * NOTE: abstact methods are incomplete methods that must be overridden in the class that implements the interface
  */
 // method 2
 /* 
@@ -1615,8 +1619,11 @@ if any class wants to implement this abstract class then it must use the extends
 
 // ! interface classes 
 // ex for interfaces using interface classees -> interface keyword and implements keyword
+// in a interface class i.e a class made with interface keyword every method is abstact unless its static or default
+// static is static (see static methods notes) 
+// the default method is a method that has a body and is not static or abstract so just like a normal method but in an interface
 interface Animal2 {
-    // Abstract method (must be implemented by a class)
+    // Abstract method (must be implemented by a class that implements the interface)
     void makeSound();
 
     // Default method (has a body)
@@ -1630,6 +1637,8 @@ interface Animal2 {
     }
 }
 
+// Implementing the interface
+// this class implements the Animal2 interface meaning it has all its methods the abstact ones it must implement and the default ones it can use
 class Dog2 implements Animal2 {
     @Override
     public void makeSound() {
@@ -1656,7 +1665,7 @@ class Bird2 implements Animal2 {
     }
 }
 
-class InterfaceExample2 {
+class InterfaceExample {
     public static void main(String[] args) {
         // Access static method from the interface
         Animal2.info();
@@ -1675,6 +1684,8 @@ class InterfaceExample2 {
 
         bird.makeSound(); // Chirp!
         bird.sleep();     // Bird is sleeping differently...
+
+        // static method from a implemented class
     }
 }
 
@@ -1747,5 +1758,44 @@ class AbstractClassExample {
         // Call the eat method (shared concrete method from the Animal3 class)
         dog.eat();    // Output: Buddy is eating.
         cat.eat();    // Output: Whiskers is eating.
+    }
+}
+
+// ! multiple interface implementation
+// unlike extends which you can only have 1 parent class with implements you can have multiple interfaces
+interface Animal4 {
+    default void speak() {
+        System.out.println("Animal speaks");
+    }
+    default void greet() {
+        System.out.println("Hello");
+    }
+}
+
+interface Dog4 {
+    default void speak() {
+        System.out.println("Woof");
+    }
+    default void sleep() {
+        System.out.println("Sleeping...");
+    }
+}
+
+// here beagle4 is a class that implements both Animal4 and Dog4
+// this means it has accses to all the methods in both interfaces see below how to deal with multiple interface methods
+class Beagle4 implements Animal4, Dog4 { 
+    @Override
+    public void speak() {
+        // Resolving the conflict by specifying which interface's default method to use
+        Dog4.super.speak(); // Uses Dog4's default speak method
+        // Or you could call Animal4.super.speak() if you want to use Animal4's default method
+    }
+}
+
+class MultipleIntefaceEX {
+    public static void main(String[] args) {
+        Beagle4 b = new Beagle4();
+        b.speak(); // Output: Woof
+        b.sleep(); // Output: Sleeping...
     }
 }
