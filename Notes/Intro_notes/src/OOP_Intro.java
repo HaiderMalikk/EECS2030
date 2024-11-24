@@ -1311,7 +1311,6 @@ class inheritanceEX {
 
 
 }
-
 /*
  ! IMPORTANT NOTES for inheritance:
 
@@ -1320,7 +1319,41 @@ class inheritanceEX {
  - a staric variable is shared by all instances of a class, meaning all the child classes can access it, but static variables cant be overridden so note 1 about redeleration dose not apply to static variables
  - while you can accsess parent class methods and variables from the child class, you cant access child class methods and variables from the parent class
 
-# add the concept of multiple packages
+// ! polymorphism
+/*
+Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. 
+This means that the same method can be called on objects of different classes, and the behavior of the method will vary depending on the actual class of the object being called on.
+the method that can be called by different objects is called a polymorphic method  
+*/
+
+// * EX using the code from inheritanceEX
+// New class to call the speak method of a given animal
+class Pets {
+    public void makeAnimalSpeak(Animal animal) {
+        animal.speak(); // Calls the speak method, demonstrating polymorphism
+    }
+}
+
+// Main class to test the functionality
+class polymorphismEX {
+    public static void main(String[] args) {
+        Pets pets = new Pets();
+
+        Animal genericAnimal = new Animal("Generic");
+        Doggy doggy = new Doggy("Buddy", "Golden Retriever");
+        GuardDog guardDog = new GuardDog("Rex", "Alert");
+
+        pets.makeAnimalSpeak(genericAnimal); // Output: Animal speaks his name is Generic
+        pets.makeAnimalSpeak(doggy);        // Output: Woof! Woof!
+        pets.makeAnimalSpeak(guardDog);     // Output: Animal speaks his name is Rex
+    }
+}
+
+// rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
+
+/*
+// ! Scope of identifiers in java
+# we have the concept of multiple packages in java, a package is a collection of classes, interfaces, and subpackages, we can use the package keyword to define a package and then we can use the import keyword to import classes from other packages
  - this public, private, and protected keywords is known as the modifier of the attribute method or class and it determines there accessibility
  * NOTE for us subclasses are child classes, class inside a class is called a inner class or nested class
  Clases:
@@ -1414,63 +1447,6 @@ given treeo of hierarchy
 
  */
 
-// ! Polymorphism and abstract classes
-/* 
-Polymorphism is a feature in object-oriented programming that allows objects of different classes to be treated as objects of a common superclass. 
-This means that the same method can be called on objects of different classes, and the behavior of the method will vary depending on the actual class of the object being called on.
-the method that can be called by different objects is called a polymorphic method
-*/  
-// EX:
-
-// Abstract class Animal_EX defines the blueprint for all animals with an abstract method speak(), any class that inherits from Animal_EX must implement the abstract methods
-// the abstract keyword denotes that the class in incomplete and must be overridden by subclasses
-abstract class Animal_EX {
-    // Abstract method speak(), which must be implemented by subclasses (the abstrct keyword makes sure all subclasses must implement this method)
-    abstract String speak();  // blueprint for speak method 
-    // * if any child class is missing this method it will throw an error
-
-     // Concrete method (with body) dose not need to be overridden
-     void sleep() {
-        System.out.println("Sleeping...");
-    }
-}
-
-// Dog_EX class inherits from Animal_EX and provides an implementation for speak(), it must implement the abstract method speak()
-class Dog_EX extends Animal_EX {
-    @Override // Annotation indicating this method overrides the superclass method
-    String speak() {
-        return "Dog barks";
-    }
-}
-
-// Cat_EX class also inherits from Animal_EX and provides its own implementation for speak()
-class Cat_EX extends Animal_EX {
-    @Override // Annotation indicating this method overrides the superclass method
-    String speak() {
-        return "Cat meows";
-    }
-}
-
-// Main class demonstrating polymorphism
-class PolymorphisimEX {
-    // makeSpeak() is a polymorphic method that accepts an Animal_EX object and calls its speak() method
-    public static String makeSpeak(Animal_EX animal) {
-        return animal.speak(); // Calls the specific speak() method of the passed-in animal
-    }
-
-    // main() method is the entry point of the program
-    public static void main(String[] args) {
-        // Create instances of Dog_EX and Cat_EX
-        Dog_EX dog = new Dog_EX();
-        Cat_EX cat = new Cat_EX();
-
-        // Polymorphic function call: makeSpeak() calls speak() on the correct subclass instance
-        System.out.println(makeSpeak(dog));  // Output: Dog barks
-        System.out.println(makeSpeak(cat));  // Output: Cat meows
-    }
-}
-
-// rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
 
 // ! instanceof keyword
 // instanceof keyword is used to check if an object is an instance of a specific class, instance means an object of a class
@@ -1602,7 +1578,10 @@ class InstanceOfExample {
  */
 
 // ! Interfaces
+// * there are 2 way to implement interface 1) using interface and implements keyword 2) using abstract class
+// method 1
 /* 
+// using interface 
  - Declared with the interface Keyword
 - Interfaces are defined using the interface keyword.
     interface Animal {
@@ -1620,7 +1599,22 @@ class InstanceOfExample {
 - Implements Keyword
     A class implements an interface using the implements keyword.
  */
-// ex
+// method 2
+/* 
+ // using abstract class
+ Explanation
+Abstract Class:
+An abstract class is a class that cannot be instantiated directly. It can include both abstract methods (methods without a body) 
+and concrete methods (methods with a body).
+Use Case:
+Abstract classes are useful when you want to provide a common base with shared functionality for all subclasses 
+but leave the implementation of some methods to the subclasses.
+if any class wants to implement this abstract class then it must use the extends keyword to inherit the abstract class.
+// * it then must implement all the abstract methods in the abstract class if it dosent and you call the method then it will give an error
+ */
+
+// ! interface classes 
+// ex for interfaces using interface classees -> interface keyword and implements keyword
 interface Animal2 {
     // Abstract method (must be implemented by a class)
     void makeSound();
@@ -1681,5 +1675,77 @@ class InterfaceExample2 {
 
         bird.makeSound(); // Chirp!
         bird.sleep();     // Bird is sleeping differently...
+    }
+}
+
+//! abstract classes
+// Ex for interfaces using abstract class
+// Abstract class: Animal3
+abstract class Animal3 { // using keyword abstract to indicate that this class is abstract (may contain abstract methods hence we must use the abstract keyword)
+    protected String name; // Shared attribute for all animals
+
+    // Constructor: Initializes the name of the animal
+    public Animal3(String name) {
+        this.name = name;
+    }
+
+    // Abstract method: Must be implemented by all subclasses
+    // her ethe abstact keyword is used to indicate that this method is abstract (may not have a body i.e incomplete)
+    // every class that extends it must override this method and provide its own implementation
+    public abstract void speak();
+
+    // Concrete method: Shared behavior for all subclasses but can still be overridden if needed
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+
+// Subclass: Doggy3
+class Doggy3 extends Animal3 {
+
+    // Constructor: Passes the dog's name to the superclass
+    public Doggy3(String name) {
+        super(name);
+    }
+
+    // Implements the abstract speak method
+    @Override
+    public void speak() {
+        System.out.println(name + " says Woof! Woof!");
+    }
+}
+
+// Subclass: Cat3
+class Cat3 extends Animal3 {
+
+    // Constructor: Passes the cat's name to the superclass
+    public Cat3(String name) {
+        super(name);
+    }
+
+    // Implements the abstract speak method
+    @Override
+    public void speak() {
+        System.out.println(name + " says Meow!");
+    }
+}
+
+// Main class to test the abstract class and its subclasses
+class AbstractClassExample {
+    public static void main(String[] args) {
+        // Abstract class Animal3 cannot be instantiated directly
+        // Animal3 animal = new Animal3("Some Animal"); // Uncommenting this will cause an error
+
+        // Create instances of Doggy3 and Cat3
+        Animal3 dog = new Doggy3("Buddy"); // Using a reference of type Animal3
+        Animal3 cat = new Cat3("Whiskers");
+
+        // Call the speak method (abstract method implemented by subclasses)
+        dog.speak();  // Output: Buddy says Woof! Woof!
+        cat.speak();  // Output: Whiskers says Meow!
+
+        // Call the eat method (shared concrete method from the Animal3 class)
+        dog.eat();    // Output: Buddy is eating.
+        cat.eat();    // Output: Whiskers is eating.
     }
 }
