@@ -517,24 +517,25 @@ to create a global var use static variable
  * you can use static vars in static and non-static methods
  * you cannot use non-static vars in static methods
  * you can only accsess a static var by using the class it belongs to and not a object of that class or a extension of that class
+ * but when accsessing a static variable from that class or its subclass do it using the class its defined in not the subclass or any object of that class
  
  A Static method is a method that also belongs to the class not the obj, meaning that it can be called without creating an instance of the class ie a object of the class
  meaning if i have a class A with static method. A.myStaticMethod() will retun the static method even if no object of class A was created
- * you can only use static vars in static methods
+ * you can only use static vars in static methods, and you can only use static methods in static methods
  * *** NOTE!!!: you cannot override static methods
  * Static methods can only be called from the class containing them not from an object of that class or a extension of that class
 
  */
 
  /* 
-   * caller vs calle
+   ! caller vs calle
    caller is the obj that is calling the method
    calle is the obj that the method is being called on
    EX:  myobj.mymethod() the caller is myobj and the calle is myobj
   */
 
 /*  
-* call chain using stack 
+! call chain using stack 
 EX: myobj.mymethod1().mymethod2().mymethod3()
 1) myobj.mymethod1() is called
 2) myobj.mymethod1() calls myobj.mymethod2()
@@ -546,7 +547,7 @@ so first in last out so frist method called = last method to return to
 */
 
 /* 
- * java exeptions example 
+ ! java exeptions example 
  in java exeptions are used to handle errors at runtime 
  when they occur the flow of executuion is disrupted 
  the sytax for throwing an exeption is throw new Exceptionname();
@@ -577,9 +578,10 @@ NOTE: the class can also handel the exeption itself by using a try catch block
 NOTE: there is a deafult expection is java simple in catch put "Exeption" and all exeptions will be caught but this is not good
 NOTE: you can have multiple catches for different types of exeptions so if we try x and x can throw multiple different errors we can have multiple catches for each exeption
 NOTE: method opting for specify means it propigates the exeption to another method meanign it specifies where the exeption should be handled ie caught.
-! NOTE: say we specify n times and say we are in a different class we still have accsess to all the variables of the original caller  
+* NOTE: say we specify n times and say we are in a different class we still have accsess to all the variables of the original caller  
 */
 
+// ! EXCEPTIONS
 class A{
     // any caller of this method should know that it may throw a exeption so we say throws NEG....
     // here we did not do public but we could have
@@ -587,7 +589,7 @@ class A{
     void ma(int i) throws NegValueException {
         if (i<0){
             // if condition met code runs and exeption is thrown it goes to negvalueexeption class 
-            // !NOTE: here we could have just used a console output but that is not good this as if it dose not terminate the code it will continoue to run and produce the wrong output
+            // *NOTE: here we could have just used a console output but that is not good this as if it dose not terminate the code it will continoue to run and produce the wrong output
             throw new NegValueException("Neg value"); 
         }
         else {
@@ -605,7 +607,7 @@ class B {
         A oa = new A();
 
         /*
-        !!!! 
+        *
          insted of trying to handle the exeption here we are passing it up the call stack ie to A where it will be handled
          at A we do handle the exeption by calling throw new NegValueException("Neg value"); 
          if the negvalue exection happens after we try passing i through A then i was neg and the error given by A back to B after A's execution will be caught using catch(expectionName)
@@ -728,7 +730,7 @@ class NestedTryCatchExample {
 }
 
 
-// * Test Driven Dev or Regertion Testing
+// ! Test Driven Dev or Regertion Testing
 // inceremntal dev = rerun test after each change this can be after each new logical unit in incremented
 // regestion testing = keep adding test cases after each change and builing on top of existing ones
 // normal vs disruptive testing (meanign sometime a failed test is what we expect so in that case it should pass)
@@ -739,7 +741,7 @@ class NestedTryCatchExample {
 // each method trows value to small and to big expetions respectively 
 // and we want to test it using Junit text we. Note that we want some tests to pass and some to fail depending of if exeption is thrown or not
 /// we can use assert equals to test that the exeption is thrown 
-// ! we can have try cathe exeptions in junit
+// * we can have try cathe exeptions in junit
 
 // code conter class nd from notes
 /* 
@@ -776,13 +778,13 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
         }
     }
 
-! note in the 2 examples after we fail a test we go to the catch block but what was wrong? did we increment after max value 
-! did we decrement after min value? how will the catch block know the error type. 
-! onr way to solve is using a loop that keeps on running as long as we dont get the exeption when we do we know what the exetion is and what the numbers were
+* note in the 2 examples after we fail a test we go to the catch block but what was wrong? did we increment after max value 
+* did we decrement after min value? how will the catch block know the error type. 
+* onr way to solve is using a loop that keeps on running as long as we dont get the exeption when we do we know what the exetion is and what the numbers were
 
 */
 
-// * Obejct equality 
+// ! Obejct equality 
 // object equality (overide or no overide)
 /* 
  d = 7 e = 7
@@ -790,7 +792,7 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
  is obj p1 and obj p2 exist 
  p1 == p2 false as they are comparing the address not the values
  p1.equals(p2) true -> as we compare the values of the objects 
- ! the equals method is only avalible for reference types. the .equals used on primitive types is the same as using the '==' operator
+ * the equals method is only avalible for reference types. the .equals used on primitive types is the same as using the '==' operator
  the equals method is built into the object class in java
  by deafult when we use .equals it overrides equals in the object class but we can change it using override
  p1.equals(p2) is turned into p1 == p2 wher we override (meaning change the equals method
@@ -831,18 +833,18 @@ class Personeq {
         if (obj == this) {
             return true;
         }
-        // ! WHY TYPE CAST: when we recive the obj as a argument in the equals method it is passed as a type Object meaning it might not have accsess to the methods of a obj of type personeq hence we must cast this 'obj' into type personeq so we can call the methods from person eq on it 
+        // * WHY TYPE CAST: when we recive the obj as a argument in the equals method it is passed as a type Object meaning it might not have accsess to the methods of a obj of type personeq hence we must cast this 'obj' into type personeq so we can call the methods from person eq on it 
         Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that 'obj' is of type Personeq as we are comparing with obj of type personeq. We can fix the type of obj to Personeq by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq so here we can choose what type to cast our obj to
         return this.name == p.name && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
-        //! NOTE in the line above we can use '==' as we are no longer dealing with reference types name and age are primitive (string and int). Also for name we could have used .equals() but here it dose not matter
+        // * NOTE in the line above we can use '==' as we are no longer dealing with reference types name and age are primitive (string and int). Also for name we could have used .equals() but here it dose not matter
     }
-    // ! since our class has a equals method when we do .equal we have a method to use if we did not it would use the default equals method in the object class
+    // * since our class has a equals method when we do .equal we have a method to use if we did not it would use the default equals method in the object class
     public static void main(String[] args) {
         // two objects with the same name and age
         Personeq p1 = new Personeq("John", 30);
         Personeq p2 = new Personeq("John", 30);
         Personeq p3 = new Personeq("John", 31);
-        // ! if the equals method is not overriden then both will return false as both will be comparing the address
+        // * if the equals method is not overriden then both will return false as both will be comparing the address
         System.out.println(p1.equals(p2)); // true
         System.out.println(p1 == p2); // false as this compares the address
         System.out.println(p1.equals(p3)); // false
