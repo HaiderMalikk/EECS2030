@@ -1307,7 +1307,7 @@ class inheritanceEX {
         downcastedGuardDog.guard(); // Access the GuardDog-specific method
         System.out.println(downcastedGuardDog.getState()); // Access GuardDog's state
 
-        // * for sibling classes you cant cast between the tw directly as thats nither upcasting nor downcasting.
+        // * for sibling classes you cant cast between the or directly as thats nither upcasting nor downcasting.
         // but you can first update to the siblings parent class and then downcast to the sibling class.
         // you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
 

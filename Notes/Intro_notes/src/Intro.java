@@ -95,7 +95,14 @@ public class Intro {
     // 3. toUpperCase() -> returns the string in uppercase
     // 4. toLowerCase() -> returns the string in lowercase
     // 5. trim() -> returns the string with leading and trailing spaces removed
+    
     // 6. substring() -> returns the substring of the string
+    // substring method java 
+    // string.substring(start, end) 
+    // returns a new string that is a substring of this string from the start index (inclusive meaning it includes the character at the start index) 
+    // to the end index (exclusive meaning it does not include the character at the end index)
+    // this is beacuse the string is treated as a array of characters
+
     // 7. replace() -> returns the string with the specified value replaced
     // 8. split() -> returns the array of strings split at the specified value
     // 9. toCharArray() -> returns the character array
