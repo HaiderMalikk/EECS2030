@@ -1802,3 +1802,20 @@ class MultipleIntefaceEX {
         b.sleep(); // Output: Sleeping...
     }
 }
+
+// ! Final classes and methods
+/* 
+ you can use a final keyword to make:
+  a) a variable final (cannot be changed) 
+  b) a class final (cannot be inherited) 
+  c) a method final (cannot be overridden)
+ */
+
+class FinalClassExample { // This class is final so it cannot be inherited
+    final int a = 10; // a is a final variable (cannot be changed)
+    final void print() { // print is a final method (cannot be overridden)
+        System.out.println("Hello");
+    }
+}
+
+
