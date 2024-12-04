@@ -506,6 +506,10 @@ to create a global var use static variable
  
  the this keyword calls the class if you use this.var in a static method it will throw an error
  to fix this use a non static method
+
+ // * a static class is a class that is shared by all obj of the class so if inside the main class i have a static class 
+ // * that static class will be shared by all obj of the main class,
+ // *  NOTE: The static method of any class including a static calss is called automatically when a obj of the main class is created
  */
 
 // ! Static vars and method
@@ -521,6 +525,7 @@ to create a global var use static variable
  
  A Static method is a method that also belongs to the class not the obj, meaning that it can be called without creating an instance of the class ie a object of the class
  meaning if i have a class A with static method. A.myStaticMethod() will retun the static method even if no object of class A was created
+ on the other hand if a object of a class with a static method was created then when you create a object of that class teh staic method will be called automatically
  * you can only use static vars in static methods, and you can only use static methods in static methods
  * *** NOTE!!!: you cannot override static methods
  * Static methods can only be called from the class containing them not from an object of that class or a extension of that class
@@ -1819,3 +1824,39 @@ class FinalClassExample { // This class is final so it cannot be inherited
 }
 
 
+// ! De refencing
+/* 
+ Dereferencing in Java refers to accessing or manipulating the value of an object via a reference to it. It involves using a reference variable to "point to" the actual object and access its fields or methods. Dereferencing allows you to work with the object that the reference variable refers to.
+
+Key Points About Dereferencing
+Reference Variables: In Java, variables that store the memory address of an object (instead of the object itself) are called reference variables.
+Dereferencing: When you use the reference variable to access the fields or methods of the object, it's called dereferencing.
+
+obj is a reference variable that points to an Example object.
+When we use obj.display() or obj.value, we dereference obj to access the object's methods or fields.
+
+Dereferencing a null Reference
+If a reference variable is null, dereferencing it (i.e., attempting to access fields or methods through it) will result in a NullPointerException.
+Example obj = null; // obj does not point to any object
+obj.display();      // This will throw NullPointerException
+ */
+// EX
+class Example {
+    int value;
+
+    Example(int value) {
+        this.value = value;
+    }
+
+    void display() {
+        System.out.println("Value: " + value);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Example obj = new Example(10); // obj is a reference to an Example object
+        obj.display();                // Dereferencing obj to call the display method
+        System.out.println(obj.value); // Dereferencing obj to access the value field, output: Value: 10
+    }
+}
