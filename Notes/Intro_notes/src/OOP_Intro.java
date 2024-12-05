@@ -62,7 +62,7 @@ class Car{
     /* the args are all method vars and can be used in this method only */
     public Car(String make, String model, String color, int year){
         /* this is a local var can be used in method only */
-        carMake = make;
+        carMake = make; // this keyword is optional but in cases where both local and class var have the same name it is used to avoid confusion
         carModel = model;
         carColor = color;   
         carYear = year; 
@@ -343,11 +343,13 @@ class Point{
     int y;
     int x;
     public Point(int x, int y){
-        this.x = x;
+        this.x = x; // this refers to current obj, so for any object this.x gets the class var x and assigns it the value of x passed through the constructor upon creation of the obj
         this.y = y;
     }
 
     public void moveUp(int y){
+        // when a obj calles this method the class level var is updated to y, here the class lvl var is accesible as we are in the class
+        // BUT we use this keyword to specify that we want to update the class var and to avoid shadowing 
         this.y = y; // ! mutator only sets value
     }
 
@@ -443,7 +445,7 @@ class MyPersonAnonymous {
 // ! meaning java knows the context object here the context of other is jim so for elsa and amy they both refer to jim meanig 'this' for them is jim here
 class MyPerson{
     public String name;
-    private MyPerson spouse; // making a peson obj called spouse
+    public MyPerson spouse; // making a peson obj called spouse
     public MyPerson(String name){
         this.name = name;
     }
@@ -454,12 +456,15 @@ class MyPerson{
             System.out.println("You are already married cannot marry: "+ other);
         }
         else{
+            // note that this refers to current obj and spouse is a class lvl var so this.spouse refers to the class var spouce 
             this.spouse = other; // ! this refers to current obj so at first this is jim.spouse, java knows the context obj here the context of other is jim
             other.spouse = this;
         }
 
     }
 
+    // the to string converts the obj address to string, here in the sout in if block in marry prints the address
+    // but with this to string it will print the name of the person obj
     public String toString() {
         return name.toString();
     }
@@ -469,11 +474,12 @@ class MyPerson{
         MyPerson amy = new MyPerson("amy");
         jim.marry(elsa); // elsa is other
         jim.marry(amy);
+        // note spouce and name are bot hpublic so we can accsess them like this jim.spouse.name
         System.out.println(jim.spouse.name); // elsa is output, note that elsa the obj was assigned to the obj spouce using the marry method, now if we use the .spouce it will accsess jim objs wife obj, by using .name i accsess the obj spouces name that was set when we made the elsa obj, jim.spuce points to jims wife attribute that attribute goes to wife obj
     }
 }
 
-// * global vars
+// * global vars i.e static variables
 /* 
 global variables are variables that are shared by all obj of the class. meaning when you create them they will be part of all the objects created with that class
 this means all objs can do: obj.globalvar and it will return the same value for all objs of the class
@@ -520,23 +526,65 @@ to create a global var use static variable
  also you can call the static var without creating a object from that class first, i.e A.myStaticVar will give you the value of myStaticVar in class A no object was created of class A
  * you can use static vars in static and non-static methods
  * you cannot use non-static vars in static methods
- * you can only accsess a static var by using the class it belongs to and not a object of that class or a extension of that class
- * but when accsessing a static variable from that class or its subclass do it using the class its defined in not the subclass or any object of that class
+ * you can accsess a static var by using a obj of that class or its subclass, use obj.staticvarname to get its value
  
  A Static method is a method that also belongs to the class not the obj, meaning that it can be called without creating an instance of the class ie a object of the class
  meaning if i have a class A with static method. A.myStaticMethod() will retun the static method even if no object of class A was created
- on the other hand if a object of a class with a static method was created then when you create a object of that class teh staic method will be called automatically
+ BUT it can still be called using an object of the class, ie obj.myStaticMethod() where obj is of class A
  * you can only use static vars in static methods, and you can only use static methods in static methods
  * *** NOTE!!!: you cannot override static methods
  * Static methods can only be called from the class containing them not from an object of that class or a extension of that class
 
+  *                                           **** SUMMARY *****
+ * in short both static variable and static methods can be accsessed by the class or a object of that class
+ * BUT unlike non static var and methods you can accsess them without creating an object of that class
+ * a static variable is shared meaning a change in it will be reflected in all objects of the class
+ NOTE: where i say you can accses a static var i assume its public otherwise you need a getter method
  */
+class MyPersonStatic{
+    public String name;
+    static int mystatic = 0;
+    public MyPersonStatic(String name){
+        this.name = name;
+    }
+    // i can use static var in static methods but not non static vars in static methods
+    public void setstatic(){ 
+        name = "jimmy"; // ok as non static method
+        mystatic ++; // static var can be in non static method
+    }
+    public static int returnstatic(){
+        // name = "jimmy"; // error as non static var in static method
+        return mystatic; // static var can be in static method
+    }
+}
+class staticEX {
+    public static void main(String[] args) {
+        // * the static vaiable should be accessed in static way means using the class name and not the object name but here i show for both
+        MyPersonStatic jim = new MyPersonStatic("jim");
+        MyPersonStatic elsa = new MyPersonStatic("elsa");
+        jim.setstatic();
+        System.out.println(jim.mystatic); // output 1
+        System.out.println(elsa.mystatic); // output: 1
+        System.out.println(elsa.returnstatic());
+        // BOTH obj output one as the static variables change is reflected in all obj dosent matter if i use tha class or a obj of that class to change the static var
+        System.out.println(MyPersonStatic.returnstatic()); // output 1
+        System.out.println(MyPersonStatic.mystatic); // output 1 ok as mystatic is a static variable so i can use it without obj from that class
+        //MyPersonStatic.setstatic(); // NOT allowd set static not static
+        // MyPersonStatic.name; // not allowed as no obj was created so no name yet
+        System.out.println(jim.name); // ok as jim has attribute name prints jimmy as jim called setstatic
+        jim.setstatic(); // allowed ad jim is obj of mypersonstatic
+        System.out.println(elsa.mystatic); //output = 2 change reflected in all obj
+        // NOTICE how the static method is not ran after a obj was created this could be changes if you want
+        // simply call the staic method in the constructor to change it when the obj is created
+        // now the static var is incremented when each obj is created and is the same for all obj
+    }
+}
 
  /* 
    ! caller vs calle
-   caller is the obj that is calling the method
-   calle is the obj that the method is being called on
-   EX:  myobj.mymethod() the caller is myobj and the calle is myobj
+   caller is the obj that is calling the method or the obj that initializes the method the cllaer passes any arguments to the method
+   calle is the method that is being called by the caller
+   EX:  myobj.mymethod() the caller is myobj and the calle is mymethod
   */
 
 /*  
