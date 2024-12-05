@@ -643,7 +643,7 @@ class A{
         if (i<0){
             // if condition met code runs and exeption is thrown it goes to negvalueexeption class 
             // *NOTE: here we could have just used a console output but that is not good this as if it dose not terminate the code it will continoue to run and produce the wrong output
-            throw new NegValueException("Neg value"); 
+            throw new NegValueException("Neg value"+ i); 
         }
         else {
             // if not neg do whatever here nothing so just return to caller
@@ -669,16 +669,38 @@ class B {
 
         try {
             oa.ma(i);
-            System.out.println("NVE did not happen i not neg");
+            System.out.println("NVE did not happen i not neg"); 
             // can do whatever here if not neg one thing is setting a bool to true to escape a while loop 
         }
         catch (NegValueException e){
             System.out.println("NegValueException caught i was neg"); // i is neg
             // if negvalue exeption is caught here we can do whatever we want if try runs no exeption was thrown catch dose not run
+            System.out.println(e); // print the exeption message 'Neg value' this was passed from A when we throw the exeption we mass a String message this 'e' is that message
         }
         // if the class A can throw multiple exeptions we can have a catch for each exeption
     }
 }
+
+// short ver
+// her ewe try the code and catch the exeption if its thrown from the conditional i<0
+// note we do not need to say tryset throws NegValueException because we catch the exeption here so we dont specify that the method throws the exeption
+// before with A/B, A's method thorws the expeption but dose not handle it hence it specifies it throws a NegValueException
+// that throw from A is caugth by B after trying from thr try block
+// here the error is thrown and caught in the same method hence we do not need to specify that the method throws the exeption
+class C{
+    void tryset(int i){
+        try{
+            if(i<0){
+                throw new NegValueException("i is neg");
+            }
+            System.out.println("i is not neg");
+        }
+        catch(NegValueException e){
+            System.out.println(e);
+        }
+    }
+}
+
 // NEGVALUEEXEPTION DNE here we make the exeption
 // extends is used to create a new class that is a sub class of the class that is being extended
 // class NegValueException extends Exception which is a real java class
@@ -698,6 +720,9 @@ class Exep{
         ob.mb(-1);
         // ! if we called the value directly with A then we get a error as A only throws it dose not catch it so we will see NVE neg value i but it will be as a error and execution terminates "A specifies " "B catches" dont call A!
 
+        C ob2 = new C();
+        ob2.tryset(23); // out: i is not neg
+        ob2.tryset(-1); // out: NegvalueException: i is neg
     }
 }
 
@@ -773,6 +798,7 @@ class NestedTryCatchExample {
 
         } catch (ArrayIndexOutOfBoundsException e) {
             // Handle the exception in the outer try block
+            // this only runs if the outer try block throws an exeption not if the inner try block throws an exeption the inner catch is responsible for that   
             System.out.println("Caught ArrayIndexOutOfBoundsException in outer catch: " + e.getMessage());
         } finally {
             System.out.println("Outer finally block executed.");
@@ -851,7 +877,8 @@ here we expect an exeption as min value = 0 and new counter will be 0 so its get
  p1.equals(p2) is turned into p1 == p2 wher we override (meaning change the equals method
  this is called inheriting the equals method from the object class. 
  in the class is would look like this: 
- class object{
+ // Object is a java build in class
+ class Object{
     public boolean equals(Object obj){
         return this == obj; // note that 'this' refers to teh context object here that would be the object p1 so we would do p1 == obj where the object here is p2
     }
@@ -886,8 +913,12 @@ class Personeq {
         if (obj == this) {
             return true;
         }
-        // * WHY TYPE CAST: when we recive the obj as a argument in the equals method it is passed as a type Object meaning it might not have accsess to the methods of a obj of type personeq hence we must cast this 'obj' into type personeq so we can call the methods from person eq on it 
-        Personeq p = (Personeq) obj; // ! here we add cast '(Personeq)' on obj as we know that 'obj' is of type Personeq as we are comparing with obj of type personeq. We can fix the type of obj to Personeq by changing parameter of equlas method to (Personeq obj) but the object might not be of type Personeq so here we can choose what type to cast our obj to
+        // * Why cast obj to personeq?
+        // we are given obj as type Object meaning it can be any object of any class, but this Object class is built into java and dose not have access the methods and attributes of the personeq class which we must compare for the equals method
+        // to gain access to the methods and attributes of the personeq class we must cast obj to type personeq, since obj is of type Object casting it to personeq is downcasting as every class is a child of the Object class which is built into java
+        // * why do we pass obj as type obj? 
+        // we do this beacuse we need to override the equals method in the Object class of java and to overide that method we must pass in a obj of type Object, as the Object classes equals method takes in an obj of type Object
+        Personeq p = (Personeq) obj; // ! here we add cast obj to personeq 
         return this.name == p.name && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
         // * NOTE in the line above we can use '==' as we are no longer dealing with reference types name and age are primitive (string and int). Also for name we could have used .equals() but here it dose not matter
     }
