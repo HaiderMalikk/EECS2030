@@ -65,7 +65,7 @@ public class Recurtion {
         return isSortedHelper (a, 0, a.length - 1);
     }
     static boolean isSortedHelper (int[] a, int from, int to) { 
-        if (from > to) { /* base case 1: empty range */
+        if (from > to) { /* base case 1: empty range */ // as to is len-1 if arr is emty to is -1 while from is 0 so the array is empty 
             return true; 
         }
         else if(from == to) { /* base case 2: range of one element = reached the last element */ 
@@ -77,6 +77,22 @@ public class Recurtion {
             return a[from] <= a[from + 1] && isSortedHelper (a, from + 1, to);
         }
     }
+    /* 
+     without using two points to mark the start and end of the array we would need to make a copy of the array and pass in the copy
+     if (arr.length == 1){ // new base case as we are making a copy of the array at some point it will reach a length of 1 as we keep making it smaller
+            return true;
+    }
+     // make a copy of the array where we skip the first element of the original array
+     int[] newarr = new int[arr.length-1];
+        for(int i = 0; i<arr.length-1; i++){
+            newarr[i] = arr[i+1];
+        }
+        // check if the first element of the original array is less than the first elementof the original array
+        // then pass teh new array to check if its sorted 
+        return arr[0] < arr[1] && issorted(newarr);
+
+        // this is mucb slower than using two pointers
+     */
 
 
     public static void main(String[] args) {
