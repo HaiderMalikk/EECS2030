@@ -1,7 +1,9 @@
 public class Recurtion {
     // function static so it can be called in static method main
 
-    // * factorial (given int n n factorial is n * (n-1) * (n-2) * ... * 1)
+    // * factorial non tail (given int n n factorial is n * (n-1) * (n-2) * ... * 1)
+    // this is non tail recution as no result is being accumulated and we calculate the fib once the base case is reached
+    // then we return from each function call and calculate the fib and pass the result the the previous call until we reach the first call
     static int fact(int n){
         // base case
         if (n == 0 || n == 1){
@@ -10,6 +12,26 @@ public class Recurtion {
         // recursive case
         return n * fact(n-1);
     }
+    /* here the fact reach base case then goes 1*2 retunes the rusult and then 3*2 returns the result and so on until n * n-1 happens and we return this result */
+    // * tail recurtion 
+    // her ewe calculate the factorial before we pass it into the function now the function has the result of the last factorial
+    // after the final calulation and base case we already have the reult of thr factorial on n now we simply return this result to the previous call
+    // and so on until we reach the first call but the value returned at each call is the final result
+    // for n=5 we go 5 * fact(5-1) until n=1 then we go 2*1 as for we return 1 to the function call with n=2 this 2*1 is returned to the function call with n=3
+    // her we do 3*2 and then 4*6 and then 5*24 = 120 and thats returnd
+    static int factTail(int n, int acc){
+        // base case
+        if (n == 0 || n == 1){
+            return acc;
+        }
+        // recursive case
+        return factTail(n-1, n * acc); // here we calculate the factorial before we pass it into the function
+    }
+    /// here we start by multipling n*1 as acc is one initially then we pass that result to the function call as acc
+    /// in the next call we multiply n-1 by this acc value, so for n=5 we go 5*1 = 5 then in the next call ts 4*5 and we pass that as the acc value
+    // then we go 3*20 and so on until we reach the base case of n=1 or 0 here acc is 120 as in the last case we would have done 1*120
+    // then we return the acc value which is the factorial of n we return 120 to the last function call and so on until we reach the first call
+    // NOTE: YOU MUST PASS ACC AS 1 when calling the function as at first we are multiplying n*1
 
     // * Fibonacci (given int n n fibonacci is F(n) = F(n-1) + F(n-2) where F(0) = 0 and F(1) = 1) n is the nth number in the sequence
     static int fib(int n){
@@ -97,6 +119,7 @@ public class Recurtion {
 
     public static void main(String[] args) {
         System.out.println(fact(5)); // 120
+        System.out.println(factTail(5, 1)); // 120
         System.out.println(fib(10)); // 55 (fib sequence = 1, 1, 2, 3, 5, 8, 13, 21, 34, 55) 55 is the 10th number in the sequence
         System.out.println(isPalindrome("racecar")); // true
         System.out.println(allPositive(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})); // true
