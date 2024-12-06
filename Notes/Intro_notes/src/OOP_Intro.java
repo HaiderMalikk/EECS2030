@@ -903,9 +903,10 @@ class Personeq {
     // use source actions to generatre equals and hashcode on varables 
     @Override
     public boolean equals(Object obj) {
-        // this is to avoid NPE as the next line would throw an exception if obj is null thats why this must come first 
+        // this is to avoid NPE as the next conditional would throw an exception if obj is null thats why this must come first 
         // NOTE 'this' refers to the object that is calling the equals method
         // if obj empty then return false or if the two objects are from different class then they are not the same object
+        // we dont check if the context object is null as for it to call the method it must exist, and if it dosent the compiler will throw an exception before the method
         if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
@@ -917,7 +918,7 @@ class Personeq {
         // we are given obj as type Object meaning it can be any object of any class, but this Object class is built into java and dose not have access the methods and attributes of the personeq class which we must compare for the equals method
         // to gain access to the methods and attributes of the personeq class we must cast obj to type personeq, since obj is of type Object casting it to personeq is downcasting as every class is a child of the Object class which is built into java
         // * why do we pass obj as type obj? 
-        // we do this beacuse we need to override the equals method in the Object class of java and to overide that method we must pass in a obj of type Object, as the Object classes equals method takes in an obj of type Object
+        // we do this beacuse we need to override the equals method in the Object class of java and to overide that method we must pass in a obj of type Object, as the Object classes equals method takes in an obj of type Object, and when overriding any method we must pass in the same type and number of parameters as the original method
         Personeq p = (Personeq) obj; // ! here we add cast obj to personeq 
         return this.name == p.name && this.age == p.age; // returns true if name and age of obj p1 and obj passed into equals are equal. // 'this' is still the context obj and 'p' is the casted version of 'obj'
         // * NOTE in the line above we can use '==' as we are no longer dealing with reference types name and age are primitive (string and int). Also for name we could have used .equals() but here it dose not matter
@@ -1050,6 +1051,7 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
 
  Actual use case for short circuiting:
  if we want to divide a number by 0 then we can check the value of the devisor and if its 0 then we should not evaluate the division and return 0 right away note how the order we check matters and is not commutitive 
+ checking if a value is null before trying to accses it for something 
  */
 
  // !Call by value (primative vs reference)
@@ -1084,8 +1086,10 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
  */
 
  // ! AGGREGATION
- /* aggrigation is when we share objects within other objects (contaners) so we can have a big obj with many little objs within it but note that the little objs can exist independently of the big obj if they want  */
- // EX:
+ // * aggregation objects have a relationship with other objects, in aggrigation a big object has smaller objects within it, the objects are shared, meaning the smaller objects can be used by multiple big objects 
+ // * but these smaller objects are not part of the big object, the smaller objects can exist independently of the big object hence they will have there own methods and attributes usally
+ // * best way to identify: in teh big obj the smaller obj is created and then passed in as a argument
+ // * in short a library can have books, ebooks etc where those books can be independent objects and a library can have books a home can have books and the type of books can be in either library or home at once etc. (sharing)
  class Book {
     private String title;
     private String author;
@@ -1107,21 +1111,23 @@ p2 points to p3 meaning p2's equals method is called on p3 but since p2 points t
 
 class Library {
     // List of books in the library (aggregation relationship)
-    private List<Book> books;
+    // for library to hold objects of type Book we need a array of Book objects
+    private Book[] books;
+    private int numBooks;
 
     public Library() {
-        this.books = new ArrayList<>();
+        this.books = new Book[10]; // assuming a maximum of 10 books
     }
 
     // Method to add a book to the library
     public void addBook(Book book) {
-        books.add(book); // from this book object the library class can access all its attributes
+        this.books[this.numBooks++] = book; // from this book object the library class can access all its attributes and methods
     }
 
     // Method to display all books in the library
     public void displayBooks() {
-        for (Book book : books) {
-            System.out.println("Book: " + book.getTitle() + " by " + book.getAuthor());
+        for (int i = 0; i < this.numBooks; i++) {
+            System.out.println("Book: " + books[i].getTitle() + " by " + books[i].getAuthor());
         }
     }
 }
@@ -1153,7 +1159,11 @@ class aggregationEx {
  NOTE: composition can be used to create a new object that is a combination of other objects. EX: making a car using engine ex where the car object takes in a engine objec to be built as a car
  */
 // Component class engine for MyCar
-// ! NOTE how two calsses do not share any attributes or methods they have there own version of the attributes and methods and some different ones
+// * in composition objects have relationships with other objects. in composition a big object has smaller objects within it, the objects are not shared meaning smaller objects cannot be used by multiple big objects
+// * but these smaller objects belong to the big object as they are a part of the big object the smaller object belongs to the big object
+// * this means the smaller object cannot exist without the big object, usally indicated by the smaller obj having no constructor
+// * best way to identify: the smaller object is created in the big objs constructor 
+// * in short the car owns the engine a car can have engine transmission etc but the engine cannot be used by another car at once, it belongs to the car (not shared)
 class Engine {
     private int mileage;
 
@@ -1181,6 +1191,8 @@ class MyCar {
 
     // Constructor to initialize MyCar with an Engine
     // by creating a car objec twe make a new Engine object by calling the Engine constructor inside the MyCar constructor
+    // here we only need 1 engine object for the car object and we do that manually to avoid confusion insted of making a arrya of a varible to
+    // hold a engine made by the user we create and pass the engine object to the car object
     public MyCar() {
         this.engine = new Engine();
     }
@@ -1244,7 +1256,8 @@ class Animal {
     }
 
     // Method (this is the defualt method all subclasses can access)
-    public void speak() {
+    // prtected method means all subclasses can access it outide the package, all classe in this package can setill access it
+    protected void speak() {
         System.out.println("Animal speaks his name is "+ name);
     }
 
@@ -1354,10 +1367,13 @@ class inheritanceEX {
         System.out.println(doggy.getIsAnimal()); // Output: true
 
         // Create a GuardDog instance with a name and state
+        // * NOTE: we used super in gaurd dog class so the name is initialized in the parent class so even the default method of speak has access to the name of the guard dog's name when we do guardDog.speak()
+        // * the name attribute now belongs to the Animal class where a class level var called name holds the name value either passed when making a Animal or gaurd Dog object. since its a protected var
+        // * this means not only does the parent class 'Animal' have a name attribute but also the child class 'GuardDog' has a name attribute becuse it extends the parent class "Animal" hence has all its atributes including name 
         GuardDog guardDog = new GuardDog("Rex", "alert");
         System.out.println(guardDog.name);    // Output: Rex (Print the guard dog's name)
         System.out.println(guardDog.getState());   // Output: alert (Print the guard dog's state)
-        guardDog.speak();        // Output: Animal speaks (Invoke the default speak method from the Animal(parent) class)
+        guardDog.speak();        // Output: Animal speaks his name is Rex 
         guardDog.guard();       // Output: Guarding the house (Invoke the guard method specific to GuardDog)
         guardDog.clean();  // Call the clean method from the GuardDog class (calls a method from the parent class)
 
@@ -1370,30 +1386,40 @@ class inheritanceEX {
         // Now get what doggy said in the GuardDog class
         System.out.println(guardDog.getwhatdoggysaid()); // Should print: "doggy said: doggy says hi"
 
-        // * type casting
+        // !  type casting
 
         // * upcasting (alwasy safe all subclasses gaurd dog, doggy etc are a type of animal)
-        // upcasting the animal to a doggy
-        // assigning the child class to a object of type parent class, implicit casting upcasting
-        Animal animal = new GuardDog("Rex", "alert"); // we can do this because GuardDog is a child class of Animal, goal to reduce expectation so we can only use methods from the parent class, while still being a gaurd dog type
-        // we can pass stuff in the gaurd dog constructor and effec the animal obj but this would only happen if animal is = to gaurd dog
-        // * even though the animal object is a guard dog we can only use methods in the parent class because the object is of type animal
-        animal.speak(); // this will call the speak method from the parent class deafult method still prints REX beacuse the gaurd dog obj calls the parent constructor which initializes the name var in animal class to use
-        // if we did not use super in gaurd dog class the name would be null as name would be local to the gaurd dog class and type animal cannot access it
-        // this is usefull if we want a obj of type gaurd dog but want methods only from the parent class
-        // animal.name; // this causes a error as name is a protected var in the parent class so we can only access it in the child class or parent class not in the inheretanceEX class
-        // * now the animal if passed into a new class can access the speak method from the parent class and change variables in the parent class that are accessable from the child class gaird dog 
-    
+        // upcasting the gaurd dog to a animal (alwasy imlicit i.e can directly assign obj from child class to parent class)
+        // is safe because gaurd dog is a type of animal, is the format parent class = child class its always safe (upcasting)
+        Animal animal = new GuardDog("Rex", "alert"); // Upcasting (GuardDog to Animal)
+        animal.speak(); // this will call the speak method from the parent class deafult method still prints REX as we use super to initilize name in the parent class from gaurd dogs constructor
+        // animal is still just of type Animal but we used a gaurd dog object to create a Animal obj 'animal' hence animal.speak has a name from the gaurd dog object
+        
         // * downcasting (not alwasy safe as we are adding more expectation for the object)
-        // downcasting the doggy to a animal , explicit casting downcasting
-        Animal animal2 = new GuardDog("Max", "on duty"); // Upcasting (GuardDog to Animal)
-        GuardDog downcastedGuardDog = (GuardDog) animal2; // Downcasting (Animal to GuardDog)
-        downcastedGuardDog.guard(); // Access the GuardDog-specific method
-        System.out.println(downcastedGuardDog.getState()); // Access GuardDog's state
+        // downcasting the animal to a gaurd dog (always explicit i.e uses bracktes to indicate cast (class to cast to) obj from parent class)
+        // not alwasy safe as animal might not always be of type gaurd dog here it is (see upcasting) animal is gaurd dog
+        GuardDog downcastedGuardDog = (GuardDog) animal; // Downcasting (Animal to GuardDog)
+        downcastedGuardDog.guard(); // Access the GuardDog-specific method ok as downcastedGuardDog is of type GuardDog
+        System.out.println(downcastedGuardDog.getState()); // Access GuardDog's state attribute ok as downcastedGuardDog is of type GuardDog
+        // here animal before was assigned to a gaurd dog object but now we are downcasting it to a gaurd dog object so animal is now of type gaurd dog
+        // this changes the typr that animal is before animal was assigned to gaurd dog but still type Animal so it only had animal methods and not gaurd dog methods
+        // but by downcasting we changed animal to be of type gaurd dog so now animal assigned to downcastedGuardDog is of type gaurd dog and has gaurd dog methods
+        // remember this is safe as animal pointed to a gaurd dog object so downcasting it to a gaurd dog object type is safe
 
-        // * for sibling classes you cant cast between the or directly as thats nither upcasting nor downcasting.
-        // but you can first update to the siblings parent class and then downcast to the sibling class.
-        // you can also keep going up untill you reach the paremnt of both classes then you go downward to the sibling classe
+        // * error ex
+        // here this is not allowed as will cause a error
+        // Animal animal3 = new Animal("Some Animal"); // animal is of type Animal and points to an Animal object
+        // GuardDog downcastedGuardDog2 = (GuardDog) animal3; // Downcasting (Animal to GuardDog)
+        // downcastedGuardDog2.guard(); // Access the GuardDog-specific method will cause an error
+        // this causes a error because animal3 is of type Animal and points to a animal object
+        // so downcasting it to a gaurd dog object is not ok as that would be increasing the expectation for the object i.e animal would need gaurd dog methods which is not the case
+
+        // * for sibling classes you cant cast between the or directly as thats neither upcasting nor downcasting.
+        /* 
+        GaurdDog mygaurddog = new Dog() and then 
+        Dog doggy = (Dog) mygaurddog
+        THIS IS NOT ALLOWED
+        */ 
 
         // see dynamic binding notes and instance of notes for more
     
@@ -1419,9 +1445,13 @@ the method that can be called by different objects is called a polymorphic metho
 // * EX using the code from inheritanceEX
 // New class to call the speak method of a given animal
 class Pets {
-    public void makeAnimalSpeak(Animal animal) {
+    public void makeAnimalSpeak(Animal animal) { 
         animal.speak(); // Calls the speak method, demonstrating polymorphism
     }
+    // *NOTE method return void becuse it doesnt return anything rather calls a method that returns something
+    // *If in the gaurd dog animal etc classes insted of printing the result in speak() we returned it that would mean
+    // *the speak method returns a string to the polymorphic method so we would need to return animal.speak()
+    // * this would mena that makeAnimalSpeak(Animal animal) would return a string
 }
 
 // Main class to test the functionality
@@ -1433,6 +1463,8 @@ class polymorphismEX {
         Doggy doggy = new Doggy("Buddy", "Golden Retriever");
         GuardDog guardDog = new GuardDog("Rex", "Alert");
 
+        // polymorphic method takes in obj of type animal but since all child classes of animal 
+        // are also of type animal, we can pass in obj of type animal or any of its child classes as a obj of type animal
         pets.makeAnimalSpeak(genericAnimal); // Output: Animal speaks his name is Generic
         pets.makeAnimalSpeak(doggy);        // Output: Woof! Woof!
         pets.makeAnimalSpeak(guardDog);     // Output: Animal speaks his name is Rex
@@ -1455,6 +1487,7 @@ class polymorphismEX {
  Methods:
     - public method is avalible anywhere in the package, class or its subclasses
     - private method is only avalible in the parent class or its subclasses
+    - protected method is avalible in the parent class and its subclasses in the same package outiside the pakage its only for the subclasses
     - is no modifier is used the method is default and is avalible in the package and any class
     - NOTE: for methods we can have multiple public and private methods in a class.
 
