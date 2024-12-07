@@ -19,7 +19,7 @@ public class Recurtion {
     // and so on until we reach the first call but the value returned at each call is the final result
     // for n=5 we go 5 * fact(5-1) until n=1 then we go 2*1 as for we return 1 to the function call with n=2 this 2*1 is returned to the function call with n=3
     // her we do 3*2 and then 4*6 and then 5*24 = 120 and thats returnd
-    static int factTail(int n, int acc){
+    static int factTail(int n, int acc){ // acc is the accumulator it accumulates the result so far.
         // base case
         if (n == 0 || n == 1){
             return acc;

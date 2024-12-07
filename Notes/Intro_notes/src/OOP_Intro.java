@@ -1474,7 +1474,7 @@ class polymorphismEX {
 // rule for polymorphism,  you cannot pass in a object to the polymorphic method that is not type animal as the object needs to be a dencended of animal class
 
 /*
-// ! Scope of identifiers in java
+// ! Scope of identifiers in java (Protected, Public, Private)
 # we have the concept of multiple packages in java, a package is a collection of classes, interfaces, and subpackages, we can use the package keyword to define a package and then we can use the import keyword to import classes from other packages
  - this public, private, and protected keywords is known as the modifier of the attribute method or class and it determines there accessibility
  * NOTE for us subclasses are child classes, class inside a class is called a inner class or nested class
@@ -1486,9 +1486,9 @@ class polymorphismEX {
 
  Methods:
     - public method is avalible anywhere in the package, class or its subclasses
-    - private method is only avalible in the parent class or its subclasses
+    - private method is only avalible in the parent class (the class its defined in)
     - protected method is avalible in the parent class and its subclasses in the same package outiside the pakage its only for the subclasses
-    - is no modifier is used the method is default and is avalible in the package and any class
+    - if no modifier is used the method is default and is avalible in the package and any class
     - NOTE: for methods we can have multiple public and private methods in a class.
 
  Attributes:
@@ -1497,7 +1497,8 @@ class polymorphismEX {
     - protected attribute is avalible in the parent class and its subclasses
     - if no modifier is used the attribute is default and is avalible in the package and any class
 
- - if you want to use something in a different package you must import it using the import keyword
+ - To use classes and method from a different file or a file in a different package we use the import keyword to import the file by using class name of that file.
+ - a package is a collection of classes, interfaces etc, basically a collection of files or a folder. this folder sits in the src folder.
 */
 
 // * NOTE: we cannot assign a object made from the subclass to the object made using the parent class (this is called downcasting). this can be done the otehr way aroud(upcasting)
@@ -1513,7 +1514,7 @@ class polymorphismEX {
 // the obejcts = {SmartPhone_1, IOS_1, iphone_1}
 // EX1: we can say IOS_1 = smartPhone_1 as IOS_1 is a subclass of SmartPhone_1 but we cannot say IOS_1 = SmartPhone_1 or iphone_1 = smartPhone_1
 // Because: 1) IOS_1 is the child class and SmartPhone_1 is the parent class so while assigning the parent to the class is ok we cannot assign the child to the parent
-// 2) because IOS_1 ectends SmartPhone 1 it cannot replace SmartPhone_1,
+// 2) because IOS_1 extends SmartPhone 1 it cannot replace SmartPhone_1,
 // EX2: we can say iphone_1 = IOS_1 as iphone_1 is a subclass of IOS_1 but we cannot say IOS_1 = iphone_1 as IOS is not a decendant of iphone_1 rather iphone is a decendant of IOS, (decenndent means the class is the child class of the parent class)
 // * RS = parent class LS = child class (for it to work) here the LS must directly inherit from the RS by being a decendant of the RS meaning its parent class is the RS or its parents parent ... is the RS
 // let: some other type of phone like andriod that extends SmartPhone and a class Samsung extends Andriod we could say Andriod_1 = SmartPhone_1 and Samsung_1 = Andriod_1
@@ -1536,10 +1537,9 @@ IOS_1 my_ios_phone = my_phone;
 IOS_1 my_ios_phone = (IOS_1) my_phone;
 
 EX: 
-smartphone_1 aphone = new iphone_1();
+smartphone_1 aphone = new IOS;
 IOS for_iphone = (iphone_1) aphone; 
-here i first cast the object aphone to type iphone_1 and then assign it to type IOS this is ok now as LS is a decendant of RS 
-before aphone was not a decendant of IOS it was parent (smartphone) but after we cast it to type IOS it is now a decendant of IOS = iphone
+this cast is valid as aphone is of type IOS and IOS is a decendant of iphone
 
 ex of anonymous assigning
 ((iphone_1) aphone).faceTime(); // if facetime is a method in class iphone_1 we must put the cast in parentesis as we must cast before we can call the method
@@ -1563,11 +1563,7 @@ given treeo of hierarchy
    B   D
   /
  C
- we can do: B b = new C(); // ok as C is a decendant of B
- we cannot do D d = new b; // not ok as b is of type B which is not a decendant of D
- we can do: D d = (D)((A)b); // here we first cast b to type A and then assign it to type D which is ok as D is a decendant of A
-
-
+from b to D is not possible
  */
 
 
@@ -1651,38 +1647,6 @@ class InstanceOfExample {
             System.out.println("str is an instance of String."); // Always true
         }
     }
-    // output:
-    /* 
-     Vehicle is starting...
-    CarEX is driving...
-    Vehicle is starting...
-    Error: myBikeVehicle cannot be cast to CarEX.
-    Attempting to cast a Bike object to CarEX will cause a ClassCastException.
-    Bike is pedaling...
-    str is an instance of String.
-     */
-
-     // why not downcasting implicitly
-     /* 
-      Downcasting cannot be implicit because it introduces a risk of type mismatch and potential runtime errors. 
-      When you downcast, you're taking a reference of a parent type (Vehicle) and claiming it is of a specific child type (CarEX). 
-      However, the actual object might not match the claimed type. This mismatch can lead to a ClassCastException at runtime.
-
-        Example
-
-        Vehicle myVehicle = new Bike(); // A Bike object upcasted to Vehicle
-        CarEX myCar = (CarEX) myVehicle; // Attempting to downcast to CarEX (explicit)
-
-        myCar.drive(); // This would throw a ClassCastException at runtime
-        If implicit downcasting were allowed, the compiler would have no way of knowing whether this cast is valid, 
-        and the program would crash unexpectedly.Let’s break down why implicit downcasting isn’t allowed in Java:
-
-        In contrast, upcasting is always safe because every child class is guaranteed to be an instance of its parent class. 
-        The parent class (Vehicle) provides a common interface or behavior that all child classes (CarEX, Bike) share.
-        so for upcasting no need to do explicit casting
-
-        Implicit casting is only allowed for safe operations like upcasting or primitive widening (e.g., int to double).
-      */
     
 }
 
@@ -1702,7 +1666,7 @@ class InstanceOfExample {
 
 // ! Interfaces
 // * there are 2 way to implement interface 1) using interface and implements keyword 2) using abstract class
-// method 1
+// *method 1
 /* 
 // using interface 
  - Declared with the interface Keyword
@@ -1711,7 +1675,7 @@ class InstanceOfExample {
     void makeSound(); // Abstract method
     }
 - Cannot Contain Constructors
-    Interfaces cannot have constructors because they cannot be instantiated.
+    Interfaces cannot have constructors because they cannot be instantiated, meaning you cant make a object out of it, you must use the child class to make an object from the interface
 - Methods Are Public and Abstract by Default
     No need to specify public or abstract explicitly for methods.
     Starting with Java 8, interfaces can have default and static methods with implementations.
@@ -1723,35 +1687,56 @@ class InstanceOfExample {
     A class implements an interface using the implements keyword.
 // * NOTE: abstact methods are incomplete methods that must be overridden in the class that implements the interface
  */
-// method 2
-/* 
- // using abstract class
- Explanation
-Abstract Class:
-An abstract class is a class that cannot be instantiated directly. It can include both abstract methods (methods without a body) 
-and concrete methods (methods with a body).
-Use Case:
-Abstract classes are useful when you want to provide a common base with shared functionality for all subclasses 
-but leave the implementation of some methods to the subclasses.
-if any class wants to implement this abstract class then it must use the extends keyword to inherit the abstract class.
-// * it then must implement all the abstract methods in the abstract class if it dosent and you call the method then it will give an error
+
+// *method 2
+/**
+ * // Using Abstract Classes:
+ * 
+ * - Declared with the abstract Keyword:
+ *   Abstract classes are defined using the abstract keyword.
+ * 
+ * - Can Contain Constructors:
+ *   Abstract classes can have constructors to initialize common properties.
+ * 
+ * - Can Contain Abstract and Concrete Methods:
+ *   Abstract methods must be overridden in subclasses, while concrete methods can be inherited or overridden.
+ * 
+ * - Can Have Instance Variables:
+ *   Unlike interfaces, abstract classes can have instance variables (not just constants).
+ * 
+ * - Cannot Be Instantiated Directly:
+ *   Only subclasses of an abstract class can be instantiated. the abstract class itself cannot make a object as it is incomplete
+ * 
+ * - Supports Single Inheritance:
+ *   A class can extend only one abstract class.
+ * 
+ * - Extends Keyword:
+ *   A class extends an abstract class using the extends keyword.
  */
 
-// ! interface classes 
+ // * interface vs abstract class
+ /* 
+  -Interface: Use when you want to define a contract for behavior that multiple unrelated classes can implement.
+  -Abstract Class: Use when you want to provide a base class with shared code and a common structure for related classes.
+  */
+
+// ! interface classes (method 1)
 // ex for interfaces using interface classees -> interface keyword and implements keyword
 // in a interface class i.e a class made with interface keyword every method is abstact unless its static or default
 // static is static (see static methods notes) 
 // the default method is a method that has a body and is not static or abstract so just like a normal method but in an interface
+// in interfaces we cannot have public, private or protected access modifiers. we can set those for abstract methods once we override them in a class
 interface Animal2 {
+    boolean IsAnimal = true; // this variable is available to the inreface and the class that implements the interface
     // Abstract method (must be implemented by a class that implements the interface)
     void makeSound();
 
-    // Default method (has a body)
+    // Default method (has a body) dose not require an implementation i.e override, but can still be overridden
     default void sleep() {
         System.out.println("Sleeping...");
     }
 
-    // Static method (has a body)
+    // Static method (has a body) since its static it can be called without an instance of the interface, it cannot be overridden
     static void info() {
         System.out.println("This is an interface for animals.");
     }
@@ -1760,15 +1745,27 @@ interface Animal2 {
 // Implementing the interface
 // this class implements the Animal2 interface meaning it has all its methods the abstact ones it must implement and the default ones it can use
 class Dog2 implements Animal2 {
+    // since this is a class here we can have a constructor, public, private or protected methods etc
     @Override
-    public void makeSound() {
+    public void makeSound() { //must match the method name and return type of the interface but can add a identifier
         System.out.println("Bark!");
     }
+    // using the parent interface's is animal variable 
+    // we can define a method in this class that uses the parent interface's variable
+    public void isAnimal() {
+        System.out.println(IsAnimal); 
+    }
+
+    // to use a method just use its name no need to reference the parent interface
+    // EX: sleep() is a method in the parent interface so we can use it here by doing
+    // public void callSleep() {
+    //     sleep(); // calls the sleep method in the parent interface   
+    // }
 }
 
 class Cat2 implements Animal2 {
     @Override
-    public void makeSound() {
+    public void makeSound() { 
         System.out.println("Meow!");
     }
 }
@@ -1780,7 +1777,7 @@ class Bird2 implements Animal2 {
     }
 
     @Override
-    public void sleep() {
+    public void sleep() { // override the default sleep method
         System.out.println("Bird is sleeping differently...");
     }
 }
@@ -1791,7 +1788,7 @@ class InterfaceExample {
         Animal2.info();
 
         // Create objects of classes that implement the interface
-        Animal2 dog = new Dog2();
+        Animal2 dog = new Dog2(); // syntax: interface name = new class that implements the interface
         Animal2 cat = new Cat2();
         Animal2 bird = new Bird2();
 
@@ -1806,78 +1803,6 @@ class InterfaceExample {
         bird.sleep();     // Bird is sleeping differently...
 
         // static method from a implemented class
-    }
-}
-
-//! abstract classes
-// Ex for interfaces using abstract class
-// Abstract class: Animal3
-abstract class Animal3 { // using keyword abstract to indicate that this class is abstract (may contain abstract methods hence we must use the abstract keyword)
-    protected String name; // Shared attribute for all animals
-
-    // Constructor: Initializes the name of the animal
-    public Animal3(String name) {
-        this.name = name;
-    }
-
-    // Abstract method: Must be implemented by all subclasses
-    // her ethe abstact keyword is used to indicate that this method is abstract (may not have a body i.e incomplete)
-    // every class that extends it must override this method and provide its own implementation
-    public abstract void speak();
-
-    // Concrete method: Shared behavior for all subclasses but can still be overridden if needed
-    public void eat() {
-        System.out.println(name + " is eating.");
-    }
-}
-
-// Subclass: Doggy3
-class Doggy3 extends Animal3 {
-
-    // Constructor: Passes the dog's name to the superclass
-    public Doggy3(String name) {
-        super(name);
-    }
-
-    // Implements the abstract speak method
-    @Override
-    public void speak() {
-        System.out.println(name + " says Woof! Woof!");
-    }
-}
-
-// Subclass: Cat3
-class Cat3 extends Animal3 {
-
-    // Constructor: Passes the cat's name to the superclass
-    public Cat3(String name) {
-        super(name);
-    }
-
-    // Implements the abstract speak method
-    @Override
-    public void speak() {
-        System.out.println(name + " says Meow!");
-    }
-}
-
-// Main class to test the abstract class and its subclasses
-class AbstractClassExample {
-    public static void main(String[] args) {
-        // Abstract class Animal3 cannot be instantiated directly
-        // Animal3 animal = new Animal3("Some Animal"); // Uncommenting this will cause an error
-
-        // Create instances of Doggy3 and Cat3
-        Animal3 dog = new Doggy3("Buddy"); // Using a reference of type Animal3
-        Animal3 cat = new Cat3("Whiskers");
-
-        // Call the speak method (abstract method implemented by subclasses)
-        dog.speak();  // Output: Buddy says Woof! Woof!
-        cat.speak();  // Output: Whiskers says Meow!
-
-        // Call the eat method (shared concrete method from the Animal3 class)
-        dog.eat();    // Output: Buddy is eating.
-        cat.eat();    // Output: Whiskers is eating.
     }
 }
 
@@ -1919,6 +1844,84 @@ class MultipleIntefaceEX {
         b.sleep(); // Output: Sleeping...
     }
 }
+
+//! abstract classes (method 2)
+// Ex for interfaces using abstract class
+// Abstract class: Animal3
+abstract class Animal3 { // using keyword abstract to indicate that this class is abstract (may contain abstract methods hence we must use the abstract keyword)
+    protected String name; // Shared attribute for all animal3 subclasses
+
+    // Constructor: Initializes the name of the animal
+    public Animal3(String name) {
+        this.name = name;
+    }
+
+    // Abstract method: Must be implemented by all subclasses
+    // her ethe abstact keyword is used to indicate that this method is abstract (may not have a body i.e incomplete)
+    // every class that extends it must override this method and provide its own implementation
+    public abstract void speak();
+
+    // Concrete method: Shared behavior for all subclasses but can still be overridden if needed
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+
+// Subclass: Doggy3
+class Doggy3 extends Animal3 {
+
+    // Constructor: Passes the dog's name to the superclass
+    public Doggy3(String name) {
+        super(name);
+    }
+
+    // Implements the abstract speak method, muts keep the same method identifier, return and name but remove abstract keyword
+    @Override
+    public void speak() {
+        System.out.println(name + " says Woof! Woof!"); // uses the name from the parent abstract class, set by this classes constructor using super
+    }
+}
+
+// Subclass: Cat3
+class Cat3 extends Animal3 {
+
+    // Constructor: Passes the cat's name to the superclass
+    public Cat3(String name) {
+        super(name);
+    }
+
+    // Implements the abstract speak method
+    @Override
+    public void speak() {
+        System.out.println(name + " says Meow!");
+    }
+}
+
+// Main class to test the abstract class and its subclasses
+class AbstractClassExample {
+    public static void main(String[] args) {
+        // Abstract class Animal3 cannot be instantiated directly
+        // Animal3 animal = new Animal3("Some Animal"); // Uncommenting this will cause an error
+
+        // Create instances of Doggy3 and Cat3
+        Animal3 dog = new Doggy3("Buddy"); // Using a reference of type Animal3
+        Animal3 cat = new Cat3("Whiskers");
+
+        // Call the speak method (abstract method implemented by subclasses)
+        dog.speak();  // Output: Buddy says Woof! Woof!
+        cat.speak();  // Output: Whiskers says Meow!
+
+        // Call the eat method (shared concrete method from the Animal3 class)
+        dog.eat();    // Output: Buddy is eating.
+        cat.eat();    // Output: Whiskers is eating.
+    }
+}
+
+// ! NOTE:
+// in general if a class extends or interfaces a class it dose not need to use classname.methodname or classname.varname 
+// to access the methods and variables it is inherited from the parent class or interface so simply use the method name or varname like you were in the parent class or interface
+// but in the main method for ex you need to use the class name to access the methods and variables in the parent class or interface
+
 
 // ! Final classes and methods
 /* 
