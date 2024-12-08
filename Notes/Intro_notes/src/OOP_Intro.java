@@ -537,8 +537,9 @@ to create a global var use static variable
 
   *                                           **** SUMMARY *****
  * in short both static variable and static methods can be accsessed by the class or a object of that class
- * BUT unlike non static var and methods you can accsess them without creating an object of that class
+ * BUT unlike non static var and methods you can accsess them without creating an object of that class, but you can still make a object of that class and use it to call the static var and methods
  * a static variable is shared meaning a change in it will be reflected in all objects of the class
+ *  BUT we can still accses static variables inside classes that are extensions of the other class'es with static vars and methods, but not by a object of the child class
  NOTE: where i say you can accses a static var i assume its public otherwise you need a getter method
  */
 class MyPersonStatic{
@@ -1284,15 +1285,15 @@ class Animal {
       one which would require a set and get doggy said of its own. with static onve any child of the animal class sets what doggy said it and all other children (instances of animal class) 
       now have access to what doggy said.
     */
+    public void info() {
+        System.out.println("Animal info");
+    }
 }
 
 // Child Class (Subclass)
 class Doggy extends Animal {  // Subclass doggy extends Animal means animal is the  parent class of doggy, the extends keyword makes this a child class or whatever it extends
     private String breed;   // Private so only the class itself can access it
-    // isAnimal = false; cannot redeclare a variable in the child class this will give an error
-    // the name attribute is not here when we need it for this class we can use the name attribute from the parent class
-    // since we passed it in the constructor we can use it in the child class and it will have the corrent name for this doggy class
-    // because we will use doggy.name to access the name attribute in the child class where doggy is the object of the Doggy class
+    // isAnimal = false; can change the static var or any var in the parent class
     // Constructor of the child class
     public Doggy(String name, String breed) { 
         // Call the parent class constructor and passing in the name this will pass the var name into the parent class's constructor which takes name as a parameter 
@@ -1312,7 +1313,7 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
         return breed;
     }
     public Boolean getIsAnimal() {
-        return isAnimal;
+        return isAnimal; // static variabel available to the child class, BUT not a object of the child class hence must be used in a getter method
     }
 
     // to call any method from the parent class we use super.method()
@@ -1321,6 +1322,15 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
         super.whatdoggysaid(input); // calling the parent class method (whatdoggysaid)
         // we can also directly change the static variable in the parent class but we are calling the method to make it clear what we are doing
         // Animal.doggysaid = input; // we are setting the doggysaid in the parent class
+    }
+    public void info() {
+        System.out.println("Doggy info");
+    }
+
+    // using super to select which version of the method to call
+    public void getinfo() {
+        info(); // calling the info method from this class
+        super.info(); // calling the info method from the parent class
     }
 }
 
@@ -1355,8 +1365,8 @@ class GuardDog extends Animal {
     public String getwhatdoggysaid() { // name cannot be the same as the parent class method
         System.out.println("doggy said: "); // adding our own stuff
         return super.getwhatdoggysaid(); // calling the parent class method (whatdoggysaid) and returning its value
-        // we can also use the static variable in the parent class
-        // return Animal.doggysaid; // we are returning the doggysaid in the parent class
+        // OR return Animal.doggysaid; using the class name to access the static variable
+        
     }
 }
 // Usage
@@ -1367,6 +1377,8 @@ class inheritanceEX {
         System.out.println(doggy.getBreed());   // Output: Golden Retriever
         doggy.speak();                          // Output: Woof! Woof!
         System.out.println(doggy.getIsAnimal()); // Output: true
+        doggy.getinfo();                           // Output: Doggy info and Animal info
+        
 
         // **** Static vars in inheritance ****
         // Child classes do not inherit static variables from the parent class
@@ -1675,6 +1687,7 @@ class InstanceOfExample {
  a instanceof D -> false // false B is not a instance of D 
  */
 
+
 // ! Interfaces
 // * there are 2 way to implement interface 1) using interface and implements keyword 2) using abstract class
 // *method 1
@@ -1702,6 +1715,9 @@ class InstanceOfExample {
 
     - Implements Keyword
     A class implements an interface using the implements keyword.
+
+    - Classes that implement an interface: you just need to use the interface name to get the method, super only exist for multiple interfaces where its used to specify which interfaces methods to use 
+                                         : have accsess to all the vaiables of the interface
 // * NOTE: abstact methods are incomplete methods that must be overridden in the class that implements the interface
  */
 
@@ -1729,6 +1745,8 @@ class InstanceOfExample {
  * 
  * - Extends Keyword:
  *   A class extends an abstract class using the extends keyword.
+ * 
+ * - Classes that extend an abstract class: have accsess to all its variables and methods, can use super as abstact classes have constructors and as its a class and is extended 
  */
 
  // * interface vs abstract class
@@ -1754,7 +1772,7 @@ class InstanceOfExample {
 // the default method is a method that has a body and is not static or abstract so just like a normal method but in an interface
 // in interfaces we cannot have public, private or protected access modifiers. we can set those for abstract methods once we override them in a class
 interface Animal2 {
-    boolean IsAnimal = true; // this variable is available to the inreface and the class that implements the interface
+    boolean IsAnimal = true; // this var is static final and public by default, cannot be changed, so this var is a constant, belongs to the interface not the that implements it
     // Abstract method (must be implemented by a class that implements the interface)
     void makeSound();
 
@@ -1763,7 +1781,7 @@ interface Animal2 {
         System.out.println("Sleeping...");
     }
 
-    // Static method (has a body) since its static it can be called without an instance of the interface, it cannot be overridden
+    // Static method (has a body) since its static it can be called without an instance of the interface, it cannot be overridden, the class that impliments it dosent get access to it
     static void info() {
         System.out.println("This is an interface for animals.");
     }
@@ -1781,8 +1799,9 @@ class Dog2 implements Animal2 {
     // we can define a method in this class that uses the parent interface's variable
     public void isAnimal() {
         System.out.println(IsAnimal); 
+        Animal2.info(); // calling a method from the child class of a parent interface
     }
- 
+
     // to use a method just use its name no need to reference the parent interface
     // EX: sleep() is a method in the parent interface so we can use it here by doing
     // public void callSleep() {
@@ -1833,7 +1852,7 @@ class InterfaceExample {
         Dog2 d = new Dog2(); // ok as Dog2 is a class and can have a object (has a constructor)
         // we must first make a dog 2 object, this is ok as dog 2 is a class and has a constructor
         // then we can call the isAnimal method
-        d.isAnimal(); // true must 
+        d.isAnimal(); // true && prints info 
         // or 
         // ((Dog2) dog).isAnimal(); // since dog points to a Dog2 object we can casr dog which is of type animal 2 to type Dog2
 
@@ -1849,6 +1868,7 @@ class InterfaceExample {
 // ! multiple interface implementation
 // unlike extends which you can only have 1 parent class with implements you can have multiple interfaces
 interface Animal4 {
+    boolean IsAnimal = true;
     default void speak() {
         System.out.println("Animal speaks");
     }
@@ -1858,6 +1878,7 @@ interface Animal4 {
 }
 
 interface Dog4 {
+    boolean IsAnimal = true;
     default void speak() {
         System.out.println("Woof");
     }
@@ -1874,6 +1895,13 @@ class Beagle4 implements Animal4, Dog4 {
         // Resolving the conflict by specifying which interface's default method to use
         Dog4.super.speak(); // Uses Dog4's default speak method
         // Or you could call Animal4.super.speak() if you want to use Animal4's default method
+        // using the is animal variable
+
+    }
+    public void isAnimal() {
+        // for vaiables of the same name we dont use super instead we use the class name as variables are static by default
+        System.out.println(Animal4.IsAnimal);
+        System.out.println(Dog4.IsAnimal);
     }
 }
 
@@ -1882,6 +1910,7 @@ class MultipleIntefaceEX {
         Beagle4 b = new Beagle4();
         b.speak(); // Output: Woof
         b.sleep(); // Output: Sleeping...
+        b.isAnimal(); // true, true
     }
 }
 
@@ -1929,6 +1958,7 @@ class Cat3 extends Animal3 {
     // Constructor: Passes the cat's name to the superclass
     public Cat3(String name) {
         super(name);
+        isAnimal = true; // redefine the isAnimal variable to true again, just to show that we can accsess static variables from the parent class
     }
 
     // Implements the abstract speak method
@@ -1936,6 +1966,11 @@ class Cat3 extends Animal3 {
     public void speak() {
         System.out.println(name + " says Meow!");
     }
+
+    // calling the eat method from the parent class
+    public void eat() {
+        super.eat(); // calls the eat method from the parent class
+    } 
 }
 
 // Main class to test the abstract class and its subclasses
@@ -1954,7 +1989,7 @@ class AbstractClassExample {
 
         // Call the eat method (shared concrete method from the Animal3 class)
         dog.eat();    // Output: Buddy is eating.
-        cat.eat();    // Output: Whiskers is eating.
+        cat.eat();    // Output: Whiskers is eating. this method exist in the cat class but in the method it actually calls the eat method from the parent class
 
         // since the child classes are still classes we can do
         // Cat3 newcat = new Cat3("Whiskers"); // valid because Cat3 is a class
