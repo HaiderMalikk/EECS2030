@@ -563,11 +563,13 @@ class staticEX {
         MyPersonStatic jim = new MyPersonStatic("jim");
         MyPersonStatic elsa = new MyPersonStatic("elsa");
         jim.setstatic();
+        // * non recomended way to access static var, but it works
         System.out.println(jim.mystatic); // output 1
         System.out.println(elsa.mystatic); // output: 1
         System.out.println(elsa.returnstatic());
         // BOTH obj output one as the static variables change is reflected in all obj dosent matter if i use tha class or a obj of that class to change the static var
         System.out.println(MyPersonStatic.returnstatic()); // output 1
+        // * recomended way to access static var is using the class name
         System.out.println(MyPersonStatic.mystatic); // output 1 ok as mystatic is a static variable so i can use it without obj from that class
         //MyPersonStatic.setstatic(); // NOT allowd set static not static
         // MyPersonStatic.name; // not allowed as no obj was created so no name yet
@@ -1366,6 +1368,15 @@ class inheritanceEX {
         doggy.speak();                          // Output: Woof! Woof!
         System.out.println(doggy.getIsAnimal()); // Output: true
 
+        // **** Static vars in inheritance ****
+        // Child classes do not inherit static variables from the parent class
+        // doggy.doggysaid; not allowed add class Doggy though it extends Animal dose not have accsess to Animal classes static variables like doggysaid
+        // correct way
+        Animal.doggysaid = "doggy says hi"; // all child classes and parent class will reflect this change from now on
+        // not recomened but works way: 
+        Animal myAnimal = new Animal("Generic"); // you can create a new instance of the parent class you will have accsess to all the Animal classes variable and attributes
+        myAnimal.doggysaid = "doggy says hi"; // not recomened but works way
+
         // Create a GuardDog instance with a name and state
         // * NOTE: we used super in gaurd dog class so the name is initialized in the parent class so even the default method of speak has access to the name of the guard dog's name when we do guardDog.speak()
         // * the name attribute now belongs to the Animal class where a class level var called name holds the name value either passed when making a Animal or gaurd Dog object. since its a protected var
@@ -1381,7 +1392,7 @@ class inheritanceEX {
         // the doggy calss sets this in the whatdoggysaid method in the parent class
         // then the gaurd dog class calls the whatdoggysaid method from the parent class and accesses the value that doggy set
         // Set what doggy said in the Doggy class
-        doggy.setwhatdoggysaid("doggy says hi");
+        doggy.setwhatdoggysaid("doggy says hi"); // this will set the value of whatdoggysaid in the parent class and will be reflected in all child classes and parent classe
         
         // Now get what doggy said in the GuardDog class
         System.out.println(guardDog.getwhatdoggysaid()); // Should print: "doggy said: doggy says hi"
@@ -1670,20 +1681,26 @@ class InstanceOfExample {
 /* 
 // using interface 
  - Declared with the interface Keyword
+
 - Interfaces are defined using the interface keyword.
     interface Animal {
     void makeSound(); // Abstract method
     }
+
 - Cannot Contain Constructors
     Interfaces cannot have constructors because they cannot be instantiated, meaning you cant make a object out of it, you must use the child class to make an object from the interface
-- Methods Are Public and Abstract by Default
+
+    - Methods Are Public and Abstract by Default
     No need to specify public or abstract explicitly for methods.
     Starting with Java 8, interfaces can have default and static methods with implementations.
-- Fields Are Public, Static, and Final by Default
+
+    - Fields Are Public, Static, and Final by Default
     Any variable declared in an interface is automatically a constant.
-- Supports Multiple Inheritance
+
+    - Supports Multiple Inheritance
     A class can implement multiple interfaces.
-- Implements Keyword
+
+    - Implements Keyword
     A class implements an interface using the implements keyword.
 // * NOTE: abstact methods are incomplete methods that must be overridden in the class that implements the interface
  */
@@ -1696,7 +1713,7 @@ class InstanceOfExample {
  *   Abstract classes are defined using the abstract keyword.
  * 
  * - Can Contain Constructors:
- *   Abstract classes can have constructors to initialize common properties.
+ *   Abstract classes can have constructors to initialize common properties. but you still cant make an object out of it
  * 
  * - Can Contain Abstract and Concrete Methods:
  *   Abstract methods must be overridden in subclasses, while concrete methods can be inherited or overridden.
@@ -1719,6 +1736,16 @@ class InstanceOfExample {
   -Interface: Use when you want to define a contract for behavior that multiple unrelated classes can implement.
   -Abstract Class: Use when you want to provide a base class with shared code and a common structure for related classes.
   */
+  // * both interface and abstact classes cannot create an object of themself, they are used to create objects of their child classes
+
+// * NOTE on static variables
+/* 
+ just like in inheritance a child class that extends of implements a parent class dose not have access to the parent class static variables
+ // in the case of interfaces we cannot create a object from the interface hence we must use the interface Classname to access the static variables
+ // in the case of abstact classes we cannot create a object from the abstact class hence we must use the abstact class Classname to access the static variables
+ this is different from inheritance and other stuff that involves normal classes this is beacuse Abstact classes, interfaces or abstact classes are imcomplete
+ hence you cant make a object out of them so the only way to access their static variables is to use the class name to access them
+ */
 
 // ! interface classes (method 1)
 // ex for interfaces using interface classees -> interface keyword and implements keyword
@@ -1755,7 +1782,7 @@ class Dog2 implements Animal2 {
     public void isAnimal() {
         System.out.println(IsAnimal); 
     }
-
+ 
     // to use a method just use its name no need to reference the parent interface
     // EX: sleep() is a method in the parent interface so we can use it here by doing
     // public void callSleep() {
@@ -1802,7 +1829,20 @@ class InterfaceExample {
         bird.makeSound(); // Chirp!
         bird.sleep();     // Bird is sleeping differently...
 
-        // static method from a implemented class
+        // call the isAnimal method in the Dog2 class using a object of the Dog2 class
+        Dog2 d = new Dog2(); // ok as Dog2 is a class and can have a object (has a constructor)
+        // we must first make a dog 2 object, this is ok as dog 2 is a class and has a constructor
+        // then we can call the isAnimal method
+        d.isAnimal(); // true must 
+        // or 
+        // ((Dog2) dog).isAnimal(); // since dog points to a Dog2 object we can casr dog which is of type animal 2 to type Dog2
+
+        // static vars
+        // dog.IsAnimal; // why cant do this as the static variable belongs to the class and not the object of that interface
+        // we must use the class name as we cannot make a object from teh interface to accses the static variable
+        /// you need to use this expression as part of a complete statement, such as printing it or assigning it to a variable, cant have Animal2.IsAnimal alone 
+        boolean isAnimal = Animal2.IsAnimal; // true
+
     }
 }
 
@@ -1850,6 +1890,7 @@ class MultipleIntefaceEX {
 // Abstract class: Animal3
 abstract class Animal3 { // using keyword abstract to indicate that this class is abstract (may contain abstract methods hence we must use the abstract keyword)
     protected String name; // Shared attribute for all animal3 subclasses
+    protected static boolean isAnimal = true;
 
     // Constructor: Initializes the name of the animal
     public Animal3(String name) {
@@ -1914,6 +1955,14 @@ class AbstractClassExample {
         // Call the eat method (shared concrete method from the Animal3 class)
         dog.eat();    // Output: Buddy is eating.
         cat.eat();    // Output: Whiskers is eating.
+
+        // since the child classes are still classes we can do
+        // Cat3 newcat = new Cat3("Whiskers"); // valid because Cat3 is a class
+
+        // static vars
+        // Animal3 newanimal = new Animal3("generic animal"); // invalid canot made object of abstract class
+        // correct:
+        boolean isAnimal = Animal3.isAnimal; // true, accseing the static var using class name
     }
 }
 
