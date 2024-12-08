@@ -1738,7 +1738,7 @@ class InstanceOfExample {
   */
   // * both interface and abstact classes cannot create an object of themself, they are used to create objects of their child classes
 
-// * NOTE on static variables
+// * NOTE on static variables 
 /* 
  just like in inheritance a child class that extends of implements a parent class dose not have access to the parent class static variables
  // in the case of interfaces we cannot create a object from the interface hence we must use the interface Classname to access the static variables
