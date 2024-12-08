@@ -539,7 +539,9 @@ to create a global var use static variable
  * in short both static variable and static methods can be accsessed by the class or a object of that class
  * BUT unlike non static var and methods you can accsess them without creating an object of that class, but you can still make a object of that class and use it to call the static var and methods
  * a static variable is shared meaning a change in it will be reflected in all objects of the class
- *  BUT we can still accses static variables inside classes that are extensions of the other class'es with static vars and methods, but not by a object of the child class
+ * This also means we can accsess satic variables and methods of one class from another class by using classname.staticvarname or methodsname
+ * BUT we can accses static variables and methods inside classes that are extensions of the other classes by using the classname.staticvarname or methodsname or just the staticvarname or methodsname in the child classes, 
+ * you can also use super to specify the parent class to get the static var and methods 
  NOTE: where i say you can accses a static var i assume its public otherwise you need a getter method
  */
 class MyPersonStatic{
@@ -1314,6 +1316,7 @@ class Doggy extends Animal {  // Subclass doggy extends Animal means animal is t
     }
     public Boolean getIsAnimal() {
         return isAnimal; // static variabel available to the child class, BUT not a object of the child class hence must be used in a getter method
+        // OR return super.isAnimal;
     }
 
     // to call any method from the parent class we use super.method()
